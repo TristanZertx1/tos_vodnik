@@ -37,3 +37,10 @@ footer{background:#e8efdf;color:var(--vodniki-ink);border:0;padding:45px max(5%,
 
 /* Subtle repeating motif remains visible across every page. */
 body{background-color:#fffaf1;background-image:linear-gradient(rgba(255,250,241,.80),rgba(255,250,241,.80)),url('/vodniki-pattern.png');background-size:auto,960px 540px;background-repeat:repeat,repeat;background-position:center top,center var(--pattern-offset,0px)}
+
+
+/* Let the repeating motif show through the large page surfaces. */
+body{background-blend-mode:normal}
+.hero{background:transparent}
+.tint{background:rgba(239,244,232,.84)}
+.page-top{background:rgba(228,239,217,.86)}
