@@ -5,8 +5,7 @@ function collectLayoutText(){
  const shared=texts.__shared||{title:'',lead:'',blocks:{}};shared.blocks={...(shared.blocks||{})};
  for(const field of document.querySelectorAll('[data-site-edit-key]')){const target=field.dataset.textScope==='shared'?shared:current;target.blocks[field.dataset.siteEditKey]=field.value;}
  texts[page]=current;texts.__shared=shared;
-}
-function enablePreviewTextEditing(){
+}function enablePreviewTextEditingLegacy(){
  const doc=$('#layout-preview')?.contentDocument;if(!doc||doc.__siteBuilderTextEditor)return;doc.__siteBuilderTextEditor=true;
  doc.addEventListener('dblclick',event=>{
   const target=event.target.closest?.('[data-page-text], [data-site-text]');if(!target||target.closest('a,button,input,textarea,select,[contenteditable="true"]'))return;
