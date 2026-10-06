@@ -89,3 +89,19 @@ $('#user-form').onsubmit=run(async(_event,form)=>{await api('users','POST',Objec
 $('#reset-form').onsubmit=run(async(_event,form)=>{await api('users/'+resetting.id,'PATCH',Object.fromEntries(new FormData(form)));form.reset();form.hidden=true;message('Пароль изменён; прежние сессии модератора закрыты.');});$('#cancel-reset').onclick=()=>$('#reset-form').hidden=true;
 $('#password-form').onsubmit=run(async(_event,form)=>{await api('password','POST',Object.fromEntries(new FormData(form)));form.reset();loginView();message('Пароль изменён. Войдите с новым паролем.');});
 api('me').then(workspace).catch(e=>{loginView();if(!e.message.includes('Войдите')&&!e.message.includes('Сессия'))message(e.message,true)});
+
+function enablePreviewTextEditing(){
+ const doc=$('#layout-preview')?.contentDocument;if(!doc||doc.__siteBuilderTextEditor)return;doc.__siteBuilderTextEditor=true;
+ doc.addEventListener('dblclick',event=>{
+  const target=event.target.closest?.('[data-page-text], [data-site-text], main h1, main h2, main h3, main h4, main p, main li, main summary, main .eyebrow');if(!target||target.closest('a,button,input,textarea,select,[contenteditable="true"]'))return;
+  const pageKey=target.dataset.pageText||(target.matches('main h1')?'title':target.matches('main .lead')?'lead':'');
+  const scope=target.dataset.textScope==='shared'?'shared':'page';let key=target.dataset.siteText;
+  if(!pageKey&&!key){const page=$('#layout-page').value,token=(page==='/'?'home':page.replace(/^\/+|\/+$/g,'').toLowerCase().replace(/[^a-z0-9-]+/g,'-'))||'home',candidates=[...doc.querySelectorAll('h2,h3,h4,p,li,summary,.eyebrow,.number,.meta')],index=candidates.indexOf(target);if(index<0)return;key='t-'+token+'-'+index;target.dataset.siteText=key;target.dataset.textScope='page';}
+  let field=pageKey?$('#layout-'+(pageKey==='title'?'title':'lead')):[...document.querySelectorAll('[data-site-edit-key]')].find(item=>item.dataset.siteEditKey===key&&item.dataset.textScope===scope);
+  if(!field&&key){field=node(target.textContent.length>90?'textarea':'input');field.value=target.textContent;field.dataset.siteEditKey=key;field.dataset.textScope=scope;field.addEventListener('input',syncLayoutPreview);const row=node('div',null,'layout-text-field');row.append(node('label','Текст из предпросмотра','layout-text-label'),field);$('#layout-text-fields').append(row)}
+  if(!field)return;if(!field.value)field.value=target.textContent;
+  event.preventDefault();target.contentEditable='true';target.setAttribute('role','textbox');target.setAttribute('aria-label','Редактирование текста. Нажмите Enter для завершения, Escape для отмены.');target.style.outline='2px solid var(--site-primary, #086e65)';target.style.outlineOffset='4px';target.focus();const original=field.value;
+  const finish=save=>{if(!target.isConnected)return;target.removeEventListener('keydown',onKey);target.removeEventListener('blur',onBlur);target.removeAttribute('contenteditable');target.removeAttribute('role');target.removeAttribute('aria-label');target.style.removeProperty('outline');target.style.removeProperty('outline-offset');if(save){field.value=target.textContent;field.dispatchEvent(new Event('input',{bubbles:true}));collectLayoutText()}else target.textContent=original};
+  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();finish(false)}else if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();finish(true)}},onBlur=()=>finish(true);target.addEventListener('keydown',onKey);target.addEventListener('blur',onBlur);
+ });
+}
