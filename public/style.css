@@ -70,3 +70,6 @@ body p,.lead,.card p,.empty p,.source-note{color:var(--site-muted,#536668)}
 .section{padding-top:calc(70px * var(--site-spacing,1));padding-bottom:calc(70px * var(--site-spacing,1))}
 .site-footer{border-color:var(--site-border,#dce5df)}
 body{background-image:var(--site-pattern,none);background-repeat:repeat;background-size:480px auto;background-blend-mode:soft-light}
+
+/* Mobile menu is opened by the .open class toggled in interactions.js. */
+@media (max-width: 760px) { .site-header #nav.open { display: flex; } }
