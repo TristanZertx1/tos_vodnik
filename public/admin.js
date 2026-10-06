@@ -1,3 +1,4 @@
+function makeTextGroup(title,rows,collapsed=false){if(!rows.length)return null;const group=node('details',null,'layout-text-group');group.open=!collapsed;group.append(node('summary',title),...rows);return group}
 const $ = selector => document.querySelector(selector);
 let user = null, csrf = '', records = [], currentTab = 'news', editing = null, resetting = null, layoutRevision = 0, layoutPage = '/';
 let siteLayout = { homeOrder:['hero','quick','overview','news','events','projects','join'], homeHidden:[], homeCustom:[], texts:{}, theme:{}, modules:{} };
