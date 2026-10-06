@@ -44,3 +44,9 @@ body{background-blend-mode:normal}
 .hero{background:transparent}
 .tint{background:rgba(239,244,232,.84)}
 .page-top{background:rgba(228,239,217,.86)}
+
+/* Keep the repeating motif visible through the landing cover. */
+.hero{background:transparent!important}
+
+/* Show the repeating pattern behind the hero despite the base theme override. */
+.hero{background-color:transparent!important}
