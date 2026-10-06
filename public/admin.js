@@ -1,3 +1,22 @@
+function collectLayoutText(){
+ const page=layoutPage||$('#layout-page')?.value||'/',texts=siteLayout.texts||(siteLayout.texts={});
+ const current=texts[page]||{title:'',lead:'',blocks:{}};
+ current.title=$('#layout-title')?.value||'';current.lead=$('#layout-lead')?.value||'';current.blocks={...(current.blocks||{})};
+ const shared=texts.__shared||{title:'',lead:'',blocks:{}};shared.blocks={...(shared.blocks||{})};
+ for(const field of document.querySelectorAll('[data-site-edit-key]')){const target=field.dataset.textScope==='shared'?shared:current;target.blocks[field.dataset.siteEditKey]=field.value;}
+ texts[page]=current;texts.__shared=shared;
+}
+function enablePreviewTextEditing(){
+ const doc=$('#layout-preview')?.contentDocument;if(!doc||doc.__siteBuilderTextEditor)return;doc.__siteBuilderTextEditor=true;
+ doc.addEventListener('dblclick',event=>{
+  const target=event.target.closest?.('[data-page-text], [data-site-text]');if(!target||target.closest('a,button,input,textarea,select,[contenteditable="true"]'))return;
+  const pageKey=target.dataset.pageText,scope=target.dataset.textScope==='shared'?'shared':'page',key=target.dataset.siteText;
+  const field=pageKey?$('#layout-'+(pageKey==='title'?'title':'lead')):[...document.querySelectorAll('[data-site-edit-key]')].find(item=>item.dataset.siteEditKey===key&&item.dataset.textScope===scope);if(!field)return;
+  event.preventDefault();target.contentEditable='true';target.setAttribute('role','textbox');target.setAttribute('aria-label','Редактирование текста. Нажмите Enter для завершения, Escape для отмены.');target.style.outline='2px solid var(--site-primary, #086e65)';target.style.outlineOffset='4px';target.focus();const original=field.value;
+  const finish=save=>{if(!target.isConnected)return;target.removeEventListener('keydown',onKey);target.removeEventListener('blur',onBlur);target.removeAttribute('contenteditable');target.removeAttribute('role');target.removeAttribute('aria-label');target.style.removeProperty('outline');target.style.removeProperty('outline-offset');if(save){field.value=target.textContent;field.dispatchEvent(new Event('input',{bubbles:true}));collectLayoutText()}else target.textContent=original;};
+  const onKey=e=>{if(e.key==='Escape'){e.preventDefault();finish(false)}else if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();finish(true)}};const onBlur=()=>finish(true);target.addEventListener('keydown',onKey);target.addEventListener('blur',onBlur);
+ });
+}
 function makeTextGroup(title,rows,collapsed=false){if(!rows.length)return null;const group=node('details',null,'layout-text-group');group.open=!collapsed;group.append(node('summary',title),...rows);return group}
 const $ = selector => document.querySelector(selector);
 let user = null, csrf = '', records = [], currentTab = 'news', editing = null, resetting = null, layoutRevision = 0, layoutPage = '/';
