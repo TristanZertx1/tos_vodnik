@@ -23,8 +23,146 @@ function database() {
 }
 const origin='https://example.test';
 function request(path,method='GET',body,session={},extra={}) {
-  const headers={...(method==='GET'?{}:{origin,'content-type':'applica×m÷¶‰žËkºwµçA…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥ÐÉ•…‘AÕ‰±¥Œ¡‘ˆ¤¤¹¹•ÝÌ¹±•¹Ñ °À¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ ÕÍ•ÉÌ½…‘µ¥¸œ°1Qœ±Õ¹‘•™¥¹•±…‘µ¥¸¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÐÀÀ¤ì(€…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ ÕÍ•ÉÌ¼œ­µ½¹¥°1Qœ±Õ¹‘•™¥¹•±…‘µ¥¸¤±‘ˆ±¡…Í ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ µ”œ°Pœ±Õ¹‘•™¥¹•±É•ÍÑ½É•¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÐÀÄ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ Á…ÍÍÝ½Éœ°A=MPœ±íÕÉÉ•¹ÑA…ÍÍÝ½ÉèÑ•ÍÐµÁ…ÍÍÝ½Éœ±Á…ÍÍÝ½Éè¹•Üµ…‘µ¥¸µÁ…ÍÍÝ½Éô±…‘µ¥¸¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÈÀÀ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ µ”œ°Pœ±Õ¹‘•™¥¹•±…‘µ¥¸¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÐÀÄ¤ì(€…Ý…¥Ð±½¥¸¡‘ˆ±¡…Í °…‘µ¥¸œ°¹•Üµ…‘µ¥¸µÁ…ÍÍÝ½Éœ¤ì)ô¤ì)Ñ•ÍÐ ‘µ¥¸±½¥¸…±±½ÝÌ½¹±äÑ¡”½¹™¥ÕÉ•I•¹‘•È½É¥¥¸‰•¡¥¹Ñ¡”A$ÁÉ½áäœ±…Íå¹Œ ¤ôùì(€½¹ÍÐ‘ˆõ‘…Ñ…‰…Í” ¤±¡…Í õ…Ý…¥Ð¡…Í¡A…ÍÍÝ½É Ñ•ÍÐµÁ…ÍÍÝ½Éœ¤ì(€½¹ÍÐ…±±½Ý•ô¡ÑÑÁÌè¼½Ñ½ÌµÙ½‘¹¥¬¹½¹É•¹‘•È¹½´œì(€½¹ÍÐÁÉ½á¥•õ¹•ÜI•ÅÕ•ÍÐ ¡ÑÑÁÌè¼½Ý½É­•È¹•á…µÁ±”¹Ý½É­•ÉÌ¹‘•Ø½…Á¤½…‘µ¥¸½±½¥¸œ±íµ•Ñ¡½èA=MPœ±¡•…‘•ÉÌéí½É¥¥¸é…±±½Ý•°½¹Ñ•¹ÐµÑåÁ”œè…ÁÁ±¥…Ñ¥½¸½©Í½¸ô±‰½‘äé)M=8¹ÍÑÉ¥¹¥™ä¡íÕÍ•É¹…µ”è…‘µ¥¸œ±Á…ÍÍÝ½ÉèÑ•ÍÐµÁ…ÍÍÝ½Éô¥ô¤ì(€½¹ÍÐÉ•ÍÁ½¹Í”õ…Ý…¥Ð¡…¹‘±•5L¡ÁÉ½á¥•±‘ˆ±¡…Í ±…±±½Ý•¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡É•ÍÁ½¹Í”¹ÍÑ…ÑÕÌ°ÈÀÀ±…Ý…¥ÐÉ•ÍÁ½¹Í”¹±½¹” ¤¹Ñ•áÐ ¤¤ì(€½¹ÍÐ‰±½­•õ¹•ÜI•ÅÕ•ÍÐ ¡ÑÑÁÌè¼½Ý½É­•È¹•á…µÁ±”¹Ý½É­•ÉÌ¹‘•Ø½…Á¤½…‘µ¥¸½±½¥¸œ±íµ•Ñ¡½èA=MPœ±¡•…‘•ÉÌéí½É¥¥¸è¡ÑÑÁÌè¼½…ÑÑ…­•È¹•á…µÁ±”œ°½¹Ñ•¹ÐµÑåÁ”œè…ÁÁ±¥…Ñ¥½¸½©Í½¸ô±‰½‘äé)M=8¹ÍÑÉ¥¹¥™ä¡íÕÍ•É¹…µ”è…‘µ¥¸œ±Á…ÍÍÝ½ÉèÑ•ÍÐµÁ…ÍÍÝ½Éô¥ô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡‰±½­•±‘ˆ±¡…Í ±…±±½Ý•¤¤¹ÍÑ…ÑÕÌ°ÐÀÌ¤ì)ô¤ì)Ñ•ÍÐ I•Í•…É ¥µÁ½ÉÐÁÉ•Í•ÉÙ•Ì•‘¥Ñ½È¡…¹•Ì°•á¥ÍÑ¥¹œ½¹Ñ…ÑÌ…¹‘•±•Ñ¥½¹Ìœ±…Íå¹Œ ¤ôùì(€½¹ÍÐ‘ˆõ‘…Ñ…‰…Í” ¤ì(€…Ý…¥Ð‘ˆ¹ÁÉ•Á…É” %9MIP%9Q<µÍ}É•½É‘Ì€¡¥±­¥¹±‘…Ñ„±ÁÕ‰±¥Í¡•±É•Ù¥Í¥½¸±ÕÁ‘…Ñ•‘}…Ð±ÕÁ‘…Ñ•‘}‰ä¤Y1UL€ ü°ü°ü°ü°Ä°ü°ü¤œ¤¹‰¥¹ ½¹Ñ…ÑÌœ°½¹Ñ…ÑÌœ±)M=8¹ÍÑÉ¥¹¥™ä¡íÁ¡½¹”è½¹™¥Éµ•‰ä•‘¥Ñ½Èô¤°Ä°Ä°…‘µ¥¸œ¤¹ÉÕ¸ ¤ì(€…Ý…¥Ð•¹ÍÕÉ•I•Í•…É¡5…Ñ•É¥…±Ì¡‘ˆ¤ì(€±•Ð½¹Ñ•¹Ðõ…Ý…¥ÐÉ•…‘AÕ‰±¥Œ¡‘ˆ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹¹•ÝÌ¹±•¹Ñ °È¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹ÁÉ½©•ÑÌ¹±•¹Ñ °Ä¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹½¹Ñ…ÑÌ¹Á¡½¹”°½¹™¥Éµ•‰ä•‘¥Ñ½Èœ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹•Ù•¹ÑÌ¹±•¹Ñ °À¤ì(€…Ý…¥Ð‘ˆ¹ÁÉ•Á…É” 1QI=4µÍ}É•½É‘Ì]!I¥ôüœ¤¹‰¥¹ Í½ÕÉ•Ìµ½ÍÑÉ½Ø´ÈÀÄàœ¤¹ÉÕ¸ ¤ì(€…Ý…¥Ð‘ˆ¹ÁÉ•Á…É” UAQµÍ}É•½É‘ÌMPÁÕ‰±¥Í¡•ôÀ]!I¥ôüœ¤¹‰¥¹ Í½ÕÉ•Ìµ¥ÍÑ½¡¹¥¬œ¤¹ÉÕ¸ ¤ì(€…Ý…¥Ð•¹ÍÕÉ•I•Í•…É¡5…Ñ•É¥…±Ì¡‘ˆ¤ì(€½¹Ñ•¹Ðõ…Ý…¥ÐÉ•…‘AÕ‰±¥Œ¡‘ˆ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹¹•ÝÌ¹±•¹Ñ °Ä¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡½¹Ñ•¹Ð¹ÁÉ½©•ÑÌ¹±•¹Ñ °À¤ì)ô¤ì)Ñ•ÍÐ %¹Ù…±¥µ…Ñ•É¥…±Ì…¹É…Ñ”±¥µ¥ÑÌœ±…Íå¹Œ ¤ôùì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•I•½É ‘½Õµ•¹ÑÌœ±íÑ¥Ñ±”è`œ±‘…Ñ”èœÈÀÈØ´ÀÈ´ÌÀœ±™½Éµ…ÐèAœ±Í¥é”èœÄ-œ±ÕÉ°è¡ÑÑÁÌè¼½•á…µÁ±”¹Ñ•ÍÐ½„¹Á‘˜ô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•I•½É ÁÉ½©•ÑÌœ±íÑ¥Ñ±”è`œ±ÍÑ…ÑÕÌè`œ±‘•ÍÉ¥ÁÑ¥½¸è`œ±Á…ÉÑ¥¥Á…Ñ¥½¸è`œ±¥µ…”è©…Ù…ÍÉ¥ÁÐé…±•ÉÐ Ä¤œ±¥µ…•±Ðè`œ±¥µ…•A•Éµ¥ÍÍ¥½¸éÑÉÕ•ô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•I•½É ÁÉ½©•ÑÌœ±íÑ¥Ñ±”è`œ±ÍÑ…ÑÕÌè`œ±‘•ÍÉ¥ÁÑ¥½¸è`œ±Á…ÉÑ¥¥Á…Ñ¥½¸è`œ±¥µ…”è¡ÑÑÁÌè¼½•á…µÁ±”¹Ñ•ÍÐ½„¹©Áœœ±¥µ…•±Ðè`ô¤¤ì(€½¹ÍÐ¹•ÝÍ]¥Ñ¡A¡½Ñ½ÌõÙ…±¥‘…Ñ•I•½É ¹•ÝÌœ±íÑ¥Ñ±”èŸB“BûFBûB÷BûBËBûFFF0œ±Í±ÕœèÁ¡½Ñ¼µ¹•ÝÌœ±‘…Ñ”èœÈÀÈØ´ÄÀ´ÀÔœ±…Ñ•½ÉäèŸB{BÇF+F?BËBïB×B÷BãF<œ±‘•ÍÉ¥ÁÑ¥½¸èŸBkBûFBûFBëBøœ±¥µ…•A•Éµ¥ÍÍ¥½¸éÑÉÕ”±¥µ…•ÌémíÍÉŒè‘…Ñ„é¥µ…”½©Á•œí‰…Í”ØÐ±ôôœ±…±ÐèŸBFBÃFFB÷BãBëBàƒBËFFFB×FBàõuô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡¹•ÝÍ]¥Ñ¡A¡½Ñ½Ì¹¥µ…•Ì¹±•¹Ñ °Ä¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•I•½É ¹•ÝÌœ±íÑ¥Ñ±”èŸB“BûFBûB÷BûBËBûFFF0œ±Í±ÕœèÁ¡½Ñ¼µ¹•ÝÌœ±‘…Ñ”èœÈÀÈØ´ÄÀ´ÀÔœ±…Ñ•½ÉäèŸB{BÇF+F?BËBïB×B÷BãF<œ±‘•ÍÉ¥ÁÑ¥½¸èŸBkBûFBûFBëBøœ±¥µ…•A•Éµ¥ÍÍ¥½¸éÑÉÕ”±¥µ…•ÌémíÍÉŒè‘…Ñ„éÑ•áÐ½¡Ñµ°í‰…Í”ØÐ±A!9©µ±Ý‘Ðôœ±…±Ðè`õuô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•I•½É ¹•ÝÌœ±íÑ¥Ñ±”èŸB“BûFBûB÷BûBËBûFFF0œ±Í±ÕœèÁ¡½Ñ¼µ¹•ÝÌœ±‘…Ñ”èœÈÀÈØ´ÄÀ´ÀÔœ±…Ñ•½ÉäèŸB{BÇF+F?BËBïB×B÷BãF<œ±‘•ÍÉ¥ÁÑ¥½¸èŸBkBûFBûFBëBøœ±¥µ…•ÌémíÍÉŒè‘…Ñ„é¥µ…”½©Á•œí‰…Í”ØÐ±ôôœ±…±ÐèŸB“BûFBøõuô¤¤ì(€½¹ÍÐ‘ˆõ‘…Ñ…‰…Í” ¤±¡…Í õ…Ý…¥Ð¡…Í¡A…ÍÍÝ½É Ñ•ÍÐµÁ…ÍÍÝ½Éœ¤ì(€™½È¡±•Ð¤ôÀí¤ðÄÀí¤¬¬¥…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ ±½¥¸œ°A=MPœ±íÕÍ•É¹…µ”è…‘µ¥¸œ±Á…ÍÍÝ½ÉèÝÉ½¹œô¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÐÀÄ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ ±½¥¸œ°A=MPœ±íÕÍ•É¹…µ”è…‘µ¥¸œ±Á…ÍÍÝ½ÉèÑ•ÍÐµÁ…ÍÍÝ½Éô¤±‘ˆ±¡…Í ¤¤¹ÍÑ…ÑÕÌ°ÐÈä¤ì)ô¤ì)Ñ•ÍÐ M¥Ñ”‰Õ¥±‘•ÈÙ…±¥‘…Ñ•ÌÑ¡•µ•Ì°Á•ÈµÁ…”µ½‘Õ±•Ì…¹ÕÍÑ½´Ñ•áÐÍ•Ñ¥½¹Ìœ° ¤ôùì(€½¹ÍÐ‰…Í•±¥¹”õí¡½µ•=É‘•Èél¡•É¼œ°ÅÕ¥¬œ°½Ù•ÉÙ¥•Üœ°¹•ÝÌœ°•Ù•¹ÑÌœ°ÁÉ½©•ÑÌœ°©½¥¸t±¡½µ•!¥‘‘•¸émt±¡½µ•ÕÍÑ½´émt±Ñ•áÑÌéíô±™½½Ñ•ÈéíÁ¡½¹”èœ¬Ü€äÄä€ÜÀØ´ÄÌ´äÌœ±•µ…¥°èÙÍ¡¥Ù­½Ù„¹…¹¹…‰¬¹ÉÔœ±…‘‘É•ÍÌèŸBGBÃFFBóFBëBÃF<ƒFBïBãFBÀ°€ÈÀ°ƒBÌ¸ƒBB×FBóF0ô±Ñ¡•µ”éíÁÉ¥µ…ÉäèœŒÄÐÙ”ØÈœ±™½¹Ðè•½É¥„œ±Ý¥‘Ñ èÝ¥‘”œ±Í…±”è±…É”œ±ÍÁ…¥¹œèÉ•±…á•œ±É…‘¥ÕÌèÉ½Õ¹œ±‰…­É½Õ¹‘5½‘”èÁ…ÑÑ•É¸ô±µ½‘Õ±•Ìéìœ½¼µÑ½Ì¼œéí½É‘•Èél…‰½ÕÐµ¡•…‘¥¹œœ°ÕÍÑ½´µ…‰‘•˜ÄÈœ°…‰½ÕÐµ¹…Øœ°…‰½ÕÐµ¥¹ÑÉ¼œ°…‰½ÕÐµ‘¥É•Ñ¥½¹Ìœ°…‰½ÕÐµ¡…¥ÉÁ•ÉÍ½¸œ°…‰½ÕÐµ±Õ‰Ìœ°…‰½ÕÐµÁ…ÉÑ¥¥Á…Ñ”œ°…‰½ÕÐµ…Ñ¥Ù¥Ñä´ÈÀÈÔœ°…‰½ÕÐµ…Ñ¥Ù¥Ñä´ÈÀÈÐœ°…‰½ÕÐµ™…Ät±¡¥‘‘•¸émuõô±Á…•ÕÍÑ½´éìœ½¼µÑ½Ì¼œémí¥èÕÍÑ½´µ…‰‘•˜ÄÈœ±Ñ¥Ñ±”èŸBwBûBËF/BäƒFBÃBßBÓB×Bìœ±‰½‘äèŸB‹B×BëFFƒFBÃBßBÓB×BïBÀõuõôì(€½¹ÍÐ±…å½ÕÐõÙ…±¥‘…Ñ•1…å½ÕÐ¡‰…Í•±¥¹”¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹Ñ¡•µ”¹™½¹Ð°•½É¥„œ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹Ñ¡•µ”¹ÁÉ¥µ…Éä°œŒÄÐÙ”ØÈœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹µ½‘Õ±•Ílœ½¼µÑ½Ì¼t¹½É‘•ÉlÅt°ÕÍÑ½´µ…‰‘•˜ÄÈœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹Á…•ÕÍÑ½µlœ½¼µÑ½Ì¼ulÁt¹Ñ¥Ñ±”°ŸBwBûBËF/BäƒFBÃBßBÓB×Bìœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹™½½Ñ•È¹•µ…¥°°ÙÍ¡¥Ù­½Ù„¹…¹¹…‰¬¹ÉÔœ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…°¡±…å½ÕÐ¹™½½Ñ•È¹…‘‘É•ÍÌ°ŸBGBÃFFBóFBëBÃF<ƒFBïBãFBÀ°€ÈÀ°ƒBÌ¸ƒBB×FBóF0œ¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•1…å½ÕÐ¡ì¸¸¹‰…Í•±¥¹”±™½½Ñ•Èéì¸¸¹‰…Í•±¥¹”¹™½½Ñ•È±•µ…¥°è¹½Ðµ…¸µ•µ…¥°õô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•1…å½ÕÐ¡ì¸¸¹‰…Í•±¥¹”±Ñ¡•µ”éì¸¸¹‰…Í•±¥¹”¹Ñ¡•µ”±ÁÉ¥µ…ÉäèÕÉ°¡©…Ù…ÍÉ¥ÁÐé…±•ÉÐ Ä¤¤õô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•1…å½ÕÐ¡ì¸¸¹‰…Í•±¥¹”±µ½‘Õ±•Ìéìœ½¼µÑ½Ì¼œéí½É‘•ÈélœñÍÉ¥ÁÐøt±¡¥‘‘•¸émuõõô¤¤ì(€…ÍÍ•ÉÐ¹Ñ¡É½ÝÌ  ¤ôùÙ…±¥‘…Ñ•1…å½ÕÐ¡ì¸¸¹‰…Í•±¥¹”±Á…•ÕÍÑ½´éìœ½¼µÑ½Ì¼œémì¸¸¹‰…Í•±¥¹”¹Á…•ÕÍÑ½µlœ½¼µÑ½Ì¼ulÁt±‰½‘äèàœ¹É•Á•…Ð ÈÀÀÄ¥õuõô¤¤ì)ô¤ì)Ñ•ÍÐ 9•ÝÌÉ•¹‘•ÉÌ•Ù•Éä…ÑÑ…¡•Á¡½Ñ¼¥¸…É‘Ì…¹¥¸Ñ¡”…ÉÑ¥±”œ° ¤ôùì(€½¹ÍÐ‘…Ñ„õí¹•ÝÌémíÑ¥Ñ±”èŸB“BûFBûBûFFFGFœ±Í±ÕœèÁ¡½Ñ¼µÉ•Á½ÉÐœ±‘…Ñ”èœÈÀÈØ´ÄÀ´ÀÔœ±…Ñ•½ÉäèŸB{BÇF+F?BËBïB×B÷BãF<œ±‘•ÍÉ¥ÁÑ¥½¸èŸB{BÿBãFBÃB÷BãBÔœ±¥µ…•ÌémíÍÉŒè‘…Ñ„é¥µ…”½©Á•œí‰…Í”ØÐ±ôôœ±…±ÐèŸBB×FBËBûBÔƒFBûFBøô±íÍÉŒè‘…Ñ„é¥µ…”½©Á•œí‰…Í”ØÐ±Dôôœ±…±ÐèŸBKFBûFBûBÔƒFBûFBøõuõt±•Ù•¹ÑÌémt±ÁÉ½©•ÑÌémt±‘½Õµ•¹ÑÌémt±½¹Ñ…ÑÌéíô±±…å½ÕÐéíõôì(€½¹ÍÐ…ÉõÉ•¹‘•ÉAÕ‰±¥Œ¡‘…Ñ„°œ½¹½Ù½ÍÑ¤¼œ¤¹¡Ñµ°ì(€½¹ÍÐ…ÉÑ¥±”õÉ•¹‘•ÉAÕ‰±¥Œ¡‘…Ñ„°œ½¹½Ù½ÍÑ¤½Á¡½Ñ¼µÉ•Á½ÉÐœ¤¹¡Ñµ°ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…É¹µ…Ñ  ½±…ÍÌô‰ÁÕ‰±¥…Ñ¥½¸µ…±±•Éäˆ½œ¥ññmt¤¹±•¹Ñ °Ä¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…É¹µ…Ñ  ½‘…Ñ„é¥µ…•p½©Á•œí‰…Í”ØÐ½œ¥ññmt¤¹±•¹Ñ °È¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…ÉÑ¥±”¹µ…Ñ  ½‘…Ñ„é¥µ…•p½©Á•œí‰…Í”ØÐ½œ¥ññmt¤¹±•¹Ñ °È¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡…ÉÑ¥±”°½…±Ðô‹BB×FBËBûBÔƒFBûFBøˆ¼¤ì)ô¤ì)Ñ•ÍÐ Ù•¹ÐÉ•¥ÍÑÉ…Ñ¥½¸É•ÍÁ•ÑÌ…Á…¥Ñä…¹Ñ¡”•‘¥Ñ½È…¸ÑÉ…¬…¹…¹•°É•Í•ÉÙ…Ñ¥½¹Ìœ±…Íå¹Œ ¤ôùì(€½¹ÍÐ‘ˆõ‘…Ñ…‰…Í” ¤±¡…Í õ…Ý…¥Ð¡…Í¡A…ÍÍÝ½É Ñ•ÍÐµÁ…ÍÍÝ½Éœ¤±…‘µ¥¸õ…Ý…¥Ð±½¥¸¡‘ˆ±¡…Í °…‘µ¥¸œ°Ñ•ÍÐµÁ…ÍÍÝ½Éœ¤ì(€½¹ÍÐ•Ù•¹ÐõíÑ¥Ñ±”èŸBKFFFB×FBÀƒFBûFB×BÓB×Bäœ±‘…Ñ”èœÈÀÈØ´ÄÈ´ÀÄœ±Ñ¥µ”èœÄàèÀÀœ±Á±…”èŸBkBïFBÄƒB‹B{B„œ±‘•ÍÉ¥ÁÑ¥½¸èŸB‹B×FFBûBËBÃF<ƒBËFFFB×FBÀœ±Á…ÉÑ¥¥Á…Ñ¥½¸èŸBKFBûBÐƒFBËBûBÇBûBÓB÷F/Bäœ±…Á…¥ÑäèÌ±É•¥ÍÑÉ…Ñ¥½¹¹…‰±•éÑÉÕ•ôì(€½¹ÍÐÍ…Ù•õ…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ É•½É‘Ìœ°A=MPœ±í­¥¹è•Ù•¹ÑÌœ±‘…Ñ„é•Ù•¹Ð±ÁÕ‰±¥Í¡•éÑÉÕ•ô±…‘µ¥¸¤±‘ˆ±¡…Í ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡Í…Ù•¹ÍÑ…ÑÕÌ°ÈÀÄ±…Ý…¥ÐÍ…Ù•¹±½¹” ¤¹Ñ•áÐ ¤¤í½¹ÍÐí¥‘ôõ…Ý…¥ÐÍ…Ù•¹©Í½¸ ¤ì(€½¹ÍÐÉ•¥ÍÑ•Èô¡¹…µ”±Á¡½¹”±Í•…ÑÌ±¥À¤ôùÉ•…Ñ•Ù•¹ÑI•¥ÍÑÉ…Ñ¥½¸¡¹•ÜI•ÅÕ•ÍÐ¡½É¥¥¸¬œ½…Á¤½ÁÕ‰±¥Œ½•Ù•¹ÑÌ¼œ­¥¬œ½É•¥ÍÑ•Èœ±íµ•Ñ¡½èA=MPœ±¡•…‘•ÉÌéí½É¥¥¸°½¹Ñ•¹ÐµÑåÁ”œè…ÁÁ±¥…Ñ¥½¸½©Í½¸œ°àµ™½ÉÝ…É‘•µ™½Èœé¥Áô±‰½‘äé)M=8¹ÍÑÉ¥¹¥™ä¡í¹…µ”±Á¡½¹”±Í•…ÑÍô¥ô¤±‘ˆ±¥¤ì(€½¹ÍÐÁÉ½á¥•õ¹•ÜI•ÅÕ•ÍÐ¡½É¥¥¸¬œ½…Á¤½ÁÕ‰±¥Œ½•Ù•¹ÑÌ¼œ­¥¬œ½É•¥ÍÑ•Èœ±íµ•Ñ¡½èA=MPœ±¡•…‘•ÉÌéí½É¥¥¸è¡ÑÑÁÌè¼½Ñ½ÌµÙ½‘¹¥¬¹½¹É•¹‘•È¹½´œ°½¹Ñ•¹ÐµÑåÁ”œè…ÁÁ±¥…Ñ¥½¸½©Í½¸ô±‰½‘äé)M=8¹ÍÑÉ¥¹¥™ä¡í¹…µ”èŸBsBÃFBãF<ƒBB×FFBûBËBÀœ±Á¡½¹”èœ¬Ü€äää€ÄÄÄ´ÈÈ´ÌÌœ±Í•…ÑÌèÅô¥ô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥ÐÉ•…Ñ•Ù•¹ÑI•¥ÍÑÉ…Ñ¥½¸¡ÁÉ½á¥•±‘ˆ±¥°¡ÑÑÁÌè¼½Ñ½ÌµÙ½‘¹¥¬¹½¹É•¹‘•È¹½´œ¤¤¹ÍÑ…ÑÕÌ°ÈÀÄ°Ñ¡”I•¹‘•È½É¥¥¸µÕÍÐ‰”…•ÁÑ•‰äÑ¡”±½Õ‘™±…É”A$ÁÉ½áäœ¤ì(€½¹ÍÐÉ•©•Ñ•õ¹•ÜI•ÅÕ•ÍÐ¡½É¥¥¸¬œ½…Á¤½ÁÕ‰±¥Œ½•Ù•¹ÑÌ¼œ­¥¬œ½É•¥ÍÑ•Èœ±íµ•Ñ¡½èA=MPœ±¡•…‘•ÉÌéí½É¥¥¸è¡ÑÑÁÌè¼½•á…µÁ±”¹¥¹Ù…±¥œ°½¹Ñ•¹ÐµÑåÁ”œè…ÁÁ±¥…Ñ¥½¸½©Í½¸ô±‰½‘äé)M=8¹ÍÑÉ¥¹¥™ä¡í¹…µ”èŸBFGFF ƒB‡BóBãFB÷BûBÈœ±Á¡½¹”èœ¬Ü€äää€ÄÄÄ´ÈÈ´ÌÐœ±Í•…ÑÌèÅô¥ô¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥ÐÉ•…Ñ•Ù•¹ÑI•¥ÍÑÉ…Ñ¥½¸¡É•©•Ñ•±‘ˆ±¥°¡ÑÑÁÌè¼½Ñ½ÌµÙ½‘¹¥¬¹½¹É•¹‘•È¹½´œ¤¤¹ÍÑ…ÑÕÌ°ÐÀÀ°Õ¹…ÁÁÉ½Ù•½É¥¥¹ÌµÕÍÐ‰”É•©•Ñ•œ¤ì(€½¹ÍÐ™¥ÉÍÐõ…Ý…¥ÐÉ•¥ÍÑ•È ŸBCB÷B÷BÀƒB‡BóBãFB÷BûBËBÀœ°œ¬Ü€äÀÀ€ÄÄÄ´ÈÈ´ÌÌœ°Ä°œÄäÈ¸À¸È¸Äœ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡™¥ÉÍÐ¹ÍÑ…ÑÕÌ°ÈÀÄ±…Ý…¥Ð™¥ÉÍÐ¹±½¹” ¤¹Ñ•áÐ ¤¤ì(€½¹ÍÐíÉ•¥ÍÑ•É•‘%‘ôõ…Ý…¥Ð€¡…Íå¹Œ ¤ôùí½¹ÍÐ±¥ÍÐõ…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ É•¥ÍÑÉ…Ñ¥½¹Ìý•Ù•¹Ñ%ôœ­¥°Pœ±Õ¹‘•™¥¹•±…‘µ¥¸¤±‘ˆ±¡…Í ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡±¥ÍÐ¹ÍÑ…ÑÕÌ°ÈÀÀ¤í½¹ÍÐíÉ•¥ÍÑÉ…Ñ¥½¹Íôõ…Ý…¥Ð±¥ÍÐ¹©Í½¸ ¤íÉ•ÑÕÉ¸íÉ•¥ÍÑ•É•‘%éÉ•¥ÍÑÉ…Ñ¥½¹ÍlÁt¹¥‘õô¤ ¤ì(€…ÍÍ•ÉÐ¹•ÅÕ…° ¡…Ý…¥ÐÉ•¥ÍÑ•È ŸBcBËBÃBôƒBB×FFBûBÈœ°œ¬Ü€äÀÀ€ÐÐÐ´ÔÔ´ØØœ°È°œÄäÈ¸À¸È¸Èœ¤¤¹ÍÑ…ÑÕÌ°ÐÀä¤ì(€½¹ÍÐ…¹•±±•õ…Ý…¥Ð¡…¹‘±•5L¡É•ÅÕ•ÍÐ É•¥ÍÑÉ…Ñ¥½¹Ì¼œ­É•¥ÍÑ•É•‘%°1Qœ±íô±…‘µ¥¸¤±‘ˆ±¡…Í ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡…¹•±±•¹ÍÑ…ÑÕÌ°ÈÀÀ¤ì(€½¹ÍÐÍ•½¹õ…Ý…¥ÐÉ•¥ÍÑ•È ŸBcBËBÃBôƒBB×FFBûBÈœ°œ¬Ü€äÀÀ€ÐÐÐ´ÔÔ´ØØœ°È°œÄäÈ¸À¸È¸Èœ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡Í•½¹¹ÍÑ…ÑÕÌ°ÈÀÄ¤ì(€½¹ÍÐÁÕ‰±¥½¹Ñ•¹Ðõ…Ý…¥ÐÉ•…‘AÕ‰±¥Œ¡‘ˆ¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡ÁÕ‰±¥½¹Ñ•¹Ð¹•Ù•¹ÑÍlÁt¹É•¥ÍÑ•É•‘½Õ¹Ð°Ì¤í…ÍÍ•ÉÐ¹•ÅÕ…°¡ÁÕ‰±¥½¹Ñ•¹Ð¹•Ù•¹ÑÍlÁt¹…Ù…¥±…‰±•M•…ÑÌ°À¤ì)ô¤ì)Ñ•ÍÐ AÕ‰±¥Í¡•™ÕÑÕÉ”•Ù•¹ÑÌÉ•¹‘•È…¸…•ÍÍ¥‰±”É•¥ÍÑÉ…Ñ¥½¸™½É´Ý¡•¸Í¥¹ÕÀ¥Ì•¹…‰±•œ° ¤ôùì(€½¹ÍÐ•Ù•¹Ðõí¥è•Ù•¹ÐµÉ•¥ÍÑÉ…Ñ¥½¸µÑ•ÍÐœ±Ñ¥Ñ±”èŸBKFFFB×FBÀƒFBûFB×BÓB×Bäœ±‘…Ñ”èœÈÀÈØ´ÄÈ´ÀÄœ±Ñ¥µ”èœÄàèÀÀœ±Á±…”èŸBkBïFBÄƒB‹B{B„œ±‘•ÍÉ¥ÁÑ¥½¸èŸBKFFFB×FBÀƒBÓBïF<ƒBÛBãFB×BïB×Bäœ±Á…ÉÑ¥¥Á…Ñ¥½¸èŸBKFBûBÐƒFBËBûBÇBûBÓB÷F/Bäœ±…Á…¥ÑäèÄÈ±É•¥ÍÑÉ…Ñ¥½¹¹…‰±•éÑÉÕ”±É•¥ÍÑ•É•‘½Õ¹ÐèÍôì(€½¹ÍÐÉ•¹‘•É•õÉ•¹‘•ÉAÕ‰±¥Œ¡í¹•ÝÌémt±•Ù•¹ÑÌém•Ù•¹Ñt±ÁÉ½©•ÑÌémt±‘½Õµ•¹ÑÌémt±½¹Ñ…ÑÌéíô±±…å½ÕÐéíõô°œ½µ•É½ÁÉ¥å…Ñ¥å„¼œ¤¹¡Ñµ°ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°½‘…Ñ„µ•Ù•¹ÐµÉ•¥ÍÑÉ…Ñ¥½¸¼¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°¿B_BÃB÷F?FBøƒBóB×FFè€ÌƒBãBÜ€ÄÉp¸ƒB‡BËBûBÇBûBÓB÷Bøè€åp¸¼¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°½¹…µ”ô‰Á¡½¹”ˆÑåÁ”ô‰Ñ•°ˆ¼¤ì)ô¤ì)Ñ•ÍÐ Q¡”É•ÅÕ•ÍÑ•½¹Ñ…Ð•µ…¥°É•Á±…•ÌÑ¡”ÁÉ•Ù¥½ÕÌÉ•Á½ÉÐ…‘‘É•ÍÌœ° ¤ôùì(€½¹ÍÐÉ•¹‘•É•õÉ•¹‘•ÉAÕ‰±¥Œ¡í¹•ÝÌémt±•Ù•¹ÑÌémt±ÁÉ½©•ÑÌémt±‘½Õµ•¹ÑÌémt±½¹Ñ…ÑÌéí•µ…¥°èœääÜÜààÙµ…¥°¹ÉÔô±±…å½ÕÐéíõô°œ½­½¹Ñ…­Ñä¼œ¤¹¡Ñµ°ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°½µ…¥±Ñ¼éÙÍ¡¥Ù­½Ù…p¹…¹¹…‰­p¹ÉÔ¼¤ì(€…ÍÍ•ÉÐ¹‘½•Í9½Ñ5…Ñ ¡É•¹‘•É•°½µ…¥±Ñ¼èääÜÜààÙµ…¥±p¹ÉÔ¼¤ì)ô¤ì)Ñ•ÍÐ M¥Ñ”‰Õ¥±‘•È™½½Ñ•ÈÕÁ‘…Ñ•ÌÑ•áÐ…¹­••ÁÌÁ¡½¹”…¹•µ…¥°±¥¹­Ì¥¸Íå¹Œœ° ¤ôùì(€½¹ÍÐµ…É­ÕÀôœñ™½½Ñ•Èøñ„‘…Ñ„µ™½½Ñ•Èµ±¥¹¬ô‰Á¡½¹”ˆ¡É•˜ô‰Ñ•°è¬ÜÀÀÀÀÀÀÀÀÀÀˆøñÍÁ…¸‘…Ñ„µ™½½Ñ•Èµ™¥•±ô‰Á¡½¹”ˆù=±Á¡½¹”ð½ÍÁ…¸øð½„øñ„‘…Ñ„µ™½½Ñ•Èµ±¥¹¬ô‰•µ…¥°ˆ¡É•˜ô‰µ…¥±Ñ¼é½±‘•á…µÁ±”¹Ñ•ÍÐˆøñÍÁ…¸‘…Ñ„µ™½½Ñ•Èµ™¥•±ô‰•µ…¥°ˆù½±‘•á…µÁ±”¹Ñ•ÍÐð½ÍÁ…¸øð½„øñÍÁ…¸‘…Ñ„µ™½½Ñ•Èµ™¥•±ô‰½É…¹¥é…Ñ¥½¸ˆù=±€™…µÀì¹…µ”ð½ÍÁ…¸øð½™½½Ñ•Èøœì(€½¹ÍÐÉ•¹‘•É•õ…ÁÁ±å½½Ñ•ÉM•ÑÑ¥¹Ì¡µ…É­ÕÀ±í™½½Ñ•ÈéíÁ¡½¹”èœ¬Ü€äÄä€ÜÀØ´ÄÌ´äÌœ±•µ…¥°èÙÍ¡¥Ù­½Ù„¹…¹¹…‰¬¹ÉÔœ±½É…¹¥é…Ñ¥½¸èŸB‹B{B„ƒ
-¯BKBûBÓB÷BãBëBã
-ì€˜ƒFBûFB×BÓBàõô¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°½¡É•˜ô‰Ñ•°ép¬ÜäÄäÜÀØÄÌäÌˆ¼¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°½¡É•˜ô‰µ…¥±Ñ¼éÙÍ¡¥Ù­½Ù…p¹…¹¹…‰­p¹ÉÔˆ¼¤ì(€…ÍÍ•ÉÐ¹µ…Ñ ¡É•¹‘•É•°¼ûB‹B{B„ƒ
-¯BKBûBÓB÷BãBëBã
-ì€™…µÀìƒFBûFB×BÓBàñp½ÍÁ…¸ø¼¤ì)ô¤ì(
+  const headers={...(method==='GET'?{}:{origin,'content-type':'application/json'}),...(session.cookie?{cookie:session.cookie}:{}),...(session.csrf?{'x-csrf-token':session.csrf}:{}),...extra};
+  return new Request(origin+'/api/admin/'+path,{method,headers,body:body===undefined?undefined:JSON.stringify(body)});
+}
+async function login(db,hash,username,password) {
+  const response=await handleCMS(request('login','POST',{username,password}),db,hash);
+  assert.equal(response.status,200,await response.clone().text());
+  const data=await response.json();return {...data,cookie:response.headers.get('set-cookie').split(';')[0]};
+}
+test('Server authentication, moderation rights, drafts, edits and revocation',async()=>{
+  const db=database(),hash=await hashPassword('test-password');
+  assert.equal((await handleCMS(new Request(origin+'/api/admin/me'),db,hash)).status,401);
+  assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'wrong'}),db,hash)).status,401);
+  const admin=await login(db,hash,'admin','test-password');
+  assert.match(admin.cookie,/^__Host-vodniki-cms=/);
+  assert.equal((await handleCMS(request('users','POST',{username:'mod',password:'moderator-password'},admin,{'x-csrf-token':'wrong'}),db,hash)).status,403);
+  assert.equal((await handleCMS(request('users','POST',{username:'mod',password:'moderator-password'},admin,{origin:'https://attacker.test'}),db,hash)).status,403);
+  assert.equal((await handleCMS(request('users','POST',{username:'mod',password:'moderator-password',role:'admin'},admin),db,hash)).status,201);
+  const moderator=await login(db,hash,'mod','moderator-password');assert.equal(moderator.user.role,'moderator');
+  assert.equal((await handleCMS(request('users','GET',undefined,moderator),db,hash)).status,403);
+  assert.equal((await handleCMS(request('records','POST',{kind:'contacts',data:{}},moderator),db,hash)).status,403);
+  const news={title:'ÐŸÑ€Ð¾Ð²ÐµÑ€Ð¾Ñ‡Ð½Ñ‹Ð¹ Ð¼Ð°Ñ‚ÐµÑ€Ð¸Ð°Ð»',slug:'test-news',date:'2026-10-05',category:'ÐžÐ±ÑŠÑÐ²Ð»ÐµÐ½Ð¸Ñ',description:'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð°Ð» Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸, Ð½Ðµ Ð¿ÑƒÐ±Ð»Ð¸ÐºÑƒÐµÑ‚ÑÑ Ð½Ð° Ñ€ÐµÐ°Ð»ÑŒÐ½Ð¾Ð¼ ÑÐ°Ð¹Ñ‚Ðµ.'};
+  let response=await handleCMS(request('records','POST',{kind:'news',data:news,published:false},moderator),db,hash);assert.equal(response.status,201);const {id}=await response.json();
+  assert.equal((await readPublic(db)).news.length,0);
+  response=await handleCMS(request('records/'+id,'PUT',{kind:'news',data:news,published:true,revision:1},moderator),db,hash);assert.equal(response.status,200);
+  assert.equal((await readPublic(db)).news[0].slug,'test-news');
+  assert.equal((await handleCMS(request('records/'+id,'PUT',{kind:'news',data:news,published:true,revision:1},moderator),db,hash)).status,409);
+  assert.equal((await handleCMS(request('records','POST',{kind:'news',data:news},moderator),db,hash)).status,409);
+  assert.equal((await handleCMS(request('me','GET',undefined,moderator),db,hash)).status,200);
+  const users=await (await handleCMS(request('users','GET',undefined,admin),db,hash)).json();const mod=users.find(u=>u.username==='mod');
+  assert.ok(users.every(u=>!('password'in u)));
+  assert.equal((await handleCMS(request('users/'+mod.id,'PATCH',{enabled:false},admin),db,hash)).status,200);
+  assert.equal((await handleCMS(request('me','GET',undefined,moderator),db,hash)).status,401);
+  assert.equal((await handleCMS(request('login','POST',{username:'mod',password:'moderator-password'}),db,hash)).status,401);
+  await handleCMS(request('users/'+mod.id,'PATCH',{enabled:true,password:'replacement-password'},admin),db,hash);
+  const restored=await login(db,hash,'mod','replacement-password');
+  assert.equal((await handleCMS(request('records/'+id,'DELETE',undefined,restored),db,hash)).status,200);
+  assert.equal((await readPublic(db)).news.length,0);
+  assert.equal((await handleCMS(request('users/admin','DELETE',undefined,admin),db,hash)).status,400);
+  await handleCMS(request('users/'+mod.id,'DELETE',undefined,admin),db,hash);
+  assert.equal((await handleCMS(request('me','GET',undefined,restored),db,hash)).status,401);
+  assert.equal((await handleCMS(request('password','POST',{currentPassword:'test-password',password:'new-admin-password'},admin),db,hash)).status,200);
+  assert.equal((await handleCMS(request('me','GET',undefined,admin),db,hash)).status,401);
+  await login(db,hash,'admin','new-admin-password');
+});
+test('A changed server admin secret synchronizes once without undoing later password changes',async()=>{
+  const db=database(),oldHash=await hashPassword('old-admin-password'),newHash=await hashPassword('configured-admin-password');
+  await login(db,oldHash,'admin','old-admin-password');
+  assert.equal((await handleCMS(new Request(origin+'/api/admin/me'),db,newHash)).status,401);
+  const admin=await login(db,newHash,'admin','configured-admin-password');
+  assert.equal((await handleCMS(request('password','POST',{currentPassword:'configured-admin-password',password:'user-chosen-password'},admin),db,newHash)).status,200);
+  await login(db,newHash,'admin','user-chosen-password');
+  assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'configured-admin-password'}),db,newHash)).status,401);
+});
+test('Admin login allows only the configured Render origin behind the API proxy',async()=>{
+  const db=database(),hash=await hashPassword('test-password');
+  const allowed='https://tos-vodnik.onrender.com';
+  const proxied=new Request('https://worker.example.workers.dev/api/admin/login',{method:'POST',headers:{origin:allowed,'content-type':'application/json'},body:JSON.stringify({username:'admin',password:'test-password'})});
+  const response=await handleCMS(proxied,db,hash,allowed);
+  assert.equal(response.status,200,await response.clone().text());
+  const blocked=new Request('https://worker.example.workers.dev/api/admin/login',{method:'POST',headers:{origin:'https://attacker.example','content-type':'application/json'},body:JSON.stringify({username:'admin',password:'test-password'})});
+  assert.equal((await handleCMS(blocked,db,hash,allowed)).status,403);
+});
+test('Research import preserves editor changes, existing contacts and deletions',async()=>{
+  const db=database();
+  await db.prepare('INSERT INTO cms_records (id,kind,data,published,revision,updated_at,updated_by) VALUES (?,?,?,?,1,?,?)').bind('contacts','contacts',JSON.stringify({phone:'Confirmed by editor'}),1,1,'admin').run();
+  await ensureResearchMaterials(db);
+  let content=await readPublic(db);assert.equal(content.news.length,2);assert.equal(content.projects.length,1);assert.equal(content.contacts.phone,'Confirmed by editor');assert.equal(content.events.length,0);
+  await db.prepare('DELETE FROM cms_records WHERE id=?').bind('sources-ostrov-2018').run();
+  await db.prepare('UPDATE cms_records SET published=0 WHERE id=?').bind('sources-istochnik').run();
+  await ensureResearchMaterials(db);
+  content=await readPublic(db);assert.equal(content.news.length,1);assert.equal(content.projects.length,0);
+});
+test('Invalid materials and rate limits',async()=>{
+  assert.throws(()=>validateRecord('documents',{title:'X',date:'2026-02-30',format:'PDF',size:'1 KB',url:'https://example.test/a.pdf'}));
+  assert.throws(()=>validateRecord('projects',{title:'X',status:'X',description:'X',participation:'X',image:'javascript:alert(1)',imageAlt:'X',imagePermission:true}));
+  assert.throws(()=>validateRecord('projects',{title:'X',status:'X',description:'X',participation:'X',image:'https://example.test/a.jpg',imageAlt:'X'}));
+  const newsWithPhotos=validateRecord('news',{title:'Ð¤Ð¾Ñ‚Ð¾Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ',slug:'photo-news',date:'2026-10-05',category:'ÐžÐ±ÑŠÑÐ²Ð»ÐµÐ½Ð¸Ñ',description:'ÐšÐ¾Ñ€Ð¾Ñ‚ÐºÐ¾',imagePermission:true,images:[{src:'data:image/jpeg;base64,AA==',alt:'Ð£Ñ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ¸ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð¸'}]});
+  assert.equal(newsWithPhotos.images.length,1);
+  assert.throws(()=>validateRecord('news',{title:'Ð¤Ð¾Ñ‚Ð¾Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ',slug:'photo-news',date:'2026-10-05',category:'ÐžÐ±ÑŠÑÐ²Ð»ÐµÐ½Ð¸Ñ',description:'ÐšÐ¾Ñ€Ð¾Ñ‚ÐºÐ¾',imagePermission:true,images:[{src:'data:text/html;base64,PHNjcmlwdD4=',alt:'X'}]}));
+  assert.throws(()=>validateRecord('news',{title:'Ð¤Ð¾Ñ‚Ð¾Ð½Ð¾Ð²Ð¾ÑÑ‚ÑŒ',slug:'photo-news',date:'2026-10-05',category:'ÐžÐ±ÑŠÑÐ²Ð»ÐµÐ½Ð¸Ñ',description:'ÐšÐ¾Ñ€Ð¾Ñ‚ÐºÐ¾',images:[{src:'data:image/jpeg;base64,AA==',alt:'Ð¤Ð¾Ñ‚Ð¾'}]}));
+  const db=database(),hash=await hashPassword('test-password');
+  for(let i=0;i<10;i++)assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'wrong'}),db,hash)).status,401);
+  assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'test-password'}),db,hash)).status,429);
+});
+test('Site builder validates themes, per-page modules and custom text sections',()=>{
+  const baseline={homeOrder:['hero','quick','overview','news','events','projects','join'],homeHidden:[],homeCustom:[],texts:{},footer:{phone:'+7 919 706-13-93',email:'vshivkova.anna@bk.ru',address:'Ð‘Ð°Ñ‚ÑƒÐ¼ÑÐºÐ°Ñ ÑƒÐ»Ð¸Ñ†Ð°, 20, Ð³. ÐŸÐµÑ€Ð¼ÑŒ'},theme:{primary:'#146e62',font:'Georgia',width:'wide',scale:'large',spacing:'relaxed',radius:'round',backgroundMode:'pattern'},modules:{'/o-tos/':{order:['about-heading','custom-abcdef12','about-nav','about-intro','about-directions','about-chairperson','about-clubs','about-participate','about-activity-2025','about-activity-2024','about-faq'],hidden:[]}},pageCustom:{'/o-tos/':[{id:'custom-abcdef12',title:'ÐÐ¾Ð²Ñ‹Ð¹ Ñ€Ð°Ð·Ð´ÐµÐ»',body:'Ð¢ÐµÐºÑÑ‚ Ñ€Ð°Ð·Ð´ÐµÐ»Ð°'}]}};
+  const layout=validateLayout(baseline);
+  assert.equal(layout.theme.font,'Georgia');
+  assert.equal(layout.theme.primary,'#146e62');
+  assert.equal(layout.modules['/o-tos/'].order[1],'custom-abcdef12');
+  assert.equal(layout.pageCustom['/o-tos/'][0].title,'ÐÐ¾Ð²Ñ‹Ð¹ Ñ€Ð°Ð·Ð´ÐµÐ»');
+  assert.equal(layout.footer.email,'vshivkova.anna@bk.ru');
+  assert.equal(layout.footer.address,'Ð‘Ð°Ñ‚ÑƒÐ¼ÑÐºÐ°Ñ ÑƒÐ»Ð¸Ñ†Ð°, 20, Ð³. ÐŸÐµÑ€Ð¼ÑŒ');
+  assert.throws(()=>validateLayout({...baseline,footer:{...baseline.footer,email:'not-an-email'}}));
+  assert.throws(()=>validateLayout({...baseline,theme:{...baseline.theme,primary:'url(javascript:alert(1))'}}));
+  assert.throws(()=>validateLayout({...baseline,modules:{'/o-tos/':{order:['<script>'],hidden:[]}}}));
+  assert.throws(()=>validateLayout({...baseline,pageCustom:{'/o-tos/':[{...baseline.pageCustom['/o-tos/'][0],body:'x'.repeat(2001)}]}}));
+});
+test('News renders every attached photo in cards and in the article',()=>{
+  const data={news:[{title:'Ð¤Ð¾Ñ‚Ð¾Ð¾Ñ‚Ñ‡Ñ‘Ñ‚',slug:'photo-report',date:'2026-10-05',category:'ÐžÐ±ÑŠÑÐ²Ð»ÐµÐ½Ð¸Ñ',description:'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ',images:[{src:'data:image/jpeg;base64,AA==',alt:'ÐŸÐµÑ€Ð²Ð¾Ðµ Ñ„Ð¾Ñ‚Ð¾'},{src:'data:image/jpeg;base64,AQ==',alt:'Ð’Ñ‚Ð¾Ñ€Ð¾Ðµ Ñ„Ð¾Ñ‚Ð¾'}]}],events:[],projects:[],documents:[],contacts:{},layout:{}};
+  const card=renderPublic(data,'/novosti/').html;
+  const article=renderPublic(data,'/novosti/photo-report').html;
+  assert.equal((card.match(/class="publication-gallery"/g)||[]).length,1);
+  assert.equal((card.match(/data:image\/jpeg;base64/g)||[]).length,2);
+  assert.equal((article.match(/data:image\/jpeg;base64/g)||[]).length,2);
+  assert.match(article,/alt="ÐŸÐµÑ€Ð²Ð¾Ðµ Ñ„Ð¾Ñ‚Ð¾"/);
+});
+test('Event registration respects capacity and the editor can track and cancel reservations',async()=>{
+  const db=database(),hash=await hashPassword('test-password'),admin=await login(db,hash,'admin','test-password');
+  const event={title:'Ð’ÑÑ‚Ñ€ÐµÑ‡Ð° ÑÐ¾ÑÐµÐ´ÐµÐ¹',date:'2026-12-01',time:'18:00',place:'ÐšÐ»ÑƒÐ± Ð¢ÐžÐ¡',description:'Ð¢ÐµÑÑ‚Ð¾Ð²Ð°Ñ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð°',participation:'Ð’Ñ…Ð¾Ð´ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ñ‹Ð¹',capacity:3,registrationEnabled:true};
+  const saved=await handleCMS(request('records','POST',{kind:'events',data:event,published:true},admin),db,hash);assert.equal(saved.status,201,await saved.clone().text());const {id}=await saved.json();
+  const register=(name,phone,seats,ip)=>createEventRegistration(new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin,'content-type':'application/json','x-forwarded-for':ip},body:JSON.stringify({name,phone,seats})}),db,id);
+  const proxied=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://tos-vodnik.onrender.com','content-type':'application/json'},body:JSON.stringify({name:'ÐœÐ°Ñ€Ð¸Ñ ÐŸÐµÑ‚Ñ€Ð¾Ð²Ð°',phone:'+7 999 111-22-33',seats:1})});
+  assert.equal((await createEventRegistration(proxied,db,id,'https://tos-vodnik.onrender.com')).status,201,'the Render origin must be accepted by the Cloudflare API proxy');
+  const rejected=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://example.invalid','content-type':'application/json'},body:JSON.stringify({name:'ÐŸÑ‘Ñ‚Ñ€ Ð¡Ð¼Ð¸Ñ€Ð½Ð¾Ð²',phone:'+7 999 111-22-34',seats:1})});
+  assert.equal((await createEventRegistration(rejected,db,id,'https://tos-vodnik.onrender.com')).status,400,'unapproved origins must be rejected');
+  const first=await register('ÐÐ½Ð½Ð° Ð¡Ð¼Ð¸Ñ€Ð½Ð¾Ð²Ð°','+7 900 111-22-33',1,'192.0.2.1');assert.equal(first.status,201,await first.clone().text());
+  const {registeredId}=await (async()=>{const list=await handleCMS(request('registrations?eventId='+id,'GET',undefined,admin),db,hash);assert.equal(list.status,200);const {registrations}=await list.json();return {registeredId:registrations[0].id}})();
+  assert.equal((await register('Ð˜Ð²Ð°Ð½ ÐŸÐµÑ‚Ñ€Ð¾Ð²','+7 900 444-55-66',2,'192.0.2.2')).status,409);
+  const cancelled=await handleCMS(request('registrations/'+registeredId,'DELETE',{},admin),db,hash);assert.equal(cancelled.status,200);
+  const second=await register('Ð˜Ð²Ð°Ð½ ÐŸÐµÑ‚Ñ€Ð¾Ð²','+7 900 444-55-66',2,'192.0.2.2');assert.equal(second.status,201);
+  const publicContent=await readPublic(db);assert.equal(publicContent.events[0].registeredCount,3);assert.equal(publicContent.events[0].availableSeats,0);
+});
+test('Published future events render an accessible registration form when signup is enabled',()=>{
+  const event={id:'event-registration-test',title:'Ð’ÑÑ‚Ñ€ÐµÑ‡Ð° ÑÐ¾ÑÐµÐ´ÐµÐ¹',date:'2026-12-01',time:'18:00',place:'ÐšÐ»ÑƒÐ± Ð¢ÐžÐ¡',description:'Ð’ÑÑ‚Ñ€ÐµÑ‡Ð° Ð´Ð»Ñ Ð¶Ð¸Ñ‚ÐµÐ»ÐµÐ¹',participation:'Ð’Ñ…Ð¾Ð´ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ñ‹Ð¹',capacity:12,registrationEnabled:true,registeredCount:3};
+  const rendered=renderPublic({news:[],events:[event],projects:[],documents:[],contacts:{},layout:{}},'/meropriyatiya/').html;
+  assert.match(rendered,/data-event-registration/);
+  assert.match(rendered,/Ð—Ð°Ð½ÑÑ‚Ð¾ Ð¼ÐµÑÑ‚: 3 Ð¸Ð· 12\. Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ð¾: 9\./);
+  assert.match(rendered,/name="phone" type="tel"/);
+});
+test('The requested contact email replaces the previous report address',()=>{
+  const rendered=renderPublic({news:[],events:[],projects:[],documents:[],contacts:{email:'9977886@mail.ru'},layout:{}},'/kontakty/').html;
+  assert.match(rendered,/mailto:vshivkova\.anna@bk\.ru/);
+  assert.doesNotMatch(rendered,/mailto:9977886@mail\.ru/);
+});
+test('Site builder footer updates text and keeps phone and email links in sync',()=>{
+  const markup='<footer><a data-footer-link="phone" href="tel:+70000000000"><span data-footer-field="phone">Old phone</span></a><a data-footer-link="email" href="mailto:old@example.test"><span data-footer-field="email">old@example.test</span></a><span data-footer-field="organization">Old &amp; name</span></footer>';
+  const rendered=applyFooterSettings(markup,{footer:{phone:'+7 919 706-13-93',email:'vshivkova.anna@bk.ru',organization:'Ð¢ÐžÐ¡ Â«Ð’Ð¾Ð´Ð½Ð¸ÐºÐ¸Â» & ÑÐ¾ÑÐµÐ´Ð¸'}});
+  assert.match(rendered,/href="tel:\+79197061393"/);
+  assert.match(rendered,/href="mailto:vshivkova\.anna@bk\.ru"/);
+  assert.match(rendered,/>Ð¢ÐžÐ¡ Â«Ð’Ð¾Ð´Ð½Ð¸ÐºÐ¸Â» &amp; ÑÐ¾ÑÐµÐ´Ð¸<\/span>/);
+});
+
