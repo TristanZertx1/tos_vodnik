@@ -135,8 +135,28 @@
     }
   };
 
-  fetch('/api/public/content', { cache: 'no-store' }).then(response => {
-    if (!response.ok) throw new Error('Не удалось загрузить оформление сайта');
-    return response.json();
-  }).then(apply).catch(error => console.warn('[site-layout]', error));
+  let started = false;
+  const loadLayout = () => {
+    if (started) return;
+    started = true;
+    fetch('/api/public/content?fresh=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/json' } }).then(response => {
+      if (!response.ok) throw new Error('Не удалось загрузить оформление сайта');
+      return response.json();
+    }).then(apply).catch(error => console.warn('[site-layout]', error));
+  };
+  if (document.documentElement.dataset.siteContentReady === 'true') {
+    loadLayout();
+  } else {
+    const observer = new MutationObserver(() => {
+      if (document.documentElement.dataset.siteContentReady === 'true') {
+        observer.disconnect();
+        loadLayout();
+      }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-site-content-ready'] });
+    setTimeout(() => {
+      observer.disconnect();
+      loadLayout();
+    }, 8000);
+  }
 })();

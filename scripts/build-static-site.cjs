@@ -19,7 +19,7 @@ const end = app.indexOf('function applyBuilderText');
 if (start < 0 || end < 0) throw new Error('Не найден рендерер страниц в site-source/app.js');
 const helpersStart = app.indexOf('function applyBuilderFooter');
 if (helpersStart < 0) throw new Error('Не найдены вспомогательные функции рендерера');
-const fetchStart = app.indexOf("\nfetch('", helpersStart);
+const fetchStart = app.indexOf("\nasync function loadPublicContent()", helpersStart);
 const helpersEnd = fetchStart > 0 && fetchStart < start ? fetchStart : start;
 const renderer = app.slice(helpersStart, helpersEnd) + app.slice(start, end);
 const data = JSON.parse(fs.readFileSync(path.join(sourceDir, 'content.json'), 'utf8'));
