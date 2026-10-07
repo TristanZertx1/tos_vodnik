@@ -43,10 +43,17 @@ for (const route of pages) {
   const result = renderPage(route);
   if (!result.html || !result.html.trim()) throw new Error(`Для ${route} получилась пустая страница.`);
   const title = result.title.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-  const html = template
+  let html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/<main id="main">[\s\S]*?<\/main>/, `<main id="main">${result.html}</main>`)
-    .replace(/<script src="\/app\.js\?v=[^"]*"><\/script>/, '<script src="/app.js?v=5"></script>');
+    .replace(/<script src="\/app\.js\?v=[^"]*"><\/script>/, '<script src="/app.js?v=6"></script>');
+  const currentPath = route.replace(/\/$/, '') || '/';
+  html = html.replace(/<nav id="nav"[\s\S]*?<\/nav>/, nav => nav.replace(/<a href="([^"]+)"[^>]*>/g, (tag, href) => {
+    const target = href.replace(/\/$/, '') || '/';
+    const active = target === '/' ? currentPath === '/' : currentPath === target;
+    const cleanTag = tag.replace(/\saria-current="page"/g, '');
+    return active ? cleanTag.replace(/>$/, ' aria-current="page">') : cleanTag;
+  }));
   const dir = route === '/' ? outputDir : path.join(outputDir, route.slice(1));
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);

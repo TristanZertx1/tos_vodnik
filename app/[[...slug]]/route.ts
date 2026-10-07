@@ -149,7 +149,7 @@ export async function GET(request:Request) {
     .replace(/<script src="\/app\.js(?:\?[^\"]*)?"><\/script>/,'')
     .replace('/style.css?v=3','/style.css?v=4')
 ;
-  html=html.replace(/<nav id="nav"[\s\S]*?<\/nav>/,nav=>nav.replace(/<a href="([^"]+)"/g,(tag,href)=>canonical===href||(isNews&&href==='/novosti/')?tag+' aria-current="page"':tag));
+  html=html.replace(/<nav id="nav"[\s\S]*?<\/nav>/,nav=>nav.replace(/<a href="([^"]+)"[^>]*>/g,(tag,href)=>{const target=href.replace(/\/$/,'')||'/';const current=canonical.replace(/\/$/,'')||'/';const active=target==='/'?current==='/':current===target||current.startsWith(target+'/');const cleanTag=tag.replace(/\saria-current="page"/g,'');return active?cleanTag.replace(/>$/,' aria-current="page">'):cleanTag}));
   html=applyEditableText(html,canonical,content.layout);
   if(path==='/content.json')return Response.json(content,{headers:{'Cache-Control':'no-store'}});
   return new Response(html,{status:exists?200:404,headers});

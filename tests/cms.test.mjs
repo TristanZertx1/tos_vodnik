@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { handleCMS, readPublic, validateRecord, validateLayout } from '../lib/cms.ts';
 import { hashPassword } from '../lib/password.mjs';
 import { ensureResearchMaterials } from '../lib/researched-content.ts';
@@ -115,6 +116,16 @@ test('Event registration limits cannot be bypassed by spoofing X-Forwarded-For',
   }
   const blocked=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'192.0.2.200'},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-99',seats:1})}),db,eventId);
   assert.equal(blocked.status,429);
+});
+test('Static pages mark only the current navigation section and refresh the app script',()=>{
+  execFileSync(process.execPath,['scripts/build-static-site.cjs'],{stdio:'ignore'});
+  for(const [page,expected] of [['index.html','/'],['novosti/index.html','/novosti'],['meropriyatiya/index.html','/meropriyatiya'],['o-tos/index.html','/o-tos']]){
+    const html=readFileSync('dist/'+page,'utf8');
+    const nav=html.match(/<nav id="nav"[\s\S]*?<\/nav>/)?.[0]||'';
+    const active=[...nav.matchAll(/<a href="([^"]+)"[^>]*aria-current="page"[^>]*>/g)].map(match=>match[1]);
+    assert.deepEqual(active,[expected],page);
+    assert.match(html,/\/app\.js\?v=6/);
+  }
 });
 test('Site builder validates themes, per-page modules and custom text sections',()=>{
   const baseline={homeOrder:['hero','quick','overview','news','events','projects','join'],homeHidden:[],homeCustom:[],texts:{},footer:{phone:'+7 919 706-13-93',email:'vshivkova.anna@bk.ru',address:'Батумская улица, 20, г. Пермь'},theme:{primary:'#146e62',font:'Georgia',width:'wide',scale:'large',spacing:'relaxed',radius:'round',backgroundMode:'pattern'},modules:{'/o-tos/':{order:['about-heading','custom-abcdef12','about-nav','about-intro','about-directions','about-chairperson','about-clubs','about-participate','about-activity-2025','about-activity-2024','about-faq'],hidden:[]}},pageCustom:{'/o-tos/':[{id:'custom-abcdef12',title:'Новый раздел',body:'Текст раздела'}]}};
