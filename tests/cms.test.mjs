@@ -125,6 +125,7 @@ test('Static pages mark only the current navigation section and refresh the app 
     const active=[...nav.matchAll(/<a href="([^"]+)"[^>]*aria-current="page"[^>]*>/g)].map(match=>match[1]);
     assert.deepEqual(active,[expected],page);
     assert.match(html,/\/app\.js\?v=6/);
+    assert.match(html,/\/site-background\.css\?v=4/);
   }
 });
 test('Site builder validates themes, per-page modules and custom text sections',()=>{
