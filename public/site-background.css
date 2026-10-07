@@ -5,7 +5,7 @@ body {
   background-repeat: repeat !important;
   background-size: 640px 360px !important;
   background-position: 0 var(--pattern-offset, 0px) !important;
-  background-attachment: fixed !important;
+  background-attachment: scroll !important;
 }
 .site-header {
   background-color: rgba(255, 250, 241, .94) !important;
