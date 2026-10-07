@@ -18,3 +18,6 @@
  .site-header .header-actions{flex:0 1 auto;width:auto;margin-left:auto;flex-direction:row;justify-content:flex-end}
  .site-header>.navigation-row{display:flex;flex-direction:column;align-items:stretch;gap:10px}
 }
+
+.site-header .brand-message{display:flex;flex-direction:column;align-items:flex-start;line-height:1.3}
+.site-header .brand-message span{display:block;margin-top:4px;font-size:13px;line-height:1.4}
