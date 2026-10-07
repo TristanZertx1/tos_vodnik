@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tos-vodniki-admin-api",
+  "main": "./cloudflare-admin-api.ts",
+  "compatibility_date": "2026-10-06",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "preview_urls": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tos-vodniki-cms",
+      "database_id": "bb2c958b-b709-41ec-8eed-5fcdf7a40984",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "vars": {
+    "CMS_ALLOWED_ORIGIN": "https://tos-vodnik.onrender.com"
+  }
+}

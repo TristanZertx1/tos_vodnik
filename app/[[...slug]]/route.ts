@@ -4,6 +4,7 @@ import adminPage from '../../site-source/admin.html?raw';
 import { readPublic } from '../../lib/cms';
 import { renderPublic } from '../../lib/public-render';
 import { ensureResearchMaterials } from '../../lib/researched-content';
+import { applyFooterSettings } from '../../lib/footer-render';
 export const dynamic = 'force-dynamic';
 const escape = (s:string) => s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const decodeSegment = (s:string) => { try { return decodeURIComponent(s); } catch { return ''; } };
@@ -93,7 +94,7 @@ function editableMarkup(markup:string, scope:string, saved:Record<string,string>
     if(token.startsWith('<')) {
       const close=token.match(/^<\/([a-zA-Z][\w:-]*)/); const open=token.match(/^<([a-zA-Z][\w:-]*)/);
       if(close) { const name=close[1].toLowerCase(), index=stack.map(x=>x.name).lastIndexOf(name); if(index>=0)stack.splice(index); output+=token; continue; }
-      if(open) { const name=open[1].toLowerCase(), parentSkip=stack.at(-1)?.skip||false, skip=parentSkip||/\bdata-page-text=/.test(token); if(!voidTags.has(name)&&!token.endsWith('/>'))stack.push({name,skip}); }
+      if(open) { const name=open[1].toLowerCase(), parentSkip=stack.at(-1)?.skip||false, skip=parentSkip||/\bdata-page-text=|\bdata-footer-field=/.test(token); if(!voidTags.has(name)&&!token.endsWith('/>'))stack.push({name,skip}); }
       output+=token; continue;
     }
     const parent=stack.at(-1); if(!parent||parent.skip||!token.trim()) { output+=token; continue; }
@@ -112,6 +113,7 @@ function applyEditableText(html:string, path:string, layout:any) {
   const skipStart=before.indexOf('<a class="skip"'), headerEnd=before.indexOf('</header>');
   if(skipStart>=0&&headerEnd>=0) { const end=headerEnd+'</header>'.length; before=before.slice(0,skipStart)+editableMarkup(before.slice(skipStart,end),'shared',shared)+before.slice(end); }
   main=editableMarkup(main,'page',page);
+  after=applyFooterSettings(after,layout);
   const footerStart=after.indexOf('<footer'), footerEnd=after.indexOf('</footer>');
   if(footerStart>=0&&footerEnd>=0) { const end=footerEnd+'</footer>'.length; after=after.slice(0,footerStart)+editableMarkup(after.slice(footerStart,end),'shared',shared)+after.slice(end); }
   return before+main+after;
@@ -132,7 +134,7 @@ export async function GET(request:Request) {
   const rendered=renderPublic(renderData,path);
   let main=rendered.html.replace(/<button class="(active|)" data-category="([^"]+)">([^<]+)<\/button>/g,(_m:string,_active:string,c:string,label:string)=>`<a class="category-link ${(category||'Все')===c?'active':''}" href="/novosti/?category=${encodeURIComponent(c)}">${label}</a>`);
   if(canonical==='/kontakty/') {
-    const c={...content.contacts,phone:content.contacts.phone||'+7 919 706-13-93',email:content.contacts.email||'9977886@mail.ru'}; const details=[c.phone?'<p><b>Телефон:</b> '+escape(c.phone)+'</p>':'',c.email?'<p><b>Электронная почта:</b> '+escape(c.email)+'</p>':'',c.hours?'<p><b>Часы приёма:</b> '+escape(c.hours)+'</p>':''].join('');
+    const savedEmail=content.contacts.email||'';const c={...content.contacts,phone:content.contacts.phone||'+7 919 706-13-93',email:savedEmail&&savedEmail!=='9977886@mail.ru'?savedEmail:'vshivkova.anna@bk.ru'}; const details=[c.phone?'<p><b>Телефон:</b> '+escape(c.phone)+'</p>':'',c.email?'<p><b>Электронная почта:</b> '+escape(c.email)+'</p>':'',c.hours?'<p><b>Часы приёма:</b> '+escape(c.hours)+'</p>':''].join('');
     if(details)main=main.replace('<p>Телефон, электронная почта и часы приёма будут добавлены после подтверждения.</p>',details+(c.source?'<p class="source-note">Телефон и электронная почта приведены в <a href="/report-2024.png" target="_blank" rel="noopener">публичном отчёте за 2024 год</a>. Часы приёма уточняйте перед визитом.</p>':''));
   }
   main=main.replace('<div class="water" aria-hidden="true"></div>','<div class="neighborhood-art" aria-hidden="true"><img src="/neighborhood.svg" width="600" height="500" alt="" fetchpriority="high"></div>');
@@ -142,7 +144,9 @@ export async function GET(request:Request) {
   pageShell=applyTheme(pageShell,content.layout);
   let html=pageShell
     .replace(/<title>[\s\S]*?<\/title>/,'<title>'+escape(rendered.title)+'</title>')
-    .replace('<script src="/app.js"></script>','')
+    // This legacy script requests a missing public API and replaces the page
+    // with an error message. The server already rendered the page and layout.
+    .replace(/<script src="\/app\.js(?:\?[^\"]*)?"><\/script>/,'')
     .replace('/style.css?v=3','/style.css?v=4')
 ;
   html=html.replace(/<nav id="nav"[\s\S]*?<\/nav>/,nav=>nav.replace(/<a href="([^"]+)"/g,(tag,href)=>canonical===href||(isNews&&href==='/novosti/')?tag+' aria-current="page"':tag));

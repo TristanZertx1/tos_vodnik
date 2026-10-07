@@ -81,3 +81,30 @@ function updateContents() {
 let contentsPending = false;
 addEventListener('scroll', () => { if (!contentsPending) { contentsPending = true; requestAnimationFrame(() => { updateContents(); contentsPending = false; }); } }, {passive:true});
 updateContents();
+
+document.addEventListener('submit', async event => {
+  const form = event.target.closest?.('[data-event-registration]');
+  if (!form) return;
+  event.preventDefault();
+  const button = form.querySelector('button[type="submit"]');
+  const status = form.querySelector('.registration-message');
+  if (button) button.disabled = true;
+  if (status) status.textContent = 'Отправляем заявку…';
+  try {
+    const response = await fetch('/api/public/events/' + encodeURIComponent(form.dataset.eventId) + '/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(Object.fromEntries(new FormData(form))) });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || 'Не удалось записаться.');
+    form.hidden = true;
+    const availability = document.querySelectorAll('[data-event-availability="' + CSS.escape(form.dataset.eventId) + '"]');
+    availability.forEach(item => { item.textContent = 'Занято мест: ' + result.registered + '. Свободно: ' + result.available + '.'; });
+    document.querySelectorAll('[data-event-registration][data-event-id="' + CSS.escape(form.dataset.eventId) + '"]').forEach(other => {
+      const select = other.querySelector('[name="seats"]');
+      const submit = other.querySelector('button[type="submit"]');
+      if (select && result.available < 1) { select.disabled = true; if (submit) submit.disabled = true; }
+      else if (select) { [...select.options].forEach(option => { option.disabled = Number(option.value) > result.available; }); if (submit) submit.disabled = false; }
+    });
+  } catch (error) {
+    if (status) status.textContent = error.message || 'Ошибка соединения. Попробуйте ещё раз.';
+    if (button) button.disabled = false;
+  }
+});
