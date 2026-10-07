@@ -27,7 +27,7 @@ const schemas = {
 function message(text, error=false) { $('#message').textContent=text; $('#message').classList.toggle('error',error); }
 function loginView() { user=null; csrf=''; $('#workspace').hidden=true; $('#login-view').hidden=false; }
 async function api(path, method='GET', body) {
-  const response=await fetch('/api/admin/'+path,{method,credentials:'same-origin',headers:{...(body?{'Content-Type':'application/json'}:{}),...(csrf?{'X-CSRF-Token':csrf}:{})},body:body?JSON.stringify(body):undefined});
+  const response=await window.vodnikiApiFetch('/api/admin/'+path,{method,headers:{...(body?{'Content-Type':'application/json'}:{}),...(csrf?{'X-CSRF-Token':csrf}:{})},body:body?JSON.stringify(body):undefined});
   let data;try{data=await response.json()}catch{throw Error('Сервер вернул неожиданный ответ. Обновите страницу или повторите позже.')}
   if(!response.ok){if(response.status===401&&path!=='login')loginView();throw Error(data.error||'Не удалось выполнить действие.')}
   return data;

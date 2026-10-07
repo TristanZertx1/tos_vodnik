@@ -46,7 +46,7 @@ for (const route of pages) {
   const html = template
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/<main id="main">[\s\S]*?<\/main>/, `<main id="main">${result.html}</main>`)
-    .replace(/<script src="\/app\.js\?v=[^"]*"><\/script>/, '<script src="/app.js?v=3"></script>');
+    .replace(/<script src="\/app\.js\?v=[^"]*"><\/script>/, '<script src="/app.js?v=5"></script>');
   const dir = route === '/' ? outputDir : path.join(outputDir, route.slice(1));
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);

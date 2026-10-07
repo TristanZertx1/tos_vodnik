@@ -14,11 +14,12 @@ export async function ensureEventRegistrationTable(db: DB) {
   await db.exec('CREATE INDEX IF NOT EXISTS cms_event_registrations_event_idx ON cms_event_registrations(event_id, status)');
 }
 
-export async function createEventRegistration(request: Request, db: DB, eventId: string, allowedOrigin?: string) {
+export async function createEventRegistration(request: Request, db: DB, eventId: string, allowedOrigin?: string | string[]) {
   const fail = (error: string, status = 400) => Response.json({ error }, { status, headers: { 'Cache-Control': 'no-store' } });
   const origin = new URL(request.url).origin;
   const requestOrigin = request.headers.get('origin');
-  if ((requestOrigin !== origin && requestOrigin !== allowedOrigin) || !request.headers.get('content-type')?.startsWith('application/json')) return fail('Неверный запрос.', 400);
+  const allowedOrigins = Array.isArray(allowedOrigin) ? allowedOrigin : [allowedOrigin];
+  if ((requestOrigin !== origin && !allowedOrigins.includes(requestOrigin || '')) || !request.headers.get('content-type')?.startsWith('application/json')) return fail('Неверный запрос.', 400);
   if (Number(request.headers.get('content-length') || 0) > 4000) return fail('Проверьте размер формы.', 413);
   let input: any;
   try { const text = await request.text(); if (text.length > 4000) return fail('Проверьте размер формы.', 413); input = JSON.parse(text); } catch { return fail('Заполните форму и повторите отправку.'); }

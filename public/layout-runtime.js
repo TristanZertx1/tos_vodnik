@@ -139,7 +139,7 @@
   const loadLayout = () => {
     if (started) return;
     started = true;
-    fetch('/api/public/content?fresh=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/json' } }).then(response => {
+    window.vodnikiApiFetch('/api/public/content?fresh=' + Date.now(), { cache: 'no-store', headers: { Accept: 'application/json' } }).then(response => {
       if (!response.ok) throw new Error('Не удалось загрузить оформление сайта');
       return response.json();
     }).then(apply).catch(error => console.warn('[site-layout]', error));

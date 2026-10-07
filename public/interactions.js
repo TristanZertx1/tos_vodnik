@@ -91,7 +91,7 @@ document.addEventListener('submit', async event => {
   if (button) button.disabled = true;
   if (status) status.textContent = 'Отправляем заявку…';
   try {
-    const response = await fetch('/api/public/events/' + encodeURIComponent(form.dataset.eventId) + '/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(Object.fromEntries(new FormData(form))) });
+    const response = await window.vodnikiApiFetch('/api/public/events/' + encodeURIComponent(form.dataset.eventId) + '/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(Object.fromEntries(new FormData(form))) });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Не удалось записаться.');
     form.hidden = true;

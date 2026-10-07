@@ -162,7 +162,7 @@ export function validateLayout(input: any) {
   if(footer.phone&&!/^\+?[0-9\s().-]{5,24}$/.test(footer.phone))fail('Проверьте телефон в подвале.');
   return { homeOrder: order, homeHidden: [...new Set(hidden)], homeCustom: custom, pageCustom, texts, footer, theme: { ...theme, font: themeSource.font || 'Nunito', width: themeSource.width || 'standard', scale: themeSource.scale || 'standard', spacing: themeSource.spacing || 'standard', backgroundMode: themeSource.backgroundMode || 'plain', radius: themeSource.radius || 'soft' }, modules: normalizedModules };
 }
-export async function handleCMS(request: Request, db: DB, adminHash?: string, allowedOrigin?: string) {
+export async function handleCMS(request: Request, db: DB, adminHash?: string, allowedOrigin?: string | string[]) {
   try {
     // CMS sessions use the panel's own username/password and do not depend on
     // the hosting platform's visitor-authentication headers.
@@ -171,7 +171,8 @@ export async function handleCMS(request: Request, db: DB, adminHash?: string, al
     const write = !['GET','HEAD'].includes(request.method);
     const requestOrigin = new URL(request.url).origin;
     const requestHeaderOrigin = request.headers.get('origin');
-    if (write && requestHeaderOrigin !== requestOrigin && requestHeaderOrigin !== allowedOrigin) fail('Запрос с другого сайта запрещён.', 403);
+    const allowedOrigins = Array.isArray(allowedOrigin) ? allowedOrigin : [allowedOrigin];
+    if (write && requestHeaderOrigin !== requestOrigin && !allowedOrigins.includes(requestHeaderOrigin || '')) fail('Запрос с другого сайта запрещён.', 403);
     if (adminHash) await syncAdminBootstrapPassword(db, adminHash);
     if (path === 'login' && request.method === 'POST') {
       const input = await body(request);
@@ -185,7 +186,7 @@ export async function handleCMS(request: Request, db: DB, adminHash?: string, al
       if (!user || !user.enabled || !verified) fail('Неверный логин или пароль.', 401);
       const token = randomToken(); const csrf = randomToken();
       await db.batch([db.prepare('DELETE FROM cms_sessions WHERE expires <= ?').bind(now()), db.prepare('INSERT INTO cms_sessions (token,user_id,visitor,csrf,expires) VALUES (?,?,?,?,?)').bind(await sha256(token), user.id, visitor, csrf, now()+28800), db.prepare('DELETE FROM cms_attempts WHERE key = ?').bind(key)]);
-      return json({ user: { username:user.username, role:user.role }, csrf }, 200, { 'Set-Cookie': `${cookieName}=${token}; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=28800` });
+      return json({ user: { username:user.username, role:user.role }, csrf }, 200, { 'Set-Cookie': `${cookieName}=${token}; Path=/; Secure; HttpOnly; SameSite=None; Partitioned; Max-Age=28800` });
     }
     const cookie = request.headers.get('cookie')?.split(';').map(s=>s.trim()).find(s=>s.startsWith(cookieName+'='))?.slice(cookieName.length+1);
     if (!cookie || !/^[a-f0-9]{64}$/.test(cookie)) fail('Войдите в панель администратора.', 401);
@@ -194,7 +195,7 @@ export async function handleCMS(request: Request, db: DB, adminHash?: string, al
     if (write && request.headers.get('x-csrf-token') !== session.csrf) fail('Обновите страницу панели и повторите действие.', 403);
     const admin = () => { if (session.role !== 'admin') fail('Это действие доступно только администратору.', 403); };
     if (path === 'me' && request.method === 'GET') return json({ user:{ username:session.username, role:session.role }, csrf:session.csrf });
-    if (path === 'logout' && request.method === 'POST') { await db.prepare('DELETE FROM cms_sessions WHERE token=?').bind(session.token).run(); return json({ok:true},200,{'Set-Cookie':`${cookieName}=; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=0`}); }
+    if (path === 'logout' && request.method === 'POST') { await db.prepare('DELETE FROM cms_sessions WHERE token=?').bind(session.token).run(); return json({ok:true},200,{'Set-Cookie':`${cookieName}=; Path=/; Secure; HttpOnly; SameSite=None; Partitioned; Max-Age=0`}); }
     if (path === 'password' && request.method === 'POST') {
       const input = await body(request); const user = await db.prepare('SELECT password FROM cms_users WHERE id=?').bind(session.id).first<any>();
       if (!validPassword(input.password) || !await verifyPassword(input.currentPassword || '', user.password)) fail('Проверьте текущий пароль. Новый пароль — от 10 символов.');
