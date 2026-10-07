@@ -13,7 +13,7 @@ siteNav?.addEventListener('click', event => {
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const vision = document.querySelector('#vision');
 const hero = document.querySelector('.hero-inner');
-const heroArt = document.querySelector('.neighborhood-art');
+const heroArt = document.querySelector('.hero .water, .neighborhood-art');
 const toTop = document.querySelector('.back-to-top');
 const motionEnabled = () => !reducedMotion.matches && !vision?.checked;
 let pending = false;
@@ -25,7 +25,6 @@ function updateScroll() {
   toTop?.classList.toggle('is-visible', scrollY > 350);
   hero?.style.setProperty('--hero-offset', motionEnabled() ? Math.min(scrollY * .08, 35) + 'px' : '0px');
   heroArt?.style.setProperty('--art-offset', motionEnabled() ? -Math.min(scrollY * .09, 48) + 'px' : '0px');
-  document.body.style.setProperty('--pattern-offset', motionEnabled() ? -Math.min(scrollY * .11, 90) + 'px' : '0px');
   pending = false;
 }
 addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(updateScroll); } }, { passive: true });
