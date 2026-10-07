@@ -21,6 +21,8 @@ export const researchedRecords = [
 ];
 // One-time import: editing, unpublishing and deleting remain under CMS control.
 export async function ensureResearchMaterials(db:D1Database) {
+  // Keep public content loading independent of whether Wrangler migrations were applied.
+  await db.exec('CREATE TABLE IF NOT EXISTS cms_imports (id TEXT PRIMARY KEY NOT NULL, imported_at INTEGER NOT NULL)');
   const id='public-sources-2026-10-05';
   if(await db.prepare('SELECT id FROM cms_imports WHERE id=?').bind(id).first())return;
   const statements=researchedRecords.map(r=>db.prepare('INSERT OR IGNORE INTO cms_records (id,kind,data,published,revision,updated_at,updated_by) SELECT ?,?,?,1,1,?,? WHERE NOT EXISTS (SELECT 1 FROM cms_imports WHERE id=?)').bind(r.id,r.kind,JSON.stringify(r.data),1791190800,'public-sources',id));
