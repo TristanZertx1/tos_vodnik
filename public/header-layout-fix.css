@@ -1,0 +1,20 @@
+/* Keep the identity and section navigation on separate rows. The base
+   stylesheet styles every <header> as a flex row, squeezing these sections. */
+.site-header{display:block;width:100%;max-width:none}
+.site-header>.identity-row{display:flex;align-items:center;justify-content:space-between;gap:clamp(20px,3vw,48px);width:100%}
+.site-header>.identity-row>.brand{flex:0 0 auto}
+.site-header .brand-message{flex:1 1 auto;min-width:0;overflow-wrap:normal}
+.site-header .header-actions{flex:0 0 auto;margin-left:auto}
+.site-header>.navigation-row{display:flex;align-items:center;justify-content:center;width:100%}
+.site-header #nav{flex-wrap:wrap;width:100%}
+@media(max-width:1100px){
+ .site-header>.identity-row{flex-wrap:wrap;row-gap:16px}
+ .site-header .brand-message{flex:1 1 300px}
+ .site-header .header-actions{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-end;width:auto}
+}
+@media(max-width:760px){
+ .site-header>.identity-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+ .site-header .brand-message{display:none}
+ .site-header .header-actions{flex:0 1 auto;width:auto;margin-left:auto;flex-direction:row;justify-content:flex-end}
+ .site-header>.navigation-row{display:flex;flex-direction:column;align-items:stretch;gap:10px}
+}
