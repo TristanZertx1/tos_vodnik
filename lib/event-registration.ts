@@ -1,16 +1,7 @@
 type DB = D1Database;
 
 export async function ensureEventRegistrationTable(db: DB) {
-  await db.exec(`CREATE TABLE IF NOT EXISTS cms_event_registrations (
-    id TEXT PRIMARY KEY NOT NULL,
-    event_id TEXT NOT NULL,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    seats INTEGER NOT NULL DEFAULT 1,
-    status TEXT NOT NULL DEFAULT 'confirmed',
-    created_at INTEGER NOT NULL,
-    UNIQUE(event_id, phone)
-  )`);
+  await db.prepare("CREATE TABLE IF NOT EXISTS cms_event_registrations (id TEXT PRIMARY KEY NOT NULL, event_id TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, seats INTEGER NOT NULL DEFAULT 1, status TEXT NOT NULL DEFAULT 'confirmed', created_at INTEGER NOT NULL, UNIQUE(event_id, phone))").run();
   await db.exec('CREATE INDEX IF NOT EXISTS cms_event_registrations_event_idx ON cms_event_registrations(event_id, status)');
 }
 
