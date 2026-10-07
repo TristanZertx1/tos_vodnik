@@ -1,15 +1,15 @@
 /* Повторяющийся фирменный фон. Конструктор может отключить или заменить узор. */
 body {
   background-color: var(--site-background, var(--vodniki-cream, #fffaf1)) !important;
-  background-image: linear-gradient(rgba(255,250,241,.76),rgba(255,250,241,.76)), var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
+  background-image: var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
   background-repeat: repeat !important;
-  background-size: auto, 1280px 720px !important;
+  background-size: 640px 360px !important;
   background-position: 0 var(--pattern-offset, 0px) !important;
   background-attachment: scroll !important;
 }
 .site-header {
-  background-color: rgba(255, 250, 241, .90) !important;
-  background-image: linear-gradient(rgba(255,250,241,.90),rgba(255,250,241,.90)), var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
+  background-color: rgba(255, 250, 241, .94) !important;
+  background-image: var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
   background-repeat: repeat !important;
   background-position: 0 var(--pattern-offset, 0px) !important;
 }
@@ -26,7 +26,7 @@ footer {
 @media (max-width: 700px) {
   body,
   .site-header {
-    background-size: auto, 760px 428px !important;
+    background-size: 420px 236px !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {

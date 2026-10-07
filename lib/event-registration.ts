@@ -22,7 +22,12 @@ export async function createEventRegistration(request: Request, db: DB, eventId:
   const seats = Number(input.seats);
   if (!/^[\p{L}][\p{L} .'-]{1,98}$/u.test(name) || digits.length < 10 || digits.length > 15 || !Number.isInteger(seats) || seats < 1 || seats > 5) return fail('Проверьте имя, телефон и количество мест.');
   await ensureEventRegistrationTable(db);
-  const key = `event-register:${eventId}:${await (async()=>{const data=new TextEncoder().encode(request.headers.get('cf-connecting-ip')||request.headers.get('x-forwarded-for')||'unknown');const digest=await crypto.subtle.digest('SHA-256',data);return [...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('')})()}`;
+  // Cloudflare sets this header at the edge. X-Forwarded-For is client-controlled
+  // and must not be used for a security decision such as rate limiting.
+  const clientIp = request.headers.get('cf-connecting-ip') || 'unknown';
+  const ipDigest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(clientIp));
+  const ipHash = [...new Uint8Array(ipDigest)].map(value => value.toString(16).padStart(2, '0')).join('');
+  const key = `event-register:${eventId}:${ipHash}`;
   const attempts = await db.prepare('SELECT count, reset_at FROM cms_attempts WHERE key=?').bind(key).first<any>();
   if (attempts && attempts.reset_at > Date.now()/1000 && attempts.count >= 8) return fail('Слишком много заявок с этого подключения. Попробуйте позже.', 429);
   const now = Math.floor(Date.now()/1000);

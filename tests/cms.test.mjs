@@ -107,6 +107,15 @@ test('Invalid materials and rate limits',async()=>{
   for(let i=0;i<10;i++)assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'wrong'}),db,hash)).status,401);
   assert.equal((await handleCMS(request('login','POST',{username:'admin',password:'test-password'}),db,hash)).status,429);
 });
+test('Event registration limits cannot be bypassed by spoofing X-Forwarded-For',async()=>{
+  const db=database(),eventId='nonexistent-event-for-rate-limit';
+  for(let i=0;i<8;i++){
+    const response=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'198.51.100.'+(i+1)},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-'+String(i+10),seats:1})}),db,eventId);
+    assert.equal(response.status,409);
+  }
+  const blocked=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'192.0.2.200'},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-99',seats:1})}),db,eventId);
+  assert.equal(blocked.status,429);
+});
 test('Site builder validates themes, per-page modules and custom text sections',()=>{
   const baseline={homeOrder:['hero','quick','overview','news','events','projects','join'],homeHidden:[],homeCustom:[],texts:{},footer:{phone:'+7 919 706-13-93',email:'vshivkova.anna@bk.ru',address:'Батумская улица, 20, г. Пермь'},theme:{primary:'#146e62',font:'Georgia',width:'wide',scale:'large',spacing:'relaxed',radius:'round',backgroundMode:'pattern'},modules:{'/o-tos/':{order:['about-heading','custom-abcdef12','about-nav','about-intro','about-directions','about-chairperson','about-clubs','about-participate','about-activity-2025','about-activity-2024','about-faq'],hidden:[]}},pageCustom:{'/o-tos/':[{id:'custom-abcdef12',title:'Новый раздел',body:'Текст раздела'}]}};
   const layout=validateLayout(baseline);
