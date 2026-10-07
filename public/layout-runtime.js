@@ -39,7 +39,7 @@
     root.style.setProperty('--site-scale', ({ compact: '.92', standard: '1', large: '1.2' })[theme.scale] || '1');
     root.style.setProperty('--site-spacing', ({ compact: '.78', standard: '1', relaxed: '1.2' })[theme.spacing] || '1');
     root.style.setProperty('--site-radius', ({ soft: '12px', round: '24px', square: '3px' })[theme.radius] || '12px');
-    root.style.setProperty('--site-pattern', theme.backgroundMode === 'pattern' ? "url('/vodniki-pattern.png')" : 'none');
+    root.style.setProperty('--site-pattern', theme.backgroundMode === 'pattern' ? "url('/vodniki-pattern-v2.png')" : 'none');
 
     const sharedBlocks = layout.texts?.__shared?.blocks || {};
     for (const [id, value] of Object.entries(sharedBlocks)) {

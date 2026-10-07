@@ -36,7 +36,7 @@ function applyTheme(html:string, layout:any) {
   const scales:Record<string,string>={compact:'.92',standard:'1',large:'1.12'};if(scales[theme.scale])vars['--site-scale']=scales[theme.scale];
   const spaces:Record<string,string>={compact:'.8',standard:'1',relaxed:'1.22'};if(spaces[theme.spacing])vars['--site-spacing']=spaces[theme.spacing];
   const radii:Record<string,string>={soft:'12px',round:'24px',square:'3px'};if(radii[theme.radius])vars['--site-radius']=radii[theme.radius];
-  vars['--site-pattern']=theme.backgroundMode==='pattern'?'url("/vodniki-pattern.png")':'none';
+  vars['--site-pattern']=theme.backgroundMode==='pattern'?'url("/vodniki-pattern-v2.png")':'none';
   if(!Object.keys(vars).length)return html;const style='<style id="site-builder-theme">:root{'+Object.entries(vars).map(([k,v])=>k+':'+v).join(';')+'}</style>';return html.replace('</head>',style+'</head>');
 }
 function applyPageModules(html:string,path:string,layout:any) {

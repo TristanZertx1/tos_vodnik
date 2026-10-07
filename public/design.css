@@ -62,7 +62,7 @@ body,body *{font-family:'Nunito',Arial,sans-serif!important}
 /* Мягкий повторяющийся орнамент на всём сайте */
 body{
   background-color:#fffaf1;
-  background-image:linear-gradient(rgba(255,250,241,.92),rgba(255,250,241,.92)),url('/vodniki-pattern.png');
+  background-image:linear-gradient(rgba(255,250,241,.92),rgba(255,250,241,.92)),url('/vodniki-pattern-v2.png');
   background-size:auto,1280px 720px;
   background-repeat:repeat,repeat;
   background-position:center top,center top;
