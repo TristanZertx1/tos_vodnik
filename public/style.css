@@ -151,3 +151,33 @@ document.querySelector('.menu').onclick=()=>{const n=document.querySelector('nav
  .feed-card,.feed-filter,.feed-read-more span{transition:none!important}
  .feed-card:hover,.feed-filter:hover{transform:none}
 }
+
+/* Feed redesign refinements */
+.feed-page--news .feed--news>.feed-card:first-child:not(:has(.publication-gallery)){grid-template-columns:minmax(0,1fr);min-height:260px;background:linear-gradient(120deg,#edf4e7 0%,#fbfaf5 62%,#fff2e3 100%)}
+.feed-page--news .feed--news>.feed-card:first-child:not(:has(.publication-gallery)) .feed-card-content{grid-column:1/-1;grid-row:1;padding:clamp(28px,5vw,58px)}
+.feed-page--news .feed--news>.feed-card:first-child:not(:has(.publication-gallery)) .feed-card-content:before{content:"НОВОЕ В МИКРОРАЙОНЕ";display:block;margin-bottom:12px;color:#24715b;font-size:11px;font-weight:800;letter-spacing:.14em}
+.feed-page--news .feed-card{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.feed-page--news .feed-card:hover{transform:translateY(-4px);border-color:#c3d7c4;box-shadow:0 18px 42px rgba(36,77,64,.09)}
+.feed-page--news .feed-filters{padding-bottom:5px}
+.feed-page--news .feed-filter:focus-visible,.feed-page--news .feed-search:focus-within,.feed--news .feed-card a:focus-visible,.feed-page--events .text-link:focus-visible,.feed-page--events .button:focus-visible{outline:3px solid #f2a668;outline-offset:3px}
+.feed-page--events .event-overview{position:relative;overflow:hidden}
+.feed-page--events .event-overview:after{content:"";position:absolute;right:-45px;top:-92px;width:230px;height:230px;border:1px solid rgba(39,101,77,.14);border-radius:50%;box-shadow:0 0 0 24px rgba(39,101,77,.035),0 0 0 48px rgba(39,101,77,.025);pointer-events:none}
+.feed-page--events .event-overview>*{position:relative;z-index:1}
+.feed-page--events .feed-card{overflow:hidden;border-color:#d8e2d3;box-shadow:0 6px 20px rgba(36,77,64,.035)}
+.feed-page--events .feed-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(36,77,64,.10)}
+.feed-page--events .event-date-badge{position:relative}
+.feed-page--events .event-date-badge:after{content:"";position:absolute;top:0;right:0;width:4px;height:100%;background:#f2a668;opacity:.78}
+.feed-page--events .event-signup{box-shadow:inset 3px 0 #dce9d6}
+.feed-page--events .event-group--archive .feed-card{background:#f8f8f3}
+.feed-page--events .event-group--archive .event-date-badge{background:#e9ece5;color:#67736b}
+.feed-page--events .feed-archive-empty{padding:24px;border:1px dashed #cad8ca;border-radius:16px;background:rgba(255,255,255,.55);color:#63756b}
+@media(max-width:700px){
+ .feed-page--news .feed--news>.feed-card:first-child:not(:has(.publication-gallery)){min-height:0}
+ .feed-page--news .feed--news>.feed-card:first-child:not(:has(.publication-gallery)) .feed-card-content{padding:24px}
+ .feed-page--events .event-overview{align-items:flex-start;flex-wrap:wrap;padding:18px}
+ .feed-page--events .event-overview>div{min-width:calc(100% - 70px)}
+ .feed-page--events .event-overview .text-link{margin-left:62px}
+ .feed-page--events .event-overview:after{right:-130px}
+}
+
+@media(prefers-reduced-motion:reduce){.feed-page--news .feed-card,.feed-page--events .feed-card{transition:none!important}.feed-page--news .feed-card:hover,.feed-page--events .feed-card:hover{transform:none}}
