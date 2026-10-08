@@ -36,3 +36,38 @@ footer {
     background-attachment: scroll !important;
   }
 }
+
+/* Site-wide interactive motion and tactile feedback */
+.site-header nav a{position:relative;isolation:isolate;transition:color .22s ease,background-color .22s ease,transform .22s ease}
+.site-header nav a:before{content:"";position:absolute;left:18px;right:18px;bottom:7px;height:2px;border-radius:2px;background:#f2a668;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.site-header nav a:hover:before,.site-header nav a[aria-current="page"]:before{transform:scaleX(1)}
+.site-header nav a:hover{transform:translateY(-2px)}
+.site-header nav a[aria-current="page"]{box-shadow:0 7px 18px rgba(39,101,77,.13)}
+.button,.header-contact,.menu,.back-to-top,.quick>a{transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s ease,background-color .22s ease}
+.button:hover,.header-contact:hover,.back-to-top:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(36,77,64,.15)}
+.button:active,.header-contact:active,.menu:active,.back-to-top:active{transform:scale(.97)}
+.button span,.quick b{display:inline-block;transition:transform .22s ease}
+.button:hover span,.quick>a:hover b{transform:translateX(5px)}
+.site-tilt-active{transform:perspective(900px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)) translateY(-5px)!important;box-shadow:0 18px 38px rgba(36,77,64,.12)!important}
+.overview-card,.quick>a,.card:not(.feed-card){transform-style:preserve-3d;will-change:transform}
+.hero .neighborhood-art img{translate:var(--pointer-x,0px) var(--pointer-y,0px);transition:translate .28s ease-out}
+.hero .water{transition:transform .2s ease-out}
+.back-to-top{opacity:0;visibility:hidden;translate:0 12px;transition:opacity .22s ease,visibility .22s ease,translate .22s ease,transform .22s ease}
+.back-to-top.is-visible{opacity:1;visibility:visible;translate:0 0}
+.back-to-top:hover{rotate:-8deg}
+.site-header.has-scrolled{backdrop-filter:blur(12px)}
+@media(hover:none){
+ .site-header nav a:hover,.button:hover,.header-contact:hover,.quick>a:hover{transform:none;box-shadow:none}
+ .site-header nav a:hover:before{transform:scaleX(0)}
+}
+@media(prefers-reduced-motion:reduce){
+ .site-header nav a,.button,.header-contact,.menu,.back-to-top,.quick>a,.button span,.quick b,.hero .neighborhood-art img,.hero .water{transition:none!important;translate:none!important;rotate:none!important}
+ .site-header nav a:hover,.button:hover,.header-contact:hover,.back-to-top:hover,.site-tilt-active{transform:none!important;box-shadow:none!important}
+ .site-header nav a:before{transition:none!important}
+}
+
+html:has(#vision:checked) .site-header nav a,
+html:has(#vision:checked) .button,
+html:has(#vision:checked) .header-contact,
+html:has(#vision:checked) .quick>a{transition:none!important;transform:none!important;box-shadow:none!important}
+html:has(#vision:checked) .hero .neighborhood-art img{translate:none!important;transition:none!important}
