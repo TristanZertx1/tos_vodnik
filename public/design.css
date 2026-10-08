@@ -169,3 +169,6 @@ html.builder-edit-mode [data-site-text]:hover,html.builder-edit-mode [data-page-
 }
 :is(.vision,html:has(#vision:checked)) .event-signup{padding:24px}
 :is(.vision,html:has(#vision:checked)) .event-registration-form input,:is(.vision,html:has(#vision:checked)) .event-registration-form select{height:auto;min-height:58px}
+
+/* Homepage slogan accent: remove the decorative underline from its final line. */
+.home-hero h1 em{text-decoration:none!important;text-decoration-line:none!important}
