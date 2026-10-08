@@ -181,3 +181,40 @@ document.querySelector('.menu').onclick=()=>{const n=document.querySelector('nav
 }
 
 @media(prefers-reduced-motion:reduce){.feed-page--news .feed-card,.feed-page--events .feed-card{transition:none!important}.feed-page--news .feed-card:hover,.feed-page--events .feed-card:hover{transform:none}}
+
+/* Subtle motion for editorial feeds */
+@keyframes feedFloat{0%,100%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(-12px,10px,0) rotate(4deg)}}
+@keyframes feedPulse{0%,100%{box-shadow:0 0 0 0 rgba(242,166,104,.34)}50%{box-shadow:0 0 0 8px rgba(242,166,104,0)}}
+@keyframes feedReveal{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.feed-page--news .feed--news>.feed-card:first-child{position:relative}
+.feed-page--news .feed--news>.feed-card:first-child .feed-card-content:before{content:"";display:inline-block;width:8px;height:8px;margin:0 0 0 0;border-radius:50%;background:#f2a668;animation:feedPulse 2.4s ease-in-out infinite}
+.feed-page--news .feed--news>.feed-card:first-child .feed-card-content:after{content:"СВЕЖАЯ ПУБЛИКАЦИЯ";display:block;position:absolute;top:24px;right:28px;color:#668074;font-size:10px;font-weight:800;letter-spacing:.13em}
+.feed-page--news .publication-gallery img,.feed-page--events .publication-gallery img{transition:transform .65s cubic-bezier(.2,.7,.2,1),filter .4s ease}
+.feed-page--news .feed-card:hover .publication-gallery img,.feed-page--events .feed-card:hover .publication-gallery img{transform:scale(1.045);filter:saturate(1.06)}
+.feed-page--news .feed-filter{transition:transform .18s ease,background-color .18s ease,color .18s ease,box-shadow .18s ease}
+.feed-page--news .feed-filter:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(36,77,64,.09)}
+.feed-page--news .feed-filter.active{box-shadow:0 5px 14px rgba(39,101,77,.18)}
+.feed-page--events .event-overview:after{animation:feedFloat 9s ease-in-out infinite}
+.feed-page--events .event-overview-mark{transition:transform .25s ease}
+.feed-page--events .event-overview:hover .event-overview-mark{transform:rotate(-4deg) scale(1.04)}
+.feed-page--events .feed-card:hover .event-date-badge span{transform:translateY(-3px);transition:transform .25s ease}
+.feed-page--events .event-date-badge span{transition:transform .25s ease}
+.feed-page--events .event-signup .button{transition:transform .2s ease,box-shadow .2s ease}
+.feed-page--events .event-signup .button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(39,101,77,.2)}
+.feed-page--news .feed-card,.feed-page--events .feed-card{animation:feedReveal .55s both;animation-delay:calc(var(--feed-order,0)*70ms)}
+.feed-page--news .feed-card:nth-child(2),.feed-page--events .feed-card:nth-child(2){--feed-order:1}
+.feed-page--news .feed-card:nth-child(3),.feed-page--events .feed-card:nth-child(3){--feed-order:2}
+.feed-page--news .feed-card:nth-child(4),.feed-page--events .feed-card:nth-child(4){--feed-order:3}
+@supports(animation-timeline:view()){
+ .feed-page--news .feed-card,.feed-page--events .feed-card{animation:feedReveal linear both;animation-timeline:view();animation-range:entry 0% entry 32%;animation-delay:0ms}
+}
+@media(prefers-reduced-motion:reduce){
+ .feed-page--news .feed-card,.feed-page--events .feed-card{animation:none!important;transition:none!important}
+ .feed-page--news .feed--news>.feed-card:first-child .feed-card-content:before,.feed-page--events .event-overview:after{animation:none!important}
+ .feed-page--news .feed-card:hover,.feed-page--events .feed-card:hover,.feed-page--events .event-signup .button:hover{transform:none!important}
+ .feed-page--news .publication-gallery img,.feed-page--events .publication-gallery img{transition:none!important}
+}
+@media(hover:none){
+ .feed-page--news .feed-card:hover,.feed-page--events .feed-card:hover{transform:none}
+ .feed-page--news .feed-card:hover .publication-gallery img,.feed-page--events .feed-card:hover .publication-gallery img{transform:none}
+}
