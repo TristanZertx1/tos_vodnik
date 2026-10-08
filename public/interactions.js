@@ -30,7 +30,7 @@ function updateScroll() {
 addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(updateScroll); } }, { passive: true });
 addEventListener('resize', updateScroll);
 updateScroll();
-const stopMotion = () => { if (reducedMotion.matches || vision?.checked) { for (const animation of animated) animation.cancel(); animated.clear(); } updateScroll(); };
+const stopMotion = () => { if (reducedMotion.matches || vision?.checked) { for (const animation of animated) animation.cancel(); animated.clear(); document.querySelectorAll('.site-tilt-active').forEach(element => element.classList.remove('site-tilt-active')); document.querySelector('.neighborhood-art img')?.style.setProperty('--pointer-x','0px'); document.querySelector('.neighborhood-art img')?.style.setProperty('--pointer-y','0px'); } updateScroll(); };
 vision?.addEventListener('change', stopMotion);
 reducedMotion.addEventListener('change', stopMotion);
 if ('IntersectionObserver' in window && 'animate' in Element.prototype) {
@@ -107,3 +107,40 @@ document.addEventListener('submit', async event => {
     if (button) button.disabled = false;
   }
 });
+
+
+// Small pointer-driven interactions for desktop; these remain inert on touch and
+// whenever either accessibility motion preference asks us to stop.
+const pointerFine = matchMedia('(hover: hover) and (pointer: fine)');
+if (pointerFine.matches) {
+  const tiltTargets = document.querySelectorAll('main .card:not(.feed-card), main .overview-card, main .quick > a');
+  for (const target of tiltTargets) {
+    target.addEventListener('pointermove', event => {
+      if (!motionEnabled()) return;
+      const box = target.getBoundingClientRect();
+      const x = (event.clientX - box.left) / box.width - .5;
+      const y = (event.clientY - box.top) / box.height - .5;
+      target.style.setProperty('--tilt-x', (-y * 3.2).toFixed(2) + 'deg');
+      target.style.setProperty('--tilt-y', (x * 3.2).toFixed(2) + 'deg');
+      target.classList.add('site-tilt-active');
+    });
+    target.addEventListener('pointerleave', () => {
+      target.classList.remove('site-tilt-active');
+      target.style.removeProperty('--tilt-x');
+      target.style.removeProperty('--tilt-y');
+    });
+  }
+
+  const scene = document.querySelector('.hero');
+  const illustration = scene?.querySelector('.neighborhood-art img');
+  scene?.addEventListener('pointermove', event => {
+    if (!illustration || !motionEnabled()) return;
+    const box = scene.getBoundingClientRect();
+    illustration.style.setProperty('--pointer-x', (((event.clientX - box.left) / box.width - .5) * 10).toFixed(1) + 'px');
+    illustration.style.setProperty('--pointer-y', (((event.clientY - box.top) / box.height - .5) * 8).toFixed(1) + 'px');
+  });
+  scene?.addEventListener('pointerleave', () => {
+    illustration?.style.setProperty('--pointer-x', '0px');
+    illustration?.style.setProperty('--pointer-y', '0px');
+  });
+}
