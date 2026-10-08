@@ -42,4 +42,4 @@ function applyBuilderText(layout,path){
  const targets=content.querySelectorAll('h2,h3,h4,p,li,summary,.eyebrow,.number,.meta');let index=0;
  for(const target of targets){if(target===title||target===lead||target.closest('a,button,[data-page-text]'))continue;const key=target.dataset.siteText||`t-${token}-${index}`;index++;target.dataset.siteText=key;target.dataset.textScope='page';const value=state.blocks?.[key];if(typeof value==='string')target.textContent=value}
 }
-document.querySelector('.menu').onclick=()=>{const n=document.querySelector('nav'),open=n.classList.toggle('open');document.querySelector('.menu').setAttribute('aria-expanded',open)};
+
