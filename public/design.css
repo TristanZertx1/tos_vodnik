@@ -135,3 +135,37 @@ html.builder-edit-mode [data-site-text]:hover,html.builder-edit-mode [data-page-
 .site-header .brand-message{display:flex;flex-direction:column;align-items:flex-start;line-height:1.3}
 .site-header .brand-message span{display:block;margin-top:4px;font-size:13px;line-height:1.4}
 .hero .water{transform:translate3d(0,var(--art-offset,0px),0) rotate(-15deg);will-change:transform}
+
+/* Event sign-up: stacked labels and full-width controls prevent wrapping/overlap. */
+.event-signup{
+  box-sizing:border-box;width:100%;max-width:100%;min-width:0;margin:24px 0 0;
+  padding:22px 24px;border:1px solid rgba(39,101,77,.14);border-radius:22px;
+  background:rgba(255,253,248,.82);
+}
+.event-signup *{box-sizing:border-box}
+.event-signup .event-availability{margin:0 0 18px;padding:13px 16px;border-radius:14px;background:#f0f5e9;color:#315f4b;font-weight:700;font-size:16px;line-height:1.55}
+.event-registration-form{display:grid;grid-template-columns:minmax(0,1fr);gap:15px;width:100%;max-width:100%;min-width:0;margin:0}
+.event-registration-form label{display:grid;grid-template-columns:minmax(0,1fr);gap:7px;width:100%;min-width:0;margin:0;color:#244d40;font-size:16px;font-weight:700;line-height:1.45}
+.event-registration-form input,.event-registration-form select{
+  display:block;width:100%;max-width:100%;min-width:0;height:50px;margin:0;padding:0 14px;
+  border:1px solid #b8cbb6;border-radius:12px;background:#fff;color:#244d40;
+  font:inherit;font-size:16px;line-height:1.3;box-shadow:0 2px 7px rgba(36,77,64,.04)
+}
+.event-registration-form select{cursor:pointer}
+.event-registration-form input::placeholder{color:#718579;opacity:1}
+.event-registration-form input:focus,.event-registration-form select:focus{outline:3px solid rgba(39,101,77,.2);border-color:#27654d}
+.event-registration-form .registration-privacy{margin:0;color:#617367;font-size:14px;line-height:1.55}
+.event-registration-form .button{justify-self:start;min-width:160px;min-height:52px}
+.event-registration-form .button:disabled{opacity:.68;cursor:wait;box-shadow:none}
+.event-registration-form .registration-message{min-height:0;margin:0;font-size:15px;line-height:1.5}
+.event-registration-form .registration-message:not(:empty){padding:12px 14px;border-radius:12px;background:#eef5e9;color:#285a43}
+.event-registration-form .registration-message[data-error="true"]{background:#fff0ed;color:#8b3028}
+.event-signup .event-full{margin:0;padding:14px 16px;border-radius:14px;background:#fff0ed;color:#8b3028;font-weight:700}
+@media(max-width:560px){
+  .event-signup{margin-top:20px;padding:18px 16px;border-radius:18px}
+  .event-registration-form{gap:14px}
+  .event-registration-form input,.event-registration-form select{height:52px;font-size:16px}
+  .event-registration-form .button{width:100%;justify-self:stretch}
+}
+:is(.vision,html:has(#vision:checked)) .event-signup{padding:24px}
+:is(.vision,html:has(#vision:checked)) .event-registration-form input,:is(.vision,html:has(#vision:checked)) .event-registration-form select{height:auto;min-height:58px}
