@@ -46,9 +46,10 @@ async function visit(request: Request, env: Env) {
     if (typeof input.path !== 'string' || input.path.length > 180) return json({ error: 'Неверная страница.' }, 400);
     const path = input.path.split('?')[0].replace(/\/$/, '') || '/';
     if (!trackedPages.has(path)) {
-      const match = /^\/novosti\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(path);
+      const match = /^\/(novosti|meropriyatiya)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(path);
       if (!match) return json({ error: 'Страница не учитывается.' }, 400);
-      const article = await env.DB.prepare("SELECT id FROM cms_records WHERE kind='news' AND published=1 AND json_extract(data,'$.slug')=?").bind(match[1]).first();
+      const kind = match[1] === 'novosti' ? 'news' : 'events';
+      const article = await env.DB.prepare("SELECT id FROM cms_records WHERE kind=? AND published=1 AND (json_extract(data,'$.slug')=? OR id=?)").bind(kind,match[2],match[2]).first();
       if (!article) return json({ error: 'Страница не найдена.' }, 404);
     }
     await ensureAnalyticsTable(env.DB);
