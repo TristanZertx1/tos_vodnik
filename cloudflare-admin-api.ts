@@ -6,6 +6,9 @@ interface Env {
   DB: D1Database;
   CMS_ADMIN_HASH?: string;
   CMS_ALLOWED_ORIGIN?: string;
+  RESEND_API_KEY?: string;
+  NOTIFY_EMAIL?: string;
+  MAIL_FROM?: string;
 }
 
 const trackedPages = new Set([
@@ -105,7 +108,7 @@ export default {
         } else {
           const registration = /^\/api\/public\/events\/([a-z0-9-]{12,40})\/register$/i.exec(pathname);
           if (registration && request.method === 'POST') {
-            response = await createEventRegistration(request, env.DB, registration[1], allowedClientOrigins(env));
+            response = await createEventRegistration(request, env.DB, registration[1], allowedClientOrigins(env), env);
           } else if (pathname === '/api/visit' && request.method === 'POST') {
             response = await visit(request, env);
           } else if (pathname === '/api/admin' || pathname.startsWith('/api/admin/')) {
