@@ -236,3 +236,17 @@ document.querySelector('.menu').onclick=()=>{const n=document.querySelector('nav
 .publication-lightbox button{position:absolute;top:24px;right:24px;border:1px solid rgba(255,255,255,.5);border-radius:50%;width:44px;height:44px;background:rgba(255,255,255,.12);color:#fff;font-size:26px;cursor:pointer}
 @media(max-width:700px){.publication-detail{margin-bottom:38px;border-radius:20px}.publication-detail .publication-gallery{height:64vw;border-radius:20px 20px 0 0}.publication-detail .article-body{font-size:17px}.publication-actions{flex-wrap:wrap}.publication-actions .button{width:auto}}
 @media(prefers-reduced-motion:reduce){.publication-detail .publication-gallery img,.publication-lightbox{transition:none!important}}
+
+/* Strong publication page visual system */
+.publication-detail{position:relative!important;border:1px solid #d5e4d2!important;background:#fffdf7!important}
+.publication-detail:before{content:"";display:block;height:8px;background:linear-gradient(90deg,#27654d 0 54%,#f2a668 54% 72%,#93c8bd 72% 100%)}
+.publication-detail--news:after,.publication-detail--event:after{content:"";position:absolute;right:-120px;top:210px;width:280px;height:280px;border:1px solid rgba(39,101,77,.18);border-radius:50%;box-shadow:0 0 0 24px rgba(39,101,77,.035),0 0 0 48px rgba(39,101,77,.025);pointer-events:none}
+.publication-detail--event{background:linear-gradient(145deg,#fffdf7 0%,#f4f8ed 100%)!important}
+.publication-detail--event .event-signup{background:#27654d!important;color:#fff!important;border:0!important;box-shadow:0 14px 30px rgba(39,101,77,.2)!important}
+.publication-detail--event .event-signup label,.publication-detail--event .event-signup .event-availability,.publication-detail--event .event-signup .registration-privacy{color:#fff!important}
+.publication-detail--event .event-signup input,.publication-detail--event .event-signup select{background:#fff;border:0}
+.publication-detail .article-body{max-width:720px;position:relative;z-index:1}
+.publication-detail h2,.publication-detail h3{color:#244d40}
+.publication-detail .publication-actions{position:relative;z-index:2}
+.publication-detail .publication-actions .button{border-radius:999px}
+@media(max-width:700px){.publication-detail:before{height:6px}.publication-detail--news:after,.publication-detail--event:after{right:-170px;top:260px;width:220px;height:220px}}
