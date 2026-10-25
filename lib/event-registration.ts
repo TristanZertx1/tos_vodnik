@@ -1,11 +1,13 @@
 type DB = D1Database;
 
+type MailEnv = { RESEND_API_KEY?: string; NOTIFY_EMAIL?: string; MAIL_FROM?: string };
+
 export async function ensureEventRegistrationTable(db: DB) {
   await db.prepare("CREATE TABLE IF NOT EXISTS cms_event_registrations (id TEXT PRIMARY KEY NOT NULL, event_id TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, seats INTEGER NOT NULL DEFAULT 1, status TEXT NOT NULL DEFAULT 'confirmed', created_at INTEGER NOT NULL, UNIQUE(event_id, phone))").run();
   await db.exec('CREATE INDEX IF NOT EXISTS cms_event_registrations_event_idx ON cms_event_registrations(event_id, status)');
 }
 
-export async function createEventRegistration(request: Request, db: DB, eventId: string, allowedOrigin?: string | string[]) {
+export async function createEventRegistration(request: Request, db: DB, eventId: string, allowedOrigin?: string | string[], mailEnv?: MailEnv) {
   const fail = (error: string, status = 400) => Response.json({ error }, { status, headers: { 'Cache-Control': 'no-store' } });
   const origin = new URL(request.url).origin;
   const requestOrigin = request.headers.get('origin');
@@ -48,8 +50,14 @@ export async function createEventRegistration(request: Request, db: DB, eventId:
     throw error;
   }
   const row = await db.prepare("SELECT COALESCE(SUM(seats),0) AS registered FROM cms_event_registrations WHERE event_id=? AND status='confirmed'").bind(eventId).first<any>();
-  const event = await db.prepare("SELECT CAST(json_extract(data,'$.capacity') AS INTEGER) AS capacity FROM cms_records WHERE id=? AND kind='events'").bind(eventId).first<any>();
-  return Response.json({ ok:true, registered:Number(row?.registered||0), available:Math.max(0,Number(event?.capacity||0)-Number(row?.registered||0)) }, { status:201, headers:{'Cache-Control':'no-store'} });
+  const event = await db.prepare("SELECT data FROM cms_records WHERE id=? AND kind='events'").bind(eventId).first<any>();
+  const eventData = event?.data ? JSON.parse(event.data) : {};
+  const registered = Number(row?.registered||0), capacity = Number(eventData.capacity||0), available = Math.max(0,capacity-registered);
+  if (mailEnv?.RESEND_API_KEY && mailEnv.NOTIFY_EMAIL) {
+    const mailFrom = mailEnv.MAIL_FROM || 'ТОС «Водники» <onboarding@resend.dev>';
+    try { await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+mailEnv.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:mailFrom,to:[mailEnv.NOTIFY_EMAIL],subject:'Новая запись на мероприятие: '+String(eventData.title||eventId),text:['Новая запись на мероприятие','Мероприятие: '+String(eventData.title||eventId),'Имя: '+name,'Телефон: '+phone,'Количество мест: '+seats,'Всего занято: '+registered+' из '+capacity].join('\\n')})}); } catch { /* registration is already saved */ }
+  }
+  return Response.json({ ok:true, registered, available }, { status:201, headers:{'Cache-Control':'no-store'} });
 }
 
 export async function getEventRegistrations(db: DB, eventId: string) {
