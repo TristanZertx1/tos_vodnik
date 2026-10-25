@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
+Sitemap: https://tos-vodnik.onrender.com/sitemap.xml
