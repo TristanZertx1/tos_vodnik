@@ -144,3 +144,23 @@ if (pointerFine.matches) {
     illustration?.style.setProperty('--pointer-y', '0px');
   });
 }
+
+/* Publication sharing and image viewer */
+function setupPublicationTools(){
+  document.querySelectorAll('[data-share]').forEach(button=>button.addEventListener('click',async()=>{
+    const payload={title:document.title,url:location.href};
+    try{if(navigator.share)await navigator.share(payload);else{await navigator.clipboard.writeText(location.href);button.textContent='Ссылка скопирована ✓';setTimeout(()=>button.textContent='Поделиться ↗',2200)}}catch(error){if(error?.name!=='AbortError')button.textContent='Скопируйте ссылку из адресной строки'}
+  }));
+  const gallery=document.querySelector('.publication-detail .publication-gallery');
+  const image=gallery?.querySelector('img');
+  if(!image)return;
+  const lightbox=document.createElement('div');lightbox.className='publication-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-label','Просмотр изображения');
+  const preview=document.createElement('img');preview.alt=image.alt;
+  const close=document.createElement('button');close.type='button';close.setAttribute('aria-label','Закрыть');close.textContent='×';
+  lightbox.append(preview,close);document.body.append(lightbox);
+  const hide=()=>{lightbox.classList.remove('is-open');preview.removeAttribute('src')};
+  image.addEventListener('click',()=>{preview.src=image.currentSrc||image.src;lightbox.classList.add('is-open');close.focus()});
+  close.addEventListener('click',hide);lightbox.addEventListener('click',event=>{if(event.target===lightbox)hide()});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')hide()});
+}
+setupPublicationTools();
