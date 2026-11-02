@@ -68,6 +68,7 @@ function allowedClientOrigins(env: Env) {
     'http://127.0.0.1:5173',
     'https://tos-vodnik.onrender.com',
     'https://tos-vodniki.onrender.com',
+    'https://tos-vodnik.tos-vodniki-perm.workers.dev',
   ].filter((origin): origin is string => Boolean(origin));
 }
 
