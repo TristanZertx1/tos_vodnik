@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "tos-vodnik",
+  "main": "./site-worker.ts",
+  "compatibility_date": "2026-11-02",
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": {
+    "directory": "./site-source",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  }
+}
