@@ -66,6 +66,8 @@ function allowedClientOrigins(env: Env) {
     allowedOrigin(env),
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'https://tos-vodnik.onrender.com',
+    'https://tos-vodniki.onrender.com',
   ].filter((origin): origin is string => Boolean(origin));
 }
 
