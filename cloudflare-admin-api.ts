@@ -129,3 +129,5 @@ export default {
     return withCors(response, request, env);
   },
 };
+
+// Public Worker origin deployment marker
