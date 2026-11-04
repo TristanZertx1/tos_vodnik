@@ -1,6 +1,8 @@
 (() => {
-  // REG.ru deployment: same-origin API avoids CORS and Cloudflare dependency.
-  const apiBase = new URL('/api/', window.location.origin);
+  // The public site is hosted on REG.ru, while the CMS API runs on Cloudflare.
+  // Keep the API origin explicit so news, events and admin requests do not
+  // silently fall back to a non-existent /api/ directory on the static host.
+  const apiBase = new URL('https://tos-vodniki-admin-api.tos-vodniki-perm.workers.dev');
   window.vodnikiApiFetch = (path, options = {}) => {
     if (typeof path !== 'string' || !path.startsWith('/api/')) return Promise.reject(new TypeError('Недопустимый адрес API.'));
     const url = new URL(path, apiBase);
