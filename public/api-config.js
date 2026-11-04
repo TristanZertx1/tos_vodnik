@@ -1,5 +1,6 @@
 (() => {
-  const apiBase = new URL('https://tos-vodniki-admin-api.tos-vodniki-perm.workers.dev');
+  // REG.ru deployment: same-origin API avoids CORS and Cloudflare dependency.
+  const apiBase = new URL('/api/', window.location.origin);
   window.vodnikiApiFetch = (path, options = {}) => {
     if (typeof path !== 'string' || !path.startsWith('/api/')) return Promise.reject(new TypeError('Недопустимый адрес API.'));
     const url = new URL(path, apiBase);
