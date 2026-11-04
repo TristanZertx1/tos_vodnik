@@ -5,6 +5,11 @@ DirectoryIndex index.html
 # to the application entry point while real assets remain untouched.
 RewriteEngine On
 RewriteBase /
+
+# Serve the editor explicitly; otherwise /admin/ would be swallowed by the
+# SPA fallback and show the public homepage instead of the login screen.
+RewriteRule ^admin/?$ admin.html [L]
+
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
