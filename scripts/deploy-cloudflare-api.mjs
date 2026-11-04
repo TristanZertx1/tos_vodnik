@@ -11,8 +11,8 @@ const binding = config.d1_databases?.find(item => item.binding === 'DB');
 if (!binding || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(binding.database_id) || /^0+$/.test(binding.database_id.replaceAll('-', ''))) {
   throw new Error('Сначала создайте Cloudflare D1 и укажите выданный database_id в wrangler.admin-api.jsonc.');
 }
-if (!config.vars?.CMS_ALLOWED_ORIGIN || config.vars.CMS_ALLOWED_ORIGIN !== 'https://tos-vodnik.onrender.com') {
-  throw new Error('CMS_ALLOWED_ORIGIN должен точно совпадать с публичным адресом витрины Render.');
+if (!config.vars?.CMS_ALLOWED_ORIGIN || !['https://tos-vodniki.ru', 'https://www.tos-vodniki.ru'].includes(config.vars.CMS_ALLOWED_ORIGIN)) {
+  throw new Error('CMS_ALLOWED_ORIGIN должен совпадать с публичным адресом сайта tos-vodniki.ru.');
 }
 
 const wrangler = path.join(root, 'node_modules', 'wrangler', 'bin', 'wrangler.js');
@@ -30,3 +30,4 @@ const result = spawnSync(process.execPath, [wrangler, 'deploy', '--config', conf
 });
 if (result.error) throw result.error;
 process.exitCode = result.status ?? 1;
+
