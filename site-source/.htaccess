@@ -1,0 +1,11 @@
+DirectoryIndex index.html
+
+# The public site is a client-side SPA. REG.ru serves static files through
+# Apache, so extensionless links (for example /meropriyatiya) must fall back
+# to the application entry point while real assets remain untouched.
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
