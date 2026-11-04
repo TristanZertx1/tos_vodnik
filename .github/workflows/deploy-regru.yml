@@ -11,14 +11,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Prepare complete static site
+        shell: bash
+        run: |
+          rm -rf deploy
+          mkdir -p deploy
+          cp -R site-source/. deploy/
+          cp public/admin.js deploy/admin.js
+          cp public/admin.css deploy/admin.css
+          cp public/neighborhood.svg deploy/neighborhood.svg
+
       - name: Upload site to REG.ru
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.REGRU_FTP_HOST }}
-          username: ${{ secrets.REGRU_FTP_USER }}
+          server: ${{ secrets.REG_FTP_SERVER }}
+          username: ${{ secrets.REG_FTP_USERNAME }}
           password: ${{ secrets.REGRU_FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          local-dir: ./site-source/
+          local-dir: ./deploy/
           server-dir: /www/tos-vodniki.ru/
           dangerous-clean-slate: false
