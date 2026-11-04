@@ -69,6 +69,8 @@ function allowedClientOrigins(env: Env) {
     'https://tos-vodnik.onrender.com',
     'https://tos-vodniki.onrender.com',
     'https://tos-vodnik.tos-vodniki-perm.workers.dev',
+    'https://tos-vodniki.ru',
+    'https://www.tos-vodniki.ru',
   ].filter((origin): origin is string => Boolean(origin));
 }
 
@@ -131,3 +133,4 @@ export default {
 };
 
 // Public Worker origin deployment marker
+
