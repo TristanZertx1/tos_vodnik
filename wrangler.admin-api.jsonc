@@ -17,6 +17,7 @@
     }
   ],
   "vars": {
-    "CMS_ALLOWED_ORIGIN": "https://tos-vodnik.onrender.com"
+    "CMS_ALLOWED_ORIGIN": "https://tos-vodniki.ru"
   }
 }
+
