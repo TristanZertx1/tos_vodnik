@@ -21,6 +21,9 @@ jobs:
           cp public/admin.js deploy/admin.js
           cp public/admin.css deploy/admin.css
           cp public/neighborhood.svg deploy/neighborhood.svg
+          cp public/robots.txt deploy/robots.txt
+          cp public/sitemap.xml deploy/sitemap.xml
+          cp public/404.html deploy/404.html
 
       - name: Upload site to REG.ru
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
