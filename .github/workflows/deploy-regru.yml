@@ -17,6 +17,8 @@ jobs:
         run: |
           rm -rf deploy
           mkdir -p deploy
+          # public/ holds the fonts, images and documents referenced by the site; site-source/ overrides shared files.
+          cp -R public/. deploy/
           cp -R site-source/. deploy/
           cp public/admin.js deploy/admin.js
           cp public/admin.css deploy/admin.css
@@ -24,6 +26,9 @@ jobs:
           cp public/robots.txt deploy/robots.txt
           cp public/sitemap.xml deploy/sitemap.xml
           cp public/404.html deploy/404.html
+          # PHP API for the database (MySQL). config.php is created on the server and never committed.
+          cp -R api deploy/api
+          rm -f deploy/api/config.test.php
 
       - name: Upload site to REG.ru
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

@@ -1,10 +1,10 @@
 (() => {
-  // REG.ru deployment: same-origin API avoids CORS and Cloudflare dependency.
+  // The API lives on the same host as the site (REG.ru, folder /api/), so requests stay same-origin.
   const apiBase = new URL('/api/', window.location.origin);
   window.vodnikiApiFetch = (path, options = {}) => {
     if (typeof path !== 'string' || !path.startsWith('/api/')) return Promise.reject(new TypeError('Недопустимый адрес API.'));
     const url = new URL(path, apiBase);
     if (url.origin !== apiBase.origin) return Promise.reject(new TypeError('Запрос за пределы API запрещён.'));
-    return fetch(url, { ...options, credentials: 'include' });
+    return fetch(url, { ...options, credentials: 'same-origin' });
   };
 })();
