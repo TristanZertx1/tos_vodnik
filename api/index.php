@@ -5,6 +5,7 @@ declare(strict_types=1);
 require __DIR__ . '/lib/bootstrap.php';
 require __DIR__ . '/lib/validate.php';
 require __DIR__ . '/lib/cms.php';
+require __DIR__ . '/lib/media.php';
 
 ini_set('display_errors', '0');
 
@@ -58,6 +59,9 @@ try {
         requireCsrf($session);
     }
 
+    if ($action === 'media' && $method === 'POST') {
+        send(saveMedia($session), 201);
+    }
     if ($action === 'password' && $method === 'POST') {
         send(changeOwnPassword($session, jsonBody()));
     }

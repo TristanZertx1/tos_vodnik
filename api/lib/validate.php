@@ -99,33 +99,14 @@ function validateRecord(string $kind, mixed $source): array
         $data['capacity'] = $capacity;
     }
 
-    if ($kind === 'news') {
-        $images = $source['images'] ?? [];
-        if (!is_array($images) || count($images) > 5) {
-            fail('К новости можно добавить не более 5 фотографий.');
+    if ($kind === 'news' || $kind === 'events') {
+        [$images, $videos] = validateMedia($source);
+        $data['images'] = $images;
+        $data['videos'] = $videos;
+        if (($images !== [] || $videos !== []) && ($source['imagePermission'] ?? null) !== true) {
+            fail('Подтвердите право на размещение фото и видео.');
         }
-        $total = 0;
-        $clean = [];
-        foreach ($images as $image) {
-            if (
-                !is_array($image) || !isset($image['src'], $image['alt'])
-                || !is_string($image['src']) || !is_string($image['alt'])
-                || mb_strlen(trim($image['alt'])) > 180
-                || !preg_match('#^data:image/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$#', $image['src'])
-            ) {
-                fail('Проверьте формат фотографии и описание к ней.');
-            }
-            $total += strlen($image['src']);
-            if ($total > 850000) {
-                fail('Общий размер фотографий превышает допустимый. Уменьшите изображения.');
-            }
-            $clean[] = ['src' => $image['src'], 'alt' => trim($image['alt'])];
-        }
-        $data['images'] = $clean;
-        if ($clean !== [] && ($source['imagePermission'] ?? null) !== true) {
-            fail('Подтвердите право на размещение фотографий.');
-        }
-        if ($clean !== []) {
+        if ($images !== [] || $videos !== []) {
             $data['imagePermission'] = true;
         }
     }
@@ -170,6 +151,60 @@ function validateRecord(string $kind, mixed $source): array
         fail('Проверьте электронную почту.');
     }
     return $data;
+}
+
+/**
+ * Photos (up to 10) and videos (up to 3) of a news item or event.
+ * Files uploaded through /api/admin/media are stored as /uploads/media/<name>;
+ * photos saved before the upload feature remain valid as base64 data URIs.
+ */
+function validateMedia(array $source): array
+{
+    $imageInput = $source['images'] ?? [];
+    $videoInput = $source['videos'] ?? [];
+    if (!is_array($imageInput) || count($imageInput) > 10) {
+        fail('К записи можно добавить не более 10 фотографий.');
+    }
+    if (!is_array($videoInput) || count($videoInput) > 3) {
+        fail('К записи можно добавить не более 3 видео.');
+    }
+    $images = [];
+    $dataBytes = 0;
+    foreach ($imageInput as $image) {
+        if (
+            !is_array($image) || !isset($image['src'], $image['alt'])
+            || !is_string($image['src']) || !is_string($image['alt'])
+            || mb_strlen(trim($image['alt'])) > 180
+            || !(
+                preg_match('#^/uploads/media/[a-f0-9]{32}\.(?:jpg|png|webp)$#', $image['src'])
+                || preg_match('#^data:image/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$#', $image['src'])
+            )
+        ) {
+            fail('Проверьте формат фотографии и описание к ней.');
+        }
+        if (str_starts_with($image['src'], 'data:')) {
+            $dataBytes += strlen($image['src']);
+            if ($dataBytes > 850000) {
+                fail('Фотографии в старом формате занимают слишком много места. Загрузите их заново.');
+            }
+        }
+        $images[] = ['src' => $image['src'], 'alt' => trim($image['alt'])];
+    }
+    $videos = [];
+    foreach ($videoInput as $video) {
+        if (
+            !is_array($video) || !isset($video['src']) || !is_string($video['src'])
+            || !preg_match('#^/uploads/media/[a-f0-9]{32}\.(?:mp4|webm)$#', $video['src'])
+        ) {
+            fail('Проверьте видео: загрузите файл в формате MP4 или WebM.');
+        }
+        $title = isset($video['title']) && is_string($video['title']) ? trim($video['title']) : '';
+        if (mb_strlen($title) > 180) {
+            fail('Название видео не длиннее 180 символов.');
+        }
+        $videos[] = ['src' => $video['src'], 'title' => $title];
+    }
+    return [$images, $videos];
 }
 
 function validateCustomBlocks(mixed $source, int $max): array

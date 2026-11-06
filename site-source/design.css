@@ -62,7 +62,7 @@ body,body *{font-family:'Nunito',Arial,sans-serif!important}
 /* Мягкий повторяющийся орнамент на всём сайте */
 body{
   background-color:#fffaf1;
-  background-image:linear-gradient(rgba(255,250,241,.92),rgba(255,250,241,.92)),url('/vodniki-pattern-v2.png');
+  background-image:linear-gradient(rgba(255,250,241,.96),rgba(255,250,241,.96)),none;
   background-size:auto,1280px 720px;
   background-repeat:repeat,repeat;
   background-position:center top,center top;
@@ -87,7 +87,7 @@ footer.site-footer{
 .site-footer a{display:inline-flex;margin:0;line-height:1.6;color:#27654d;text-decoration:none}
 .site-footer a:hover{text-decoration:underline;text-underline-offset:4px}
 .site-footer .footer-vk{margin-top:5px;padding:9px 14px;border:1px solid #cbdcc0;border-radius:999px;background:#f1f6e9;font-weight:700;gap:8px}
-.site-footer .footer-legal{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:17px;border-top:1px solid #e0e7d8;font-size:13px;color:#607267}
+.site-footer .footer-legal{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;gap:10px;padding-top:17px;border-top:1px solid #e0e7d8;font-size:13px;color:#4f6358}
 :is(.vision,html:has(#vision:checked)) body{background-image:none!important;background-color:#fff!important}
 @media(max-width:1000px){footer.site-footer{grid-template-columns:1fr 1fr;gap:34px;padding-left:6%;padding-right:6%}}
 @media(max-width:620px){body{background-size:auto,760px auto}footer.site-footer{grid-template-columns:1fr;gap:28px;padding:38px 24px 22px}.site-footer .footer-legal{grid-column:1;flex-direction:column}.site-footer .footer-brand .brand-logo{width:145px}}
