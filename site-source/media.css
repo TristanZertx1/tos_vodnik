@@ -36,10 +36,6 @@
 }
 .motion-reduced .feed-card .publication-gallery--card img,.motion-reduced .media-card-video,.motion-reduced .media-tile img{transition:none!important;transform:none!important}
 
-/* Dark theme */
-html:not([data-theme="light"]) .feed-card .publication-gallery--card,
-html:not([data-theme="light"]) .media-tile{background:rgba(255,255,255,.06)}
-html:not([data-theme="light"]) .media-video figcaption{color:var(--gl-muted,#b4cbc0)}
 
 /* Detail page: media aligned with the article text; videos side by side on wide screens */
 .publication-detail .media-stack{padding:0 clamp(18px,4vw,52px)}

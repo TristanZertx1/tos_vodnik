@@ -1,7 +1,7 @@
 /* v31: floating navigation pill, collapsing header, settings panel, rounded modules on scroll. Both themes. */
 
 :root{--nav-bg:rgba(255,255,255,.72);--nav-border:rgba(23,58,74,.12);--nav-ink:#173a4a;--nav-active-bg:#ffffff;--nav-active-ink:#173a4a;--panel-bg:rgba(255,255,255,.94)}
-html[data-theme="dark"]{--nav-bg:rgba(255,255,255,.08);--nav-border:rgba(255,255,255,.16);--nav-ink:#c9ddd3;--nav-active-bg:rgba(255,255,255,.94);--nav-active-ink:#0b1a17;--panel-bg:rgba(12,30,36,.94)}
+
 
 /* Floating pill navigation, like the reference: icons, white active tab */
 @media (min-width:761px){
@@ -77,17 +77,17 @@ html body .settings-panel .access-bar{display:block;padding:0!important;margin:0
 
 /* iOS-style glass buttons: translucent tint, strong blur, bright top edge, soft shadow */
 :root{--ios-glass-fill:rgba(255,255,255,.55);--ios-glass-edge:rgba(255,255,255,.85);--ios-glass-shadow:0 8px 24px rgba(23,58,74,.14);--ios-glass-ink:#173a4a;--ios-accent-fill:rgba(242,166,104,.82);--ios-accent-ink:#2a1a0a}
-html[data-theme="dark"]{--ios-glass-fill:rgba(255,255,255,.13);--ios-glass-edge:rgba(255,255,255,.28);--ios-glass-shadow:0 10px 30px rgba(0,0,0,.35);--ios-glass-ink:#eef6f1;--ios-accent-fill:rgba(242,166,104,.78);--ios-accent-ink:#1a1208}
+
 html body :is(.button,.menu,.header-contact,.nav-settings,.settings-mobile,.settings-close,.seg button,.back-to-top,.vision-control:not(.settings-panel *)){position:relative;overflow:hidden;isolation:isolate;-webkit-backdrop-filter:blur(22px) saturate(190%);backdrop-filter:blur(22px) saturate(190%);background:var(--ios-glass-fill)!important;border:1px solid var(--ios-glass-edge)!important;color:var(--ios-glass-ink)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),var(--ios-glass-shadow)!important}
 html body :is(.button,.header-contact,.back-to-top,.vision-control:not(.settings-panel *)):hover,html body :is(.menu,.nav-settings,.settings-mobile,.settings-close):hover{background:rgba(255,255,255,.7)!important;transform:translateY(-1px)}
-html[data-theme="dark"] body :is(.button,.menu,.header-contact,.nav-settings,.settings-mobile,.settings-close,.seg button,.back-to-top,.vision-control:not(.settings-panel *)):hover{background:rgba(255,255,255,.22)!important}
+
 /* sheen: the reflective highlight across the top half */
 html body :is(.button,.menu,.header-contact,.nav-settings,.settings-mobile,.settings-close,.seg button,.back-to-top)::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.42) 0%,rgba(255,255,255,.08) 48%,rgba(255,255,255,0) 52%);pointer-events:none;z-index:-1}
 /* primary action: tinted glass */
 html body .button:not(.secondary):not(.ghost){background:var(--ios-accent-fill)!important;color:var(--ios-accent-ink)!important;border-color:rgba(255,255,255,.55)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 10px 26px rgba(242,166,104,.32)!important}
 html body .button.secondary,html body .button.ghost{color:var(--ios-glass-ink)!important}
 html body .seg button[aria-pressed="true"]{background:rgba(255,255,255,.85)!important;color:#173a4a!important}
-html[data-theme="dark"] body .seg button[aria-pressed="true"]{background:rgba(255,255,255,.92)!important;color:#0b1a17!important}
+
 /* mobile: one row, menu and settings side by side */
 @media (max-width:760px){
   .site-header>.navigation-row,.navigation-row{display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important;width:100%}

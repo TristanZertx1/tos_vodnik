@@ -2,7 +2,7 @@
    Browsers without url() in backdrop-filter (Safari, Firefox) get the blur fallback. */
 
 :root{--lg-fill:rgba(255,255,255,.28);--lg-rim:rgba(255,255,255,.75);--lg-ink:#173a4a;--lg-shadow:0 10px 30px rgba(23,58,74,.16)}
-html[data-theme="dark"]{--lg-fill:rgba(255,255,255,.1);--lg-rim:rgba(255,255,255,.34);--lg-ink:#eef6f1;--lg-shadow:0 12px 34px rgba(0,0,0,.45)}
+
 
 /* Shared glass body */
 html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current]){
@@ -36,8 +36,8 @@ html body .site-header nav#nav a{transition:transform .45s cubic-bezier(.34,1.56
 html body .site-header nav#nav a[aria-current]{transform:scale(1.03)}
 
 /* Dark glass tints */
-html[data-theme="dark"] body :is(.menu,.settings-mobile,.nav-settings,.header-contact):hover{background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.04))!important}
-html[data-theme="dark"] body .site-header nav#nav a[aria-current]{background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(225,240,234,.82))!important;color:#0b1a17!important}
+
+
 html body .site-header nav#nav a[aria-current]::before{background:radial-gradient(120% 80% at 20% 0%,#fff 0%,rgba(255,255,255,.3) 45%,rgba(255,255,255,0) 62%)}
 
 @media (prefers-reduced-motion:reduce){html body :is(.menu,.settings-mobile,.nav-settings,.header-contact,.site-header nav#nav a){transition:none!important;transform:none!important}}
@@ -53,7 +53,7 @@ html body .site-header nav#nav a[aria-current]::before{background:radial-gradien
 
 /* Thick clear glass slab (reference look): lighter fill, diagonal streak, gradient rim */
 :root{--lg-fill:rgba(255,255,255,.14)}
-html[data-theme="dark"]{--lg-fill:rgba(255,255,255,.07)}
+
 /* Diagonal streak and top-left light */
 html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current])::before{
   background:
@@ -71,13 +71,11 @@ html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-he
   -webkit-mask-composite:xor;
   mask-composite:exclude;
 }
-html[data-theme="dark"] body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav):not(:hover){background:linear-gradient(135deg,var(--lg-fill),rgba(255,255,255,.02))!important}
+
 
 /* v41: VK button — brand blue in both themes (final override, loaded last) */
 html body .site-header .header-contact,
-html:not([data-theme="light"]) body .site-header .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important;padding:12px 20px!important;font-weight:700!important}
 html body .site-header .header-contact:hover,
-html:not([data-theme="light"]) body .site-header .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important;transform:translateY(-1px)!important}
 html body .site-header .identity-row .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important}
 html body .site-header .identity-row .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important}
 

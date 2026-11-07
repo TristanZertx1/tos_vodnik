@@ -1,4 +1,4 @@
-// Site settings: theme switch, reduced motion, collapsing header and the navigation icons.
+// Site settings: reduced motion, collapsing header and the navigation icons.
 (function () {
   var root = document.documentElement;
   function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
@@ -33,14 +33,7 @@
     return '<svg class="' + cls + '" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
   }
 
-  // Theme and motion
-  function setTheme(t) {
-    root.dataset.theme = t;
-    save('vodniki-theme', t);
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', t === 'light' ? '#27654d' : '#07141a');
-    syncThemeButtons();
-  }
+  // Motion
   function setReduced(on) {
     root.classList.toggle('motion-reduced', on);
     save('vodniki-motion', on ? 'reduced' : 'full');
@@ -112,10 +105,6 @@
   panel.innerHTML =
     '<div class="settings-head"><h2 id="settings-title">Настройки сайта</h2>' +
     '<button type="button" class="settings-close" aria-label="Закрыть настройки">×</button></div>' +
-    '<fieldset class="settings-group"><legend>Тема оформления</legend>' +
-    '<div class="seg" role="group" aria-label="Тема оформления">' +
-    '<button type="button" data-theme-choice="light" aria-pressed="false">Светлая</button>' +
-    '<button type="button" data-theme-choice="dark" aria-pressed="false">Тёмная</button></div></fieldset>' +
     '<label class="settings-row"><span>Уменьшить анимацию</span><input type="checkbox" id="motion-toggle"></label>' +
     '<fieldset class="settings-group"><legend>Доступность</legend><div class="settings-access"></div></fieldset>';
   document.body.appendChild(panel);
@@ -124,21 +113,13 @@
   var accessSlot = panel.querySelector('.settings-access');
   if (access && accessSlot) accessSlot.appendChild(access);
 
-  function syncThemeButtons() {
-    panel.querySelectorAll('[data-theme-choice]').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.themeChoice === root.dataset.theme));
-    });
-  }
   function openPanel(open) {
     panel.hidden = !open;
     buttons.forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
-    if (open) { syncThemeButtons(); panel.querySelector('.settings-close').focus(); }
+    if (open) panel.querySelector('.settings-close').focus();
   }
   buttons.forEach(function (b) { b.addEventListener('click', function () { openPanel(panel.hidden); }); });
   panel.querySelector('.settings-close').addEventListener('click', function () { openPanel(false); buttons[0] && buttons[0].focus(); });
-  panel.querySelectorAll('[data-theme-choice]').forEach(function (b) {
-    b.addEventListener('click', function () { setTheme(b.dataset.themeChoice); });
-  });
   var motion = document.getElementById('motion-toggle');
   motion.checked = load('vodniki-motion') === 'reduced';
   motion.addEventListener('change', function () { setReduced(motion.checked); });
@@ -146,7 +127,6 @@
   document.addEventListener('click', function (e) {
     if (!panel.hidden && !panel.contains(e.target) && !buttons.some(function (b) { return b.contains(e.target); })) openPanel(false);
   });
-  syncThemeButtons();
 
   // Collapsing header with hysteresis: folds after 200px down, unfolds only above 90px.
   // No direction check and no animated height, so it cannot flip back and forth at the threshold.
