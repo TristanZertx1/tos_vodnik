@@ -76,6 +76,22 @@ function saveMedia(array $session): array
         if ($source === false) {
             fail('Не удалось прочитать фото. Загрузите другой файл.');
         }
+        // Large photos are scaled down so the longest side is at most 1600px: faster pages, smaller files.
+        $width = imagesx($source);
+        $height = imagesy($source);
+        if (max($width, $height) > 1600) {
+            $scale = 1600 / max($width, $height);
+            $newWidth = (int) round($width * $scale);
+            $newHeight = (int) round($height * $scale);
+            $resized = imagecreatetruecolor($newWidth, $newHeight);
+            if ($ext !== 'jpg') {
+                imagealphablending($resized, false);
+                imagesavealpha($resized, true);
+            }
+            imagecopyresampled($resized, $source, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+            imagedestroy($source);
+            $source = $resized;
+        }
         $ok = match ($ext) {
             'jpg' => imagejpeg($source, $target, 88),
             'png' => imagepng($source, $target, 6),
