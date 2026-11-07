@@ -1,0 +1,59 @@
+/* Liquid glass on content surfaces (light theme only).
+   Rules follow the article's advice: moderate transparency, a thin light edge, soft shadow,
+   and text kept readable. The SVG refraction stays on the floating nav only (it is heavy).
+   Vision mode and "reduce transparency" users get solid surfaces. */
+
+html:not(.vision) :is(.card, .overview-card, .feed-card, .explanation-grid article, .faq-list details,
+  .report-details, .source-details, .about-contents, .policy-content, .empty, .event-signup,
+  .home-quick a, .share-box, .settings-panel, .menu, .feed-filter:not(.active)) {
+  background: linear-gradient(160deg, rgba(255, 255, 255, .68), rgba(255, 255, 255, .42)) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+          backdrop-filter: blur(16px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, .72) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), 0 14px 34px rgba(36, 77, 64, .10) !important;
+}
+
+/* Keep the text on glass dark enough for contrast */
+html:not(.vision) :is(.card, .overview-card, .feed-card, .explanation-grid article, .home-quick a, .settings-panel) :is(h2, h3, strong, b) {
+  color: #173a4a;
+}
+
+/* Hover makes the glass a little more opaque instead of moving the text */
+html:not(.vision) :is(.overview-card, .home-quick a, .feed-card):hover {
+  background: linear-gradient(160deg, rgba(255, 255, 255, .8), rgba(255, 255, 255, .55)) !important;
+}
+
+/* Users who asked for less transparency or who use vision mode get solid surfaces */
+@media (prefers-reduced-transparency: reduce) {
+  html:not(.vision) :is(.card, .overview-card, .feed-card, .explanation-grid article, .faq-list details,
+    .report-details, .source-details, .about-contents, .policy-content, .empty, .event-signup,
+    .home-quick a, .share-box, .settings-panel, .menu, .feed-filter:not(.active)) {
+    background: #fffdf8 !important;
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+  }
+}
+html.vision :is(.card, .overview-card, .feed-card, .explanation-grid article, .home-quick a, .settings-panel) {
+  -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+}
+
+/* Soft colour behind the page: glass only reads as glass when there is something to blur */
+html:not(.vision) body {
+  position: relative;
+  isolation: isolate;
+}
+html:not(.vision) body::before {
+  content: "";
+  position: fixed;
+  inset: -10vh -10vw;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(38vmax 38vmax at 12% 18%, rgba(111, 196, 160, .32), transparent 70%),
+    radial-gradient(34vmax 34vmax at 88% 26%, rgba(244, 174, 120, .28), transparent 70%),
+    radial-gradient(42vmax 42vmax at 62% 88%, rgba(120, 180, 210, .24), transparent 70%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  html:not(.vision) body::before { display: none; }
+}

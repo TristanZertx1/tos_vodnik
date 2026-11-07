@@ -1,0 +1,42 @@
+/* "Мы ВКонтакте" button in the header: one rule set, last in the cascade.
+   White on deep green gives about 9:1 contrast; the target is 48px tall; focus is clearly visible. */
+html body .site-header .identity-row .header-contact {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 22px !important;
+  border-radius: 999px !important;
+  background: #1d4e3b !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, .35) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 10px 24px rgba(29, 78, 59, .28) !important;
+  font-size: 16px !important;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+html body .site-header .identity-row .header-contact::before,
+html body .site-header .identity-row .header-contact::after {
+  display: none !important;
+}
+html body .site-header .identity-row .header-contact .vk-icon {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+html body .site-header .identity-row .header-contact .header-contact-ext {
+  font-size: 15px;
+  opacity: .85;
+}
+html body .site-header .identity-row .header-contact:hover {
+  background: #2f7a5d !important;
+  color: #fff !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 14px 28px rgba(29, 78, 59, .32) !important;
+}
+html body .site-header .identity-row .header-contact:focus-visible {
+  outline: 3px solid #f2a668;
+  outline-offset: 3px;
+}
