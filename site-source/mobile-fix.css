@@ -1,0 +1,82 @@
+/* Mobile fixes (screens up to 760px). Loaded last so it overrides the layers above. */
+@media (max-width: 760px) {
+  /* Quick links on the home page: three separate cards instead of a box with dividers */
+  #main:has(.home-hero) .home-quick {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px;
+    margin: 14px 16px 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: calc(100% - 32px) !important;
+    box-sizing: border-box;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  #main:has(.home-hero) .home-quick a {
+    min-height: 0 !important;
+    padding: 16px 18px !important;
+    border: 1px solid #d9e3ce !important;
+    border-radius: 22px !important;
+    background: #fffdf8 !important;
+    box-shadow: 0 6px 18px rgba(36, 77, 64, .05);
+  }
+  .home-quick .quick-copy small,
+  .eyebrow,
+  .feed-kicker,
+  .quick-count,
+  .filter-count,
+  .media-badge,
+  .feed-count,
+  .event-overview-mark { font-size: 13px !important; letter-spacing: .8px; }
+  .eyebrow, .feed-kicker, .quick-count, .filter-count, .media-badge { font-size: 13px !important; }
+  .home-quick .quick-copy small { font-size: 12px !important; }
+
+  /* News and events filters: fade the right edge so the scrollable row is obvious */
+  .feed-filters {
+    -webkit-mask-image: linear-gradient(90deg, #000 84%, transparent);
+            mask-image: linear-gradient(90deg, #000 84%, transparent);
+    padding-right: 28px;
+    scroll-snap-type: x proximity;
+  }
+  .feed-filter { min-height: 44px; font-size: 14px !important; scroll-snap-align: start; }
+
+  /* Infographic cards: tighter padding so six cards do not make a very long scroll */
+  .overview-card,
+  .explanation-grid article { padding: 20px !important; min-height: 0 !important; gap: 10px; }
+  .overview-grid { gap: 14px; }
+
+  /* Touch targets: text links and contact links at least 44px tall */
+  .text-link,
+  a[href^="tel:"],
+  a[href^="mailto:"],
+  [data-footer-link],
+  .footer-vk {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .button,
+  .feed-card h3 a,
+  .source-details a,
+  .report-details a,
+  .history-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Freshness label on the first news card: solid pill so it reads on any photo */
+  .feed-page--news .feed--news > .feed-card:first-child .feed-card-content:after {
+    background: rgba(255, 253, 248, .94) !important;
+    color: #27654d !important;
+    padding: 6px 10px !important;
+    border-radius: 999px !important;
+  }
+
+  /* Headings: avoid a single short word on its own line */
+  h1, h2 { text-wrap: balance; }
+}
