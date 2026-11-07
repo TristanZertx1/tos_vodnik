@@ -76,8 +76,8 @@ html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-he
 /* v41: VK button — brand blue in both themes (final override, loaded last) */
 html body .site-header .header-contact,
 html body .site-header .header-contact:hover,
-html body .site-header .identity-row .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important}
-html body .site-header .identity-row .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important}
+html body .site-header .identity-row .header-contact {background:linear-gradient(135deg,#2f7a5d,#1d4e3b)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(29,78,59,.32)!important}
+html body .site-header .identity-row .header-contact:hover {background:linear-gradient(135deg,#3a8c6c,#255c46)!important;color:#fff!important}
 
 /* v45: version for visually impaired: plain high-contrast blocks, no glass or decorative liquid layers.
    Loaded last, so it wins over the glass rules. */
