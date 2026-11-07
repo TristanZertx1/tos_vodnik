@@ -80,3 +80,23 @@ html body .site-header .header-contact:hover,
 html:not([data-theme="light"]) body .site-header .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important;transform:translateY(-1px)!important}
 html body .site-header .identity-row .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important}
 html body .site-header .identity-row .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important}
+
+/* v45: version for visually impaired: plain high-contrast blocks, no glass or decorative liquid layers.
+   Loaded last, so it wins over the glass rules. */
+html.vision body .site-header,
+html.vision body .hero-inner,
+html.vision body .home-quick a,
+html.vision body .card,
+html.vision body .overview-card,
+html.vision body .feed-card,
+html.vision body .settings-panel {background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;border:2px solid #000!important;border-radius:18px!important}
+html.vision body .site-header {border-radius:0!important;border-width:0 0 2px!important}
+html.vision body :is(.menu,.settings-mobile,.nav-settings,.site-header #nav,.site-header #nav a) {background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;border:2px solid #000!important;color:#000!important}
+html.vision body :is(.menu,.settings-mobile,.nav-settings,.site-header #nav,.site-header #nav a)::before,
+html.vision body :is(.menu,.settings-mobile,.nav-settings,.site-header #nav,.site-header #nav a)::after {display:none!important}
+html.vision body .site-header #nav a[aria-current] {background:#000!important;color:#fff!important}
+html.vision body .site-header #nav {border-radius:18px!important}
+html.vision body .site-header #nav {flex-wrap:wrap!important;justify-content:center!important;width:calc(100vw - 24px)!important;max-width:calc(100vw - 24px)!important;row-gap:8px!important;padding:8px!important;box-sizing:border-box!important}
+html.vision body .site-header #nav a {font-size:16px!important;padding:8px 12px!important;line-height:1.2!important}
+html.vision body .site-header #nav {transform:translateX(-50%)!important}
+html.vision body :is(.menu,.settings-mobile,.nav-settings,.site-header #nav a){transform:none!important}

@@ -156,4 +156,26 @@
     if (!compact && y > 200) root.classList.add('is-compact');
     else if (compact && y < 90) root.classList.remove('is-compact');
   }, { passive: true });
+
+  // Rounding fallback for browsers without scroll-driven animations (Firefox, older Safari).
+  // Same range as the CSS version: 6px at the bottom edge of the viewport, 28px once the module is well inside it.
+  var supportsTimeline = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
+  if (!supportsTimeline && !root.classList.contains('motion-reduced')) {
+    var moduleSelector = '.card:not(.feed-card),.feed-card,.overview-card,.empty,.event-signup,.policy-content,.explanation-grid article,.faq-list details,.vk-qr-card,.report-details,.source-details,.about-contents,.chairperson,.hero-inner,.home-quick a';
+    var queued = false;
+    var roundModules = function () {
+      queued = false;
+      var h = window.innerHeight || 1;
+      document.querySelectorAll(moduleSelector).forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.height === 0) return;
+        var t = Math.min(1, Math.max(0, (h - r.top) / (h * 0.55)));
+        el.style.borderRadius = (6 + 22 * t).toFixed(1) + 'px';
+      });
+    };
+    var queue = function () { if (!queued) { queued = true; requestAnimationFrame(roundModules); } };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    queue();
+  }
 })();

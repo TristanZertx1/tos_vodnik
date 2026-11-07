@@ -106,3 +106,7 @@ html:not([data-theme="light"]) .feed-filter.active,
 html:not([data-theme="light"]) .feed-filter[aria-current="true"] {background:var(--gl-teal)!important;color:#07141a!important;border-color:transparent!important}
 html:not([data-theme="light"]) .feed-filter span,
 html:not([data-theme="light"]) .feed-filter b {background:var(--gl-glass-strong)!important;color:inherit!important}
+
+/* v7: rounded hero panel and quick tiles in dark theme (were square) */
+html:not([data-theme="light"]) .hero-inner {border-radius:28px!important}
+html:not([data-theme="light"]) .home-quick a {border-radius:22px!important}

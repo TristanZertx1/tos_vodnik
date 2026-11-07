@@ -46,3 +46,6 @@ html:not([data-theme="light"]) .media-video figcaption{color:var(--gl-muted,#b4c
 .publication-detail .media-stack{margin-top:24px}
 .media-videos{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
 .media-video video{max-height:min(62vh,520px)}
+
+/* Cover inside a card follows the card's animated corner radius */
+.feed-card .publication-gallery--card{border-radius:inherit}

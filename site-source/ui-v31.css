@@ -40,7 +40,7 @@ html,body{overflow-anchor:none}
 
 /* Modules get rounder as they scroll into view (scroll-driven; static corners where unsupported) */
 @supports (animation-timeline: view()){
-  .card:not(.feed-card),.feed-card,.overview-card,.empty,.event-signup,.policy-content,.explanation-grid article,.faq-list details,.vk-qr-card,.report-details,.source-details,.about-contents,.chairperson{
+  .card:not(.feed-card),.feed-card,.overview-card,.empty,.event-signup,.policy-content,.explanation-grid article,.faq-list details,.vk-qr-card,.report-details,.source-details,.about-contents,.chairperson,.hero-inner,.home-quick a{
     animation:mod-round linear both;
     animation-timeline:view();
     animation-range:entry 0% cover 45%;
