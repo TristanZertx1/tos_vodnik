@@ -28,3 +28,15 @@
 /* Photos and videos of news and events */
 .record-video-preview video{display:block;width:100%;height:130px;object-fit:cover;border-radius:6px;background:#0b1a16}
 .record-upload-status{min-height:1.4em;color:#24715b;font-weight:600}
+
+.record-link-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.record-link-row input{flex:1 1 260px;min-width:0}
+
+.media-library{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:16px}
+.media-card{margin:0;padding:12px;border:1px solid #d9e3dc;border-radius:14px;background:#fff;display:grid;gap:8px}
+.media-card img,.media-card video{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#eef3ef}
+.media-card figcaption{font-size:13px;color:#4f6a5c}
+.media-link{display:flex;gap:6px}
+.media-link input{flex:1;min-width:0;font-size:12px;padding:6px 8px}
+.media-hint{color:#4f6a5c}
+

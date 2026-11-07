@@ -62,6 +62,9 @@ try {
     if ($action === 'media' && $method === 'POST') {
         send(saveMedia($session), 201);
     }
+    if ($action === 'media' && $method === 'GET') {
+        send(listMedia());
+    }
     if ($action === 'password' && $method === 'POST') {
         send(changeOwnPassword($session, jsonBody()));
     }

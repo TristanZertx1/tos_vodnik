@@ -327,11 +327,36 @@ function slugTaken(string $slug, string $exceptId): bool
     return false;
 }
 
+/**
+ * Random address for a news item, generated when it is first published.
+ * It is unique and never typed by hand, so it cannot clash with another item.
+ */
+function newsSlug(): string
+{
+    do {
+        $slug = 'n' . bin2hex(random_bytes(6));
+    } while (slugTaken($slug, ''));
+    return $slug;
+}
+
 function saveRecord(array $session, string $method, string $id, array $input): array
 {
     $kind = $input['kind'] ?? null;
     if ($kind === 'contacts') {
         requireAdmin($session);
+    }
+    if ($kind === 'news') {
+        $payload = is_array($input['data'] ?? null) ? $input['data'] : [];
+        if ($method === 'POST') {
+            $payload['slug'] = newsSlug();
+        } else {
+            // An existing address stays as it is, so links already shared keep working.
+            $current = one('SELECT data FROM cms_records WHERE id = ?', [$id]);
+            if ($current) {
+                $payload['slug'] = json_decode($current['data'], true)['slug'] ?? ($payload['slug'] ?? null);
+            }
+        }
+        $input['data'] = $payload;
     }
     $data = validateRecord((string) $kind, $input['data'] ?? null);
     $published = ($input['published'] ?? null) === true ? 1 : 0;

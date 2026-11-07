@@ -45,3 +45,15 @@
 
 /* Cover inside a card follows the card's animated corner radius */
 .feed-card .publication-gallery--card{border-radius:inherit}
+
+/* Videos linked from YouTube, Rutube or VK Video */
+.media-embed iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:inherit;background:#000}
+.record-link-preview{margin:0;word-break:break-all;font-size:14px}
+
+/* Share block on news and event pages */
+.share-box{display:grid;gap:8px;margin:18px clamp(22px,7vw,82px) 0}
+.share-label{font-size:13px;font-weight:700;color:#4f6a5c}
+.share-row{display:flex;gap:8px;flex-wrap:wrap}
+.share-input{flex:1 1 280px;min-width:0;padding:10px 12px;border:1px solid #cfe0d6;border-radius:12px;font:inherit;font-size:14px;color:#173a4a;background:#fff}
+.share-targets{display:flex;gap:18px;flex-wrap:wrap}
+

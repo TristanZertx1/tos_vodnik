@@ -104,3 +104,35 @@ function saveMedia(array $session): array
 
     return ['url' => '/uploads/media/' . $name, 'kind' => $kind, 'size' => $size];
 }
+
+/**
+ * Every photo and video uploaded through the admin, newest first, with the path the site uses for it.
+ * Only files matching the upload naming scheme are listed.
+ */
+function listMedia(): array
+{
+    $dir = mediaDirectory();
+    if (!is_dir($dir)) {
+        return ['items' => []];
+    }
+    $items = [];
+    foreach (scandir($dir) ?: [] as $name) {
+        if (!preg_match('#^[a-f0-9]{32}\.(jpg|png|webp|mp4|webm)$#', $name, $m)) {
+            continue;
+        }
+        $path = $dir . '/' . $name;
+        if (!is_file($path)) {
+            continue;
+        }
+        $items[] = [
+            'name' => $name,
+            'url' => '/uploads/media/' . $name,
+            'kind' => in_array($m[1], ['mp4', 'webm'], true) ? 'video' : 'image',
+            'size' => (int) filesize($path),
+            'uploadedAt' => gmdate('c', (int) filemtime($path)),
+        ];
+    }
+    usort($items, static fn(array $a, array $b): int => strcmp($b['uploadedAt'], $a['uploadedAt']));
+    return ['items' => $items];
+}
+

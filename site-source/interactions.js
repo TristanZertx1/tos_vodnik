@@ -172,6 +172,12 @@ function setupPublicationTools(){
   };
 
   document.addEventListener('click',async event=>{
+    const copyButton=event.target.closest?.('[data-copy-link]');
+    if(copyButton){
+      const input=copyButton.parentElement.querySelector('.share-input');
+      if(input){input.select();flash(copyButton,await copyText(input.value)?'Скопировано ✓':'Скопируйте ссылку вручную')}
+      return;
+    }
     const shareButton=event.target.closest?.('[data-share]');
     if(shareButton){
       const url=location.href,title=document.title;

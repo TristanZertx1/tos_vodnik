@@ -192,19 +192,65 @@ function validateMedia(array $source): array
     }
     $videos = [];
     foreach ($videoInput as $video) {
-        if (
-            !is_array($video) || !isset($video['src']) || !is_string($video['src'])
-            || !preg_match('#^/uploads/media/[a-f0-9]{32}\.(?:mp4|webm)$#', $video['src'])
-        ) {
-            fail('Проверьте видео: загрузите файл в формате MP4 или WebM.');
+        if (!is_array($video) || !isset($video['src']) || !is_string($video['src'])) {
+            fail('Проверьте видео: загрузите файл в формате MP4 или WebM либо укажите ссылку.');
         }
         $title = isset($video['title']) && is_string($video['title']) ? trim($video['title']) : '';
         if (mb_strlen($title) > 180) {
             fail('Название видео не длиннее 180 символов.');
         }
-        $videos[] = ['src' => $video['src'], 'title' => $title];
+        if (preg_match('#^/uploads/media/[a-f0-9]{32}\.(?:mp4|webm)$#', $video['src'])) {
+            $videos[] = ['src' => $video['src'], 'title' => $title, 'kind' => 'file', 'embed' => null];
+            continue;
+        }
+        $link = trim($video['src']);
+        $embed = videoEmbedUrl($link);
+        if ($embed === null) {
+            fail('Ссылка на видео должна вести на YouTube, Rutube или VK Видео.');
+        }
+        $videos[] = ['src' => $link, 'title' => $title, 'kind' => 'link', 'embed' => $embed];
     }
     return [$images, $videos];
+}
+
+/**
+ * Turns a YouTube, Rutube or VK Video link into an embeddable player URL.
+ * Returns null for any other host or an unrecognised link, so only these three services can be embedded.
+ */
+function videoEmbedUrl(string $link): ?string
+{
+    if (mb_strlen($link) > 300) {
+        return null;
+    }
+    $parts = parse_url($link);
+    if (!is_array($parts) || ($parts['scheme'] ?? '') !== 'https' || !isset($parts['host'])) {
+        return null;
+    }
+    $host = strtolower($parts['host']);
+    $path = $parts['path'] ?? '';
+    $query = [];
+    parse_str($parts['query'] ?? '', $query);
+
+    if (in_array($host, ['youtu.be', 'www.youtu.be'], true) && preg_match('#^/([A-Za-z0-9_-]{6,20})$#', $path, $m)) {
+        return 'https://www.youtube-nocookie.com/embed/' . $m[1];
+    }
+    if (in_array($host, ['youtube.com', 'www.youtube.com', 'm.youtube.com'], true)) {
+        if (preg_match('#^/(?:shorts|embed)/([A-Za-z0-9_-]{6,20})$#', $path, $m)) {
+            return 'https://www.youtube-nocookie.com/embed/' . $m[1];
+        }
+        if ($path === '/watch' && isset($query['v']) && preg_match('#^[A-Za-z0-9_-]{6,20}$#', (string) $query['v'])) {
+            return 'https://www.youtube-nocookie.com/embed/' . $query['v'];
+        }
+        return null;
+    }
+    if (in_array($host, ['rutube.ru', 'www.rutube.ru'], true) && preg_match('#^/video/([a-f0-9]{32})/?$#', $path, $m)) {
+        return 'https://rutube.ru/play/embed/' . $m[1];
+    }
+    if (in_array($host, ['vk.com', 'vk.ru', 'vkvideo.ru', 'www.vk.com', 'm.vk.com', 'www.vkvideo.ru'], true)
+        && preg_match('#^/(?:video|clip)(-?\d{1,15})_(\d{1,15})$#', $path, $m)) {
+        return 'https://vk.com/video_ext.php?oid=' . $m[1] . '&id=' . $m[2] . '&hd=2';
+    }
+    return null;
 }
 
 function validateCustomBlocks(mixed $source, int $max): array
