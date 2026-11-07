@@ -45,3 +45,7 @@
 
 /* Cover inside a card follows the card's animated corner radius */
 .feed-card .publication-gallery--card{border-radius:inherit}
+
+/* Videos linked from YouTube, Rutube or VK Video */
+.media-embed iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:inherit;background:#000}
+.record-link-preview{margin:0;word-break:break-all;font-size:14px}
