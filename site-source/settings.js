@@ -11,11 +11,11 @@
   defs.style.position = 'absolute';
   defs.innerHTML = '<filter id="liquid-glass" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">'+
     '<feImage href="/liquid-noise.png" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map"/>'+
-    '<feGaussianBlur in="map" stdDeviation="1" result="smooth"/>'+
-    '<feDisplacementMap in="SourceGraphic" in2="smooth" scale="600" xChannelSelector="R" yChannelSelector="G" result="refract"/>'+
+    '<feGaussianBlur in="map" stdDeviation="3" result="smooth"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="smooth" scale="34" xChannelSelector="R" yChannelSelector="G" result="refract"/>'+
     '<feSpecularLighting in="smooth" surfaceScale="3" specularConstant="0.9" specularExponent="28" lighting-color="#ffffff" result="spec">'+
     '<fePointLight x="-40" y="-60" z="160"/></feSpecularLighting>'+
-    '<feComposite in="refract" in2="spec" operator="arithmetic" k1="0" k2="1" k3="0.5" k4="0"/>'+
+    '<feComposite in="refract" in2="spec" operator="arithmetic" k1="0" k2="1" k3="0.25" k4="0"/>'+
     '</filter>';
   document.body.appendChild(defs);
 
