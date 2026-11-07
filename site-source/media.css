@@ -5,7 +5,7 @@
 .feed-card>.media-card-link{display:block;grid-row:1;grid-column:1;min-width:0;color:inherit;text-decoration:none}
 .feed--events .feed-card>.media-card-link{grid-column:2}
 .feed-card>.media-card-link:focus-visible{outline:3px solid #086e65;outline-offset:4px;border-radius:20px}
-.feed-card .publication-gallery--card{display:block!important;position:relative;height:210px!important;min-height:0!important;overflow:hidden;background:#e7eee5}
+.feed-card .publication-gallery--card{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:4px;position:relative;height:210px!important;min-height:0!important;overflow:hidden;background:#e7eee5}
 .feed--events .feed-card .publication-gallery--card{height:165px!important}
 .feed-page--news .feed--news>.feed-card:first-child .publication-gallery--card{height:330px!important}
 .feed-card .publication-gallery--card img,
@@ -56,4 +56,10 @@
 .share-row{display:flex;gap:8px;flex-wrap:wrap}
 .share-input{flex:1 1 280px;min-width:0;padding:10px 12px;border:1px solid #cfe0d6;border-radius:12px;font:inherit;font-size:14px;color:#173a4a;background:#fff}
 .share-targets{display:flex;gap:18px;flex-wrap:wrap}
+
+/* Post cards: up to four photos in a 2x2 mosaic; one or three photos give a wide lead photo */
+.feed-card .publication-gallery--card img{grid-column:auto!important;display:block!important;min-height:0}
+.feed-card .publication-gallery--card img:only-child,
+.feed-card .publication-gallery--card > :only-child,
+.feed-card .publication-gallery--card img:first-child:nth-last-child(3){grid-column:1/-1!important}
 
