@@ -1,0 +1,82 @@
+/* Liquid Glass for the top panel: refraction at the edges, specular rim, sheen, spring hover.
+   Browsers without url() in backdrop-filter (Safari, Firefox) get the blur fallback. */
+
+:root{--lg-fill:rgba(255,255,255,.28);--lg-rim:rgba(255,255,255,.75);--lg-ink:#173a4a;--lg-shadow:0 10px 30px rgba(23,58,74,.16)}
+html[data-theme="dark"]{--lg-fill:rgba(255,255,255,.1);--lg-rim:rgba(255,255,255,.34);--lg-ink:#eef6f1;--lg-shadow:0 12px 34px rgba(0,0,0,.45)}
+
+/* Shared glass body */
+html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current]){
+  position:relative;isolation:isolate;overflow:hidden;
+  -webkit-backdrop-filter:blur(22px) saturate(190%);
+  backdrop-filter:blur(22px) saturate(190%);
+
+  background:linear-gradient(135deg,var(--lg-fill),rgba(255,255,255,.04))!important;
+  border:1px solid var(--lg-rim)!important;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.95),inset 0 -3px 8px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.08),var(--lg-shadow)!important;
+  color:var(--lg-ink)!important;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1),background-color .3s ease,box-shadow .3s ease;
+}
+/* Specular sheen that follows the top-left light */
+html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current])::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(120% 70% at 18% 0%,rgba(255,255,255,.72) 0%,rgba(255,255,255,.12) 42%,rgba(255,255,255,0) 60%);
+  opacity:.9;
+}
+/* Inner rim: the lighter edge of a thick glass slab */
+html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current])::after{
+  content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:-1;
+  box-shadow:inset 0 0 14px rgba(255,255,255,.35);
+}
+
+/* Hover: the glass swells slightly and lights up. Press: it squeezes. */
+html body :is(.menu,.settings-mobile,.nav-settings,.header-contact):hover{transform:scale(1.045);background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.1))!important}
+html body :is(.menu,.settings-mobile,.nav-settings,.header-contact):active{transform:scale(.96)}
+html body .site-header nav#nav a:not([aria-current]):hover{transform:scale(1.06);background:rgba(255,255,255,.14)!important}
+html body .site-header nav#nav a{transition:transform .45s cubic-bezier(.34,1.56,.64,1),background-color .25s ease}
+html body .site-header nav#nav a[aria-current]{transform:scale(1.03)}
+
+/* Dark glass tints */
+html[data-theme="dark"] body :is(.menu,.settings-mobile,.nav-settings,.header-contact):hover{background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.04))!important}
+html[data-theme="dark"] body .site-header nav#nav a[aria-current]{background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(225,240,234,.82))!important;color:#0b1a17!important}
+html body .site-header nav#nav a[aria-current]::before{background:radial-gradient(120% 80% at 20% 0%,#fff 0%,rgba(255,255,255,.3) 45%,rgba(255,255,255,0) 62%)}
+
+@media (prefers-reduced-motion:reduce){html body :is(.menu,.settings-mobile,.nav-settings,.header-contact,.site-header nav#nav a){transition:none!important;transform:none!important}}
+.motion-reduced html body :is(.menu,.settings-mobile,.nav-settings,.header-contact,.site-header nav#nav a){transition:none!important;transform:none!important}
+
+/* Refraction (SVG filter) only where the browser supports url() in backdrop-filter, per the Habr approach */
+@supports (backdrop-filter: url(#liquid-glass)){
+  html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current]){
+    backdrop-filter:url(#liquid-glass) blur(2px) saturate(180%);
+    -webkit-backdrop-filter:blur(2px) saturate(180%);
+  }
+}
+
+/* Thick clear glass slab (reference look): lighter fill, diagonal streak, gradient rim */
+:root{--lg-fill:rgba(255,255,255,.14)}
+html[data-theme="dark"]{--lg-fill:rgba(255,255,255,.07)}
+/* Diagonal streak and top-left light */
+html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current])::before{
+  background:
+    linear-gradient(115deg,rgba(255,255,255,0) 26%,rgba(255,255,255,.42) 38%,rgba(255,255,255,0) 50%,rgba(255,255,255,.18) 62%,rgba(255,255,255,0) 72%),
+    radial-gradient(120% 70% at 18% 0%,rgba(255,255,255,.5) 0%,rgba(255,255,255,0) 60%);
+  opacity:1;
+}
+/* Gradient rim: bright on the upper-left and lower-right edges, like the reference slabs */
+html body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav,.site-header nav#nav a[aria-current])::after{
+  inset:0;
+  padding:1.5px;
+  box-shadow:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.2) 32%,rgba(255,255,255,.06) 58%,rgba(255,255,255,.85) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+}
+html[data-theme="dark"] body :is(.menu,.settings-mobile,.nav-settings,.site-header nav#nav):not(:hover){background:linear-gradient(135deg,var(--lg-fill),rgba(255,255,255,.02))!important}
+
+/* v41: VK button — brand blue in both themes (final override, loaded last) */
+html body .site-header .header-contact,
+html:not([data-theme="light"]) body .site-header .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important;padding:12px 20px!important;font-weight:700!important}
+html body .site-header .header-contact:hover,
+html:not([data-theme="light"]) body .site-header .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important;transform:translateY(-1px)!important}
+html body .site-header .identity-row .header-contact {background:linear-gradient(135deg,#0077ff,#0054cc)!important;color:#fff!important;border:1px solid rgba(255,255,255,.45)!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.55),0 10px 26px rgba(0,100,240,.35)!important}
+html body .site-header .identity-row .header-contact:hover {background:linear-gradient(135deg,#1a8cff,#0064e6)!important;color:#fff!important}

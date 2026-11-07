@@ -1,7 +1,7 @@
 /* Повторяющийся фирменный фон. Конструктор может отключить или заменить узор. */
 body {
   background-color: var(--site-background, var(--vodniki-cream, #fffaf1)) !important;
-  background-image: linear-gradient(rgba(255,250,241,.88),rgba(255,250,241,.88)), var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
+  background-image: linear-gradient(rgba(255,250,241,.96),rgba(255,250,241,.96)), none !important;
   background-repeat: repeat !important;
   background-size: auto, 1280px 720px !important;
   background-position: 0 var(--pattern-offset, 0px) !important;
@@ -9,7 +9,7 @@ body {
 }
 .site-header {
   background-color: rgba(255, 250, 241, .90) !important;
-  background-image: linear-gradient(rgba(255,250,241,.96),rgba(255,250,241,.96)), var(--site-pattern, url('/vodniki-pattern-v2.png')) !important;
+  background-image: linear-gradient(rgba(255,250,241,.96),rgba(255,250,241,.96)), none !important;
   background-repeat: repeat !important;
   background-position: 0 var(--pattern-offset, 0px) !important;
 }

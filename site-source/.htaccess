@@ -6,6 +6,9 @@ DirectoryIndex index.html
 RewriteEngine On
 RewriteBase /
 
+# API requests are handled by /api/.htaccess and must not fall back to index.html.
+RewriteRule ^api/ - [L]
+
 # Serve the editor explicitly; otherwise /admin/ would be swallowed by the
 # SPA fallback and show the public homepage instead of the login screen.
 RewriteRule ^admin/?$ admin.html [L]

@@ -145,22 +145,50 @@ if (pointerFine.matches) {
   });
 }
 
-/* Publication sharing and image viewer */
+/* Publication sharing and photo viewer.
+   Handlers are delegated to document: news and event pages are rendered by app.js after this file runs,
+   so buttons and photos do not exist yet when the page loads. */
 function setupPublicationTools(){
-  document.querySelectorAll('[data-share]').forEach(button=>button.addEventListener('click',async()=>{
-    const payload={title:document.title,url:location.href};
-    try{if(navigator.share)await navigator.share(payload);else{await navigator.clipboard.writeText(location.href);button.textContent='Ссылка скопирована ✓';setTimeout(()=>button.textContent='Поделиться ↗',2200)}}catch(error){if(error?.name!=='AbortError')button.textContent='Скопируйте ссылку из адресной строки'}
-  }));
-  const gallery=document.querySelector('.publication-detail .publication-gallery');
-  const image=gallery?.querySelector('img');
-  if(!image)return;
-  const lightbox=document.createElement('div');lightbox.className='publication-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-label','Просмотр изображения');
-  const preview=document.createElement('img');preview.alt=image.alt;
+  const lightbox=document.createElement('div');lightbox.className='publication-lightbox';lightbox.setAttribute('role','dialog');lightbox.setAttribute('aria-label','Просмотр фотографии');
+  const preview=document.createElement('img');preview.alt='';
   const close=document.createElement('button');close.type='button';close.setAttribute('aria-label','Закрыть');close.textContent='×';
   lightbox.append(preview,close);document.body.append(lightbox);
   const hide=()=>{lightbox.classList.remove('is-open');preview.removeAttribute('src')};
-  image.addEventListener('click',()=>{preview.src=image.currentSrc||image.src;lightbox.classList.add('is-open');close.focus()});
-  close.addEventListener('click',hide);lightbox.addEventListener('click',event=>{if(event.target===lightbox)hide()});
+  close.addEventListener('click',hide);
+  lightbox.addEventListener('click',event=>{if(event.target===lightbox)hide()});
   document.addEventListener('keydown',event=>{if(event.key==='Escape')hide()});
+
+  const copyText=async text=>{
+    try{await navigator.clipboard.writeText(text);return true}
+    catch{
+      const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.cssText='position:fixed;opacity:0;top:0;left:0';
+      document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();return ok;
+    }
+  };
+  const flash=(button,text)=>{
+    button.dataset.label??=button.textContent;
+    button.textContent=text;
+    setTimeout(()=>{button.textContent=button.dataset.label},2200);
+  };
+
+  document.addEventListener('click',async event=>{
+    const shareButton=event.target.closest?.('[data-share]');
+    if(shareButton){
+      const url=location.href,title=document.title;
+      try{
+        if(navigator.share){await navigator.share({title,url});return}
+      }catch(error){if(error?.name==='AbortError')return}
+      flash(shareButton,await copyText(url)?'Ссылка скопирована ✓':'Скопируйте ссылку из адресной строки');
+      return;
+    }
+    const tile=event.target.closest?.('.media-tile');
+    if(tile){
+      event.preventDefault();
+      const image=tile.querySelector('img');
+      if(!image)return;
+      preview.src=image.currentSrc||image.src;preview.alt=image.alt;
+      lightbox.classList.add('is-open');close.focus();
+    }
+  });
 }
 setupPublicationTools();

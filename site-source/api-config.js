@@ -1,12 +1,10 @@
 (() => {
-  // The public site is hosted on REG.ru, while the CMS API runs on Cloudflare.
-  // Keep the API origin explicit so news, events and admin requests do not
-  // silently fall back to a non-existent /api/ directory on the static host.
-  const apiBase = new URL('https://tos-vodniki-admin-api.tos-vodniki-perm.workers.dev');
+  // The API lives on the same host as the site (REG.ru, folder /api/), so requests stay same-origin.
+  const apiBase = new URL('/api/', window.location.origin);
   window.vodnikiApiFetch = (path, options = {}) => {
     if (typeof path !== 'string' || !path.startsWith('/api/')) return Promise.reject(new TypeError('Недопустимый адрес API.'));
     const url = new URL(path, apiBase);
     if (url.origin !== apiBase.origin) return Promise.reject(new TypeError('Запрос за пределы API запрещён.'));
-    return fetch(url, { ...options, credentials: 'include' });
+    return fetch(url, { ...options, credentials: 'same-origin' });
   };
 })();
