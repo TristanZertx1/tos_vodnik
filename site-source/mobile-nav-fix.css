@@ -71,4 +71,6 @@
     box-sizing: border-box;
   }
   html body .site-header nav#nav a[aria-current] { background: #27654d !important; color: #fff !important; }
+  /* While the section list is open, hide the logo and the VK button so the list has room. */
+  html body .site-header:has(#menu-toggle[aria-expanded="true"]) > .identity-row { display: none !important; }
 }
