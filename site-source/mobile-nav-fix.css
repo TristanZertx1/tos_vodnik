@@ -1,0 +1,74 @@
+/* Phone header: one row with the menu button and the settings button, and the section list
+   opens full width below it. Overrides the floating dock and side-by-side rules from earlier sheets. */
+@media (max-width: 760px) {
+  html body .site-header > .navigation-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 6px 0 10px;
+  }
+  html body .site-header .nav-caption { display: none; }
+  html body .site-header .navigation-row .menu {
+    grid-column: 1 !important;
+    grid-row: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    min-height: 52px;
+    justify-content: space-between !important;
+    overflow: visible !important;
+    white-space: nowrap;
+  }
+  html body .site-header .navigation-row .menu-label { overflow: visible; text-overflow: clip; }
+  html body .site-header .navigation-row .settings-mobile,
+  html body .site-header .navigation-row .nav-settings {
+    grid-column: 2 !important;
+    grid-row: 1;
+    position: static !important;
+    transform: none !important;
+    margin: 0 !important;
+    width: 52px;
+    height: 52px;
+  }
+  html body .site-header nav#nav {
+    grid-column: 1 / -1 !important;
+    grid-row: 2;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    box-sizing: border-box;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    border: 1px solid #d8e3d0;
+    border-radius: 20px;
+    background: #fffdf8 !important;
+    box-shadow: 0 14px 34px rgba(32, 74, 59, 0.10) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  html body .site-header nav#nav.open { display: flex; }
+  html body .site-header nav#nav a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 18px;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  html body .site-header nav#nav a[aria-current] { background: #27654d !important; color: #fff !important; }
+}
