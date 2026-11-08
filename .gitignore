@@ -58,3 +58,6 @@ next-env.d.ts
 /outputs/
 /work/
 /output/
+
+# Hallmark design-audit records (generated, local only)
+.hallmark/
