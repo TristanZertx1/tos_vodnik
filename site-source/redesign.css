@@ -328,3 +328,29 @@ label { color: var(--color-ink); font-weight: 600; font-size: var(--step-label);
   .navigation-row nav#nav.open { display: flex; padding-bottom: 72px; }
   .navigation-row nav#nav .nav-settings { display: none; }
 }
+
+/* Settings panel: controls, fieldset reset, and the accessibility (vision) switch */
+.settings-row input[type="checkbox"], .vision-control input[type="checkbox"] { width: 22px; height: 22px; margin: 0; flex: 0 0 auto; accent-color: var(--color-accent); cursor: pointer; }
+.settings-row { font-weight: 600; }
+.settings-group { border: 0; padding: 0; margin: 0; min-width: 0; }
+.settings-group legend { font-size: var(--step-label); font-weight: 700; text-transform: none; letter-spacing: 0; padding: 0 0 var(--space-2); }
+.settings-access { display: grid; }
+.vision-control { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 48px; padding: 8px 14px; border: 1px solid var(--color-rule); border-radius: var(--radius-control); background: var(--color-paper); color: var(--color-ink); font-weight: 600; cursor: pointer; }
+.vision-control:focus-within { outline: 3px solid var(--color-focus); outline-offset: 4px; }
+.vision-control .vision-icon { width: 20px; height: 20px; flex: 0 0 auto; }
+.vision-on { display: none; }
+#vision:checked ~ .vision-on { display: inline; }
+#vision:checked ~ .vision-off { display: none; }
+.settings-panel .vision-control { border: 0; padding: 6px 0; min-height: 44px; background: transparent; }
+.settings-panel .access-bar { display: block; }
+
+/* Vision mode: high contrast, larger type, no decorative art or shadows */
+:is(.vision, html:has(#vision:checked)) body { font-size: 1.125rem; }
+:is(.vision, html:has(#vision:checked)) :is(.card, .feed-card, .overview-card, .event-overview, .empty, .join, .settings-panel, .home-quick a, .hero-inner) {
+  box-shadow: none !important; background: #fff !important; border: 2px solid #000 !important; border-radius: 0 !important;
+}
+:is(.vision, html:has(#vision:checked)) .neighborhood-art, :is(.vision, html:has(#vision:checked)) .water, :is(.vision, html:has(#vision:checked)) .water-label { display: none !important; }
+:is(.vision, html:has(#vision:checked)) .vision-control { border: 2px solid #000; }
+:is(.vision, html:has(#vision:checked)) a { text-decoration: underline; }
+:is(.vision, html:has(#vision:checked)) .join { background: #000 !important; color: #fff !important; }
+:is(.vision, html:has(#vision:checked)) .join h2 { color: #fff !important; }
