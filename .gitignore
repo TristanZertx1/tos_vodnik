@@ -61,4 +61,3 @@ next-env.d.ts
 
 # Hallmark design-audit records (generated, local only)
 .hallmark/
-/design-src/node_modules/
