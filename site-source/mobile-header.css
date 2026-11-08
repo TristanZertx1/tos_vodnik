@@ -38,4 +38,6 @@
   html.nav-away .navigation-row { max-height: 0 !important; padding-block: 0 !important; margin-top: 0 !important; overflow: hidden; opacity: 0; pointer-events: none; border-block: 0 !important; }
   .navigation-row { transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.35s ease, margin 0.35s ease; max-height: 400px; }
   html body .settings-panel { background: #fffdf8 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  html.nav-away .site-header .navigation-row, html.nav-away .site-header .settings-mobile, html.nav-away .site-header nav#nav { display: none !important; }
+  html.nav-away .site-header { padding-top: 0 !important; padding-bottom: 0 !important; }
 }
