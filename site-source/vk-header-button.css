@@ -1,0 +1,38 @@
+/* "Мы ВКонтакте" in the header: icon and text only, VK blue on white. */
+html body .site-header .identity-row .header-contact {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 22px !important;
+  border: 2px solid #0077ff !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  color: #0062c4 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  box-shadow: 0 6px 18px rgba(0, 119, 255, 0.14) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  transition: background-color .2s ease, color .2s ease;
+}
+html body .site-header .identity-row .header-contact::before,
+html body .site-header .identity-row .header-contact::after { display: none !important; content: none !important; }
+html body .site-header .identity-row .header-contact:hover {
+  background: #eaf3ff !important;
+  color: #004f9f !important;
+  transform: none !important;
+}
+html body .site-header .identity-row .header-contact:focus-visible {
+  outline: 3px solid #f2a668;
+  outline-offset: 3px;
+}
+html body .site-header .identity-row .header-contact .vk-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: #0077ff;
+}
+html body .site-header .identity-row .header-contact .header-contact-ext { display: none !important; }
