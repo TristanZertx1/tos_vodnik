@@ -55,3 +55,6 @@ html body :focus-visible { outline: 3px solid #2f8f6e; outline-offset: 3px; bord
     width: max-content !important; max-width: calc(100vw - 32px) !important;
   }
 }
+
+/* Navigation labels: heavier type on desktop dock and phone menu */
+html body .site-header nav#nav a, html body .site-header .menu, html body .site-header .menu-label { font-weight: 700 !important; }
