@@ -1,0 +1,42 @@
+/* Hallmark · v2.0.0 · Ink (paper) · editorial · redesign: full
+   Ink: white paper, hueless black, Epilogue for everything, hairline rules, one teal that means "in" or "open". */
+:root {
+  --color-paper: oklch(99.5% 0.003 100);
+  --color-paper-2: oklch(97% 0.004 100);
+  --color-paper-3: oklch(94% 0.006 100);
+  --color-ink: oklch(16% 0 0);
+  --color-ink-2: oklch(28% 0 0);
+  --color-muted: oklch(44% 0 0);
+  --color-rule: oklch(89% 0.004 100);
+  --color-rule-2: oklch(93.5% 0.003 100);
+  --color-accent: oklch(50% 0.095 188);
+  --color-accent-ink: oklch(99.5% 0.003 100);
+  --color-accent-soft: oklch(93% 0.05 190);
+  --color-accent-soft-ink: oklch(27% 0.045 190);
+  --color-focus: oklch(50% 0.095 188);
+  --font-display: "Epilogue", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-display);
+  --font-outlier: "IBM Plex Mono", ui-monospace, monospace;
+  --radius-card: 12px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+  --shadow-float: 0 20px 40px oklch(20% 0 0 / 0.16);
+  --tracking-display: -0.04em;
+  --display-weight: 700;
+  --dur-micro: 160ms;
+  --dur-state: 220ms;
+  --container: 1200px;
+  --gutter: 24px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 72px;
+  --step-label: 14px;
+  --step-body: 17px;
+  --step-lead: 20px;
+  --step-h3: 22px;
+  --step-h2: clamp(30px, 3.6vw, 44px);
+  --step-h1: clamp(40px, 6vw, 76px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --color-paper: oklch(99.5% 0.003 100); }
+}
