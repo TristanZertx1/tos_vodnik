@@ -47,3 +47,11 @@ html body :focus-visible { outline: 3px solid #2f8f6e; outline-offset: 3px; bord
   html body .card:hover, html body .overview-card:hover, html body .feed-card:hover, html body .event-teaser:hover, html body .home-quick a:hover, html body .quick a:hover { transform: none !important; }
 }
 
+
+/* Desktop: centre the floating section menu without a transform, so it does not jump when a page changes */
+@media (min-width: 761px) {
+  html body .site-header nav#nav {
+    transform: none !important; left: 0 !important; right: 0 !important; margin: 0 auto !important;
+    width: max-content !important; max-width: calc(100vw - 32px) !important;
+  }
+}
