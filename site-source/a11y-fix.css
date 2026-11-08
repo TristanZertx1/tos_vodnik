@@ -43,3 +43,5 @@ button[class*="settings"], .settings-desktop, .settings-mobile { min-width: 44px
 /* Round 2b: contact links and text links */
 a[href^="tel:"], a[href^="mailto:"], .text-link, a[target="_blank"] { display: inline-flex; align-items: center; min-height: 44px; }
 .feed-count + * , .feed-tools a { min-height: 44px; }
+/* Round 3: remaining feed and card links reach 44px */
+.feed-card-content a, .feed-card a.text-link, .feed-card-content .text-link, .feed-tools a { min-height: 44px; display: inline-flex; align-items: center; }
