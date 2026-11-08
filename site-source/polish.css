@@ -46,3 +46,12 @@ html body :focus-visible { outline: 3px solid #2f8f6e; outline-offset: 3px; bord
   html body *, html body *::before, html body *::after { transition: none !important; animation: none !important; }
   html body .card:hover, html body .overview-card:hover, html body .feed-card:hover, html body .event-teaser:hover, html body .home-quick a:hover, html body .quick a:hover { transform: none !important; }
 }
+
+/* Desktop: the section menu stays in the header instead of floating over the page */
+@media (min-width: 761px) {
+  html body .site-header nav#nav {
+    position: static !important; left: auto !important; right: auto !important; bottom: auto !important; top: auto !important;
+    transform: none !important; width: auto !important; max-width: 100% !important; margin: 14px auto 0 !important;
+    z-index: auto !important; box-shadow: none !important;
+  }
+}
