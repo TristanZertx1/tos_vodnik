@@ -1,0 +1,48 @@
+/* Polish: one radius scale, responsive surfaces and press feedback. Loaded last; reduced motion disables the movement. */
+:root { --r-card: 20px; --r-media: 16px; --r-ctl: 12px; --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+/* Surfaces: every card, tile and panel shares one radius */
+html body .card, html body article.card, html body .overview-card, html body .feed-card, html body .empty,
+html body .event-teaser, html body .event-group, html body .event-overview, html body .event-details,
+html body .event-details-wide, html body .event-signup, html body .policy-content, html body .report-details,
+html body .source-details, html body .about-contents, html body .chairperson, html body .vk-qr-card,
+html body .map-card, html body .share-box, html body .join, html body .explanation-grid article,
+html body .faq-list details, html body .event-registration-form, html body .settings-panel { border-radius: var(--r-card) !important; }
+html body .feed-card { overflow: hidden; }
+
+/* Media inside surfaces: rounded, never square */
+html body img, html body .publication-gallery, html body .media-tile, html body .media-tile img,
+html body .neighborhood-art, html body .vk-qr-image { border-radius: var(--r-media); }
+html body .feed-card .publication-gallery, html body .feed-card img { border-radius: 0; }
+html body .publication-detail .publication-gallery img, html body .publication-detail .media-tile { border-radius: var(--r-media); }
+
+/* Controls: inputs and selects get the control radius, buttons stay pills */
+html body input:not([type="checkbox"]):not([type="radio"]), html body textarea, html body select,
+html body .feed-search input, html body .share-input { border-radius: var(--r-ctl) !important; }
+html body .feed-filters button, html body .feed-filter, html body .button, html body .header-contact,
+html body .vision-control, html body .menu, html body .settings-mobile, html body .nav-settings { border-radius: 999px; }
+
+/* Interaction: hover lift on surfaces, press feedback on controls */
+html body .card, html body .overview-card, html body .feed-card, html body .event-teaser, html body .home-quick a, html body .quick a {
+  transition: transform 0.35s var(--ease-soft), box-shadow 0.35s var(--ease-soft), border-color 0.35s var(--ease-soft);
+}
+html body .card:hover, html body .overview-card:hover, html body .feed-card:hover, html body .event-teaser:hover,
+html body .home-quick a:hover, html body .quick a:hover {
+  transform: translateY(-3px); box-shadow: 0 14px 30px rgb(30 60 50 / 0.12);
+}
+html body .button, html body .feed-filters button, html body .header-contact, html body .vision-control, html body .menu, html body nav#nav a {
+  transition: transform 0.25s var(--ease-soft), background-color 0.25s var(--ease-soft), color 0.25s var(--ease-soft), border-color 0.25s var(--ease-soft);
+}
+html body .button:active, html body .feed-filters button:active, html body .header-contact:active, html body .menu:active, html body .settings-mobile:active {
+  transform: scale(0.97);
+}
+html body .feed-card:hover img, html body .feed-card:hover .publication-gallery img { transform: scale(1.04); }
+html body .feed-card img, html body .feed-card .publication-gallery img { transition: transform 0.7s var(--ease-soft); }
+
+/* Keyboard focus stays visible on the rounded shapes */
+html body :focus-visible { outline: 3px solid #2f8f6e; outline-offset: 3px; border-radius: var(--r-ctl); }
+
+@media (prefers-reduced-motion: reduce) {
+  html body *, html body *::before, html body *::after { transition: none !important; animation: none !important; }
+  html body .card:hover, html body .overview-card:hover, html body .feed-card:hover, html body .event-teaser:hover, html body .home-quick a:hover, html body .quick a:hover { transform: none !important; }
+}
