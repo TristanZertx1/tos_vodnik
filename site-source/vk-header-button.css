@@ -8,7 +8,7 @@ html body .site-header .identity-row .header-contact {
   border: 2px solid #0077ff !important;
   border-radius: 999px !important;
   background: #ffffff !important;
-  color: #0077ff !important;
+  color: #0062c4 !important;
   font-size: 16px !important;
   font-weight: 700 !important;
   line-height: 1.2;
@@ -22,7 +22,7 @@ html body .site-header .identity-row .header-contact::before,
 html body .site-header .identity-row .header-contact::after { display: none !important; content: none !important; }
 html body .site-header .identity-row .header-contact:hover {
   background: #eaf3ff !important;
-  color: #0060d6 !important;
+  color: #004f9f !important;
   transform: none !important;
 }
 html body .site-header .identity-row .header-contact:focus-visible {
