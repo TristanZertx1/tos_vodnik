@@ -40,4 +40,14 @@
   html body .settings-panel { background: #fffdf8 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
   html.nav-away .site-header .navigation-row, html.nav-away .site-header .settings-mobile, html.nav-away .site-header nav#nav { display: none !important; }
   html.nav-away .site-header { padding-top: 0 !important; padding-bottom: 0 !important; }
+  html body .site-header .navigation-row { overflow: visible !important; }
+  html body .site-header .navigation-row nav#nav.open, html body .site-header nav#nav.open.open {
+    display: grid !important; grid-template-columns: 1fr !important; gap: 4px !important;
+    position: relative !important; top: auto !important; left: auto !important; bottom: auto !important; right: auto !important;
+    transform: none !important; width: 100% !important; max-width: none !important; height: auto !important; max-height: none !important;
+    margin: 0 !important; padding: 10px !important; border-radius: 20px !important;
+    background: #fffdf8 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+    border: 1px solid #e3e6dc !important; box-shadow: 0 18px 40px rgb(30 60 50 / 0.18) !important; overflow: visible !important;
+  }
+  html body .site-header nav#nav.open a { min-height: 52px !important; height: auto !important; padding: 0 16px !important; width: 100% !important; box-sizing: border-box !important; border-radius: 14px !important; display: flex !important; align-items: center !important; }
 }
