@@ -58,3 +58,31 @@ html body :focus-visible { outline: 3px solid #2f8f6e; outline-offset: 3px; bord
 
 /* Navigation labels: heavier type on desktop dock and phone menu */
 html body .site-header nav#nav a, html body .site-header .menu, html body .site-header .menu-label { font-weight: 700 !important; }
+
+/* Density: more content per screen. Tighter hero, sections, cards and type. */
+@media (min-width: 761px) {
+  html body .hero { padding-block: 40px !important; min-height: 0 !important; }
+  html body .hero h1 { font-size: clamp(2.2rem, 3.6vw, 3.1rem) !important; line-height: 1.12 !important; }
+  html body .lead { font-size: 1rem !important; }
+  html body section.section { padding-top: 48px !important; padding-bottom: 40px !important; }
+  html body .cards, html body .overview-grid, html body .explanation-grid, html body .feed, html body .event-grid { align-items: start !important; }
+  html body .card, html body .overview-card { padding: 18px !important; }
+  html body .site-footer { padding-top: 32px !important; padding-bottom: 24px !important; }
+}
+@media (max-width: 760px) {
+  html body { font-size: 16px !important; }
+  html body .hero { padding-block: 20px 12px !important; min-height: 0 !important; }
+  html body .hero h1 { font-size: clamp(2rem, 9vw, 2.6rem) !important; line-height: 1.12 !important; }
+  html body .lead { font-size: 16px !important; line-height: 1.5 !important; }
+  html body section.section { padding-top: 28px !important; padding-bottom: 24px !important; }
+  html body .card, html body .overview-card, html body .feed-card, html body .event-teaser { padding: 16px !important; }
+  html body .cards, html body .overview-grid, html body .explanation-grid { align-items: start !important; }
+  html body .site-footer { padding-top: 24px !important; padding-bottom: 18px !important; gap: 20px !important; font-size: 14px !important; }
+  html body .footer-about p { font-size: 14px !important; }
+}
+@media (max-width: 760px) {
+  html body .neighborhood-art img, html body .home-hero img { max-height: 240px !important; width: 100% !important; object-fit: cover !important; }
+}
+@media (min-width: 761px) {
+  html body .neighborhood-art img, html body .home-hero img { max-height: 380px !important; width: 100% !important; object-fit: cover !important; }
+}
