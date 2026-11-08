@@ -354,3 +354,12 @@ label { color: var(--color-ink); font-weight: 600; font-size: var(--step-label);
 :is(.vision, html:has(#vision:checked)) a { text-decoration: underline; }
 :is(.vision, html:has(#vision:checked)) .join { background: #000 !important; color: #fff !important; }
 :is(.vision, html:has(#vision:checked)) .join h2 { color: #fff !important; }
+
+/* Touch targets on phones: text links and disclosure summaries get a 44px tap area without changing the layout */
+@media (max-width: 760px) {
+  main a:not(.button):not(.text-link):not(.header-contact):not(.brand), .content a:not(.button), .feed-card a, .event-card a, .footer-links a, .footer-about a, .contacts-list a {
+    padding-block: 12px; margin-block: -12px;
+  }
+  details > summary { min-height: 44px; display: flex; align-items: center; }
+}
+.publication-lightbox > button { width: 44px; height: 44px; }
