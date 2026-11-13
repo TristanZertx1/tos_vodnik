@@ -30,6 +30,8 @@ test('secret scanning runs on PRs, main pushes and scheduled scans', async () =>
   assert.match(workflow, /branches: \[main, "fix\/\*\*", "security\/\*\*"\]/);
   assert.match(workflow, /fetch-depth: 0/);
   assert.match(workflow, /gitleaks\/gitleaks-action@v3/);
+  assert.match(workflow, /GITHUB_TOKEN: \$\{\{ secrets\.GITHUB_TOKEN \}\}/);
+  assert.match(workflow, /pull-requests: read/);
   assert.match(workflow, /GITLEAKS_ENABLE_COMMENTS: "false"/);
   assert.match(workflow, /GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "false"/);
 });
