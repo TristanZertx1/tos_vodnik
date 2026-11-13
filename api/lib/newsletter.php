@@ -32,7 +32,7 @@ function newsletterUnsubscribeToken(string $email): string
     }
     $token = bin2hex(random_bytes(32));
     query('INSERT INTO cms_newsletter_unsubscribe_tokens (id, subscriber_id, token_hash, created_at) VALUES (?, ?, ?, ?)', [
-        bin2hex(random_bytes(16), $subscriber['id'], hash('sha256', $token), now()
+        bin2hex(random_bytes(16)), $subscriber['id'], hash('sha256', $token), now()
     ]);
     return $token;
 }
