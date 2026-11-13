@@ -85,6 +85,48 @@ function subscribeNewsletter(array $input): array
     if (!sendSiteEmail($email, 'Подтверждение подписки на новости ТОС «Водники»', $body)) {
         fail('Не удалось отправить письмо подтверждения. Попробуйте позже или свяжитесь с ТОС.');
     }
+    error_log('[newsletter] confirmation accepted subscriber_id=' . $id . ' recipient_sha256=' . hash('sha256', $email) . ' transport=smtp');
+    return ['ok' => true];
+}
+
+function resendNewsletterConfirmation(array $input): array
+{
+    if (($input['consent'] ?? false) !== true) {
+        fail('Необходимо согласие на получение рассылки и обработку адреса электронной почты.');
+    }
+    $email = strtolower(trim((string) ($input['email'] ?? '')));
+    if (strlen($email) > 254 || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+        fail('Укажите корректный адрес электронной почты.');
+    }
+    if (bumpAttempt(ipKey('newsletter-resend'), 3600) > 3
+        || bumpAttempt('newsletter-resend-email:' . hash('sha256', $email), 3600) > 2) {
+        fail('Слишком много запросов на повторную отправку. Попробуйте позже.', 429);
+    }
+
+    $subscriber = one('SELECT id, status, confirm_token_hash, confirm_expires FROM cms_newsletter_subscribers WHERE email = ?', [$email]);
+    // Keep the response identical for unknown, active and pending addresses.
+    if ($subscriber === null || $subscriber['status'] !== 'pending') {
+        return ['ok' => true];
+    }
+
+    $token = bin2hex(random_bytes(32));
+    $time = now();
+    query(
+        'UPDATE cms_newsletter_subscribers SET confirm_token_hash = ?, confirm_expires = ? WHERE id = ? AND status = \'pending\'',
+        [hash('sha256', $token), $time + 172800, $subscriber['id']]
+    );
+
+    $confirmUrl = rtrim((string) config()['site_origin'], '/') . '/api/public/newsletter/confirm?token=' . rawurlencode($token);
+    $body = "Здравствуйте!\\n\\nЧтобы подтвердить подписку на новости ТОС «Водники», перейдите по ссылке:\\n{$confirmUrl}\\n\\nСсылка действует 48 часов. Если вы не оставляли заявку, просто проигнорируйте это письмо.\\n";
+    if (!sendSiteEmail($email, 'Повторное подтверждение подписки на новости ТОС «Водники»', $body)) {
+        // Restore the previous valid link if the SMTP server rejects this retry.
+        query(
+            'UPDATE cms_newsletter_subscribers SET confirm_token_hash = ?, confirm_expires = ? WHERE id = ? AND status = \'pending\'',
+            [$subscriber['confirm_token_hash'], $subscriber['confirm_expires'], $subscriber['id']]
+        );
+        fail('Не удалось отправить письмо подтверждения. Попробуйте позже или свяжитесь с ТОС.');
+    }
+    error_log('[newsletter] confirmation resend accepted subscriber_id=' . $subscriber['id'] . ' recipient_sha256=' . hash('sha256', $email) . ' transport=smtp');
     return ['ok' => true];
 }
 
