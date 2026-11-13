@@ -171,7 +171,12 @@ function notifyNewsletterSubscribers(string $kind, array $data): void
         default => '/',
     };
     $url = rtrim((string) config()['site_origin'], '/') . $path;
-    $subscribers = all("SELECT email FROM cms_newsletter_subscribers WHERE status = 'active' ORDER BY created_at");
+    try {
+        $subscribers = all("SELECT email FROM cms_newsletter_subscribers WHERE status = 'active' ORDER BY created_at");
+    } catch (Throwable $error) {
+        error_log('[newsletter] Unable to load subscribers: ' . $error->getMessage());
+        return;
+    }
     foreach ($subscribers as $subscriber) {
         $email = (string) $subscriber['email'];
         $unsubscribe = newsletterUnsubscribeUrl($email);
