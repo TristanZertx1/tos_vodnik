@@ -6,6 +6,8 @@ require __DIR__ . '/lib/bootstrap.php';
 require __DIR__ . '/lib/validate.php';
 require __DIR__ . '/lib/cms.php';
 require __DIR__ . '/lib/media.php';
+require __DIR__ . '/lib/mailer.php';
+require __DIR__ . '/lib/newsletter.php';
 require __DIR__ . '/lib/community.php';
 
 ini_set('display_errors', '0');
@@ -25,6 +27,18 @@ try {
         recordPageView(jsonBody());
         http_response_code(204);
         exit;
+    }
+    if ($parts === ['public', 'newsletter', 'subscribe'] && $method === 'POST') {
+        assertSameOrigin();
+        send(subscribeNewsletter(jsonBody()));
+    }
+    if ($parts === ['public', 'newsletter', 'confirm'] && $method === 'GET') {
+        confirmNewsletterSubscription((string) ($_GET['token'] ?? ''));
+        newsletterRedirect('confirmed');
+    }
+    if ($parts === ['public', 'newsletter', 'unsubscribe'] && $method === 'GET') {
+        unsubscribeNewsletter((string) ($_GET['token'] ?? ''));
+        newsletterRedirect('unsubscribed');
     }
     if ($parts === ['public', 'ideas'] && $method === 'POST') {
         assertSameOrigin();
