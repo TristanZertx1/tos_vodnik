@@ -20,25 +20,6 @@
     const wrapper = el('section', null, 'content community-page');
     return wrapper;
   };
-  function addNavigation() {
-    const nav = document.querySelector('#nav');
-    if (!nav) return;
-    const links = [['Карта','/karta'],['Поиск','/poisk'],['Предложить идею','/ideya'],['Подписка','/podpiska']];
-    links.forEach(([label, href]) => {
-      if (nav.querySelector('a[href="' + href + '"]')) return;
-      const anchor = el('a', label);
-      anchor.href = href;
-      anchor.dataset.communityNav = 'true';
-      nav.append(anchor);
-    });
-    const path = location.pathname.replace(/\/+$/, '') || '/';
-    nav.querySelectorAll('a').forEach(anchor => {
-      if (anchor.dataset.communityNav) {
-        if (anchor.getAttribute('href') === path) anchor.setAttribute('aria-current', 'page');
-        else anchor.removeAttribute('aria-current');
-      }
-    });
-  }
   function addPolicyDetails() {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/politika' || main.querySelector('[data-community-policy]')) return;
     const block = el('section', null, 'community-policy content');
@@ -280,7 +261,6 @@
     main.append(body);
   }
   function renderFeaturePage() {
-    addNavigation();
     const path = location.pathname.replace(/\/+$/, '') || '/';
     if (path === '/karta' || path === '/poisk' || path === '/ideya' || path === '/podpiska') {
       if (main.dataset.communityPage === path && main.querySelector('.community-page')) return;
