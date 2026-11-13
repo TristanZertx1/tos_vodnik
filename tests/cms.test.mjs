@@ -165,7 +165,11 @@ test('Event registration respects capacity and the editor can track and cancel r
   assert.equal((await register('Иван Петров','+7 900 444-55-66',2,'192.0.2.2')).status,409);
   const activeErase=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},admin),db,hash);assert.equal(activeErase.status,409,'active registrations must not be erased before cancellation');
   const cancelled=await handleCMS(request('registrations/'+registeredId,'DELETE',{},admin),db,hash);assert.equal(cancelled.status,200);
+  const moderatorCreated=await handleCMS(request('users','POST',{username:'privacy-mod',password:'moderator-password'},admin),db,hash);assert.equal(moderatorCreated.status,201);
+  const moderator=await login(db,hash,'privacy-mod','moderator-password');
+  const forbiddenErase=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},moderator),db,hash);assert.equal(forbiddenErase.status,403,'moderators must not erase personal registration data');
   const erased=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},admin),db,hash);assert.equal(erased.status,200);
+  const repeatedErase=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},admin),db,hash);assert.equal(repeatedErase.status,404,'already erased registrations must not be reported as erased again');
   assert.equal(await db.prepare('SELECT id FROM cms_event_registrations WHERE id=?').bind(registeredId).first(),null,'erasure must remove the personal registration row');
   const second=await register('Иван Петров','+7 900 444-55-66',2,'192.0.2.2');assert.equal(second.status,201);
   const publicContent=await readPublic(db);assert.equal(publicContent.events[0].registeredCount,3);assert.equal(publicContent.events[0].availableSeats,0);
