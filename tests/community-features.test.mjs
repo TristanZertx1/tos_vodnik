@@ -19,8 +19,8 @@ test('Resident ideas are same-origin protected, validated and rate limited', () 
 
 test('Only administrators can read and moderate resident ideas', () => {
   assert.match(api, /requireAdmin\(\$session\);\s*send\(listCommunityIdeas/);
-  assert.match(api, /requireAdmin\(\$session\);\s*send\(updateCommunityIdea/);
-  assert.match(api, /requireAdmin\(\$session\);\s*send\(deleteCommunityIdea/);
+  assert.match(api, /if \(count\(\$parts\) === 2 && \$parts\[0\] === 'ideas' && \$method === 'PATCH'\) \{\s*requireAdmin\(\$session\);[\s\S]*?send\(updateCommunityIdea/);
+  assert.match(api, /if \(count\(\$parts\) === 2 && \$parts\[0\] === 'ideas' && \$method === 'DELETE'\) \{\s*requireAdmin\(\$session\);[\s\S]*?send\(deleteCommunityIdea/);
   assert.match(adminPage, /data-tab="ideas" data-admin/);
   assert.match(admin, /async function loadIdeas\(\)/);
 });
