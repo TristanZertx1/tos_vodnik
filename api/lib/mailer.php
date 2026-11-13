@@ -112,7 +112,12 @@ function smtpSendMail(string $to, string $subject, string $body): void
             throw new RuntimeException('Unable to send email body.');
         }
         smtpRead($socket, [250], 'message acceptance');
-        smtpCommand($socket, 'QUIT', [221, 250], 'QUIT');
+        // The server has accepted the message; a later QUIT failure must not mark it unsent.
+        try {
+            smtpCommand($socket, 'QUIT', [221, 250], 'QUIT');
+        } catch (Throwable $error) {
+            error_log('[mail] SMTP QUIT failed after message acceptance: ' . $error->getMessage());
+        }
     } finally {
         fclose($socket);
     }
