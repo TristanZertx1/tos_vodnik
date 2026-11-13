@@ -1,0 +1,332 @@
+/* Balanced visual system for public internal pages. Keep behavior and content rendering in app.js. */
+body:has(#main > .page-top) #main > .page-top {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(38px, 5vw, 62px) max(5%, calc((100% - 1236px) / 2));
+  border: 0;
+  border-radius: 0 0 42px 42px;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(244, 170, 100, .16), transparent 19rem),
+    linear-gradient(120deg, #e8f0df 0%, #f3f4e9 58%, #e7f0e9 100%);
+}
+body:has(#main > .page-top) #main > .page-top::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -95px;
+  right: max(4%, calc((100% - 1320px) / 2));
+  width: clamp(170px, 23vw, 280px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(39, 101, 77, .13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(39, 101, 77, .025), 0 0 0 40px rgba(39, 101, 77, .02);
+  pointer-events: none;
+}
+body:has(#main > .page-top) #main > .page-top .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+  padding: 7px 12px;
+  border: 1px solid #d4e2ca;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .78);
+  color: #27654d;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+body:has(#main > .page-top) #main > .page-top .eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f2a668;
+  box-shadow: 0 0 0 4px rgba(242, 166, 104, .15);
+}
+body:has(#main > .page-top) #main > .page-top h1 {
+  max-width: 20ch;
+  margin: 8px 0 12px;
+  color: #244d40;
+  font-size: clamp(34px, 4.5vw, 54px);
+  line-height: 1.12;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+body:has(#main > .page-top) #main > .page-top .lead {
+  max-width: 760px;
+  margin: 0;
+  color: #52685b;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.65;
+}
+body:has(#main > .page-top) #main > .content {
+  max-width: 1236px;
+  min-height: 380px;
+  padding: clamp(30px, 4.5vw, 58px) 30px 76px;
+}
+body:has(#main > .page-top) #main > .content > h2:not(.sr-only),
+body:has(#main > .page-top) #main > .content > section > h2:not(.sr-only) {
+  margin: 34px 0 17px;
+  color: #244d40;
+  font-size: clamp(23px, 2.5vw, 30px);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+body:has(#main > .page-top) #main > .content > h2:first-child,
+body:has(#main > .page-top) #main > .content > section:first-child > h2:first-child {
+  margin-top: 0;
+}
+body:has(#main > .page-top) #main > .content p {
+  color: #52685b;
+  line-height: 1.75;
+}
+body:has(#main > .page-top) #main > .content p + p { margin-top: 14px; }
+body:has(#main > .page-top) #main > .content a:not(.button) {
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+body:has(#main > .page-top) #main > .content a:not(.button):hover {
+  color: #174b37;
+  text-decoration-thickness: 2px;
+}
+body:has(#main > .page-top) #main > .content :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid #e99b5e;
+  outline-offset: 3px;
+}
+body:has(#main > .page-top) #main > .content .cards {
+  align-items: stretch;
+  gap: 20px;
+}
+body:has(#main > .page-top) #main > .content .card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #dfe8d7;
+  border-radius: 22px;
+  background: #fffdf8;
+  box-shadow: 0 8px 24px rgba(36, 77, 64, .055);
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+body:has(#main > .page-top) #main > .content .card:hover {
+  border-color: #c6d9bc;
+  box-shadow: 0 14px 30px rgba(36, 77, 64, .09);
+  transform: translateY(-3px);
+}
+body:has(#main > .page-top) #main > .content .card h2,
+body:has(#main > .page-top) #main > .content .card h3 {
+  color: #244d40;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+body:has(#main > .page-top) #main > .content .card img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+}
+body:has(#main > .page-top) #main > .content .meta,
+body:has(#main > .page-top) #main > .content .number,
+body:has(#main > .page-top) #main > .content .feed-kicker {
+  color: #39735a;
+  font-weight: 800;
+}
+body:has(#main > .page-top) #main > .content :is(.filters, .feed-filters) {
+  gap: 9px;
+  margin: 20px 0 28px;
+}
+body:has(#main > .page-top) #main > .content :is(.filters button, .category-link, .feed-filter) {
+  min-height: 40px;
+  padding: 9px 15px;
+  border: 1px solid #d2dfc4;
+  border-radius: 999px;
+  background: #fffdf8;
+  color: #244d40;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+body:has(#main > .page-top) #main > .content :is(.filters button:hover, .category-link:hover, .feed-filter:hover) {
+  border-color: #b7cfaa;
+  background: #edf4e6;
+}
+body:has(#main > .page-top) #main > .content :is(.filters button.active, .category-link.active, .feed-filter.active) {
+  border-color: #27654d;
+  background: #27654d;
+  color: #fff;
+}
+body:has(#main > .page-top) #main > .content :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  max-width: 100%;
+  border: 1px solid #cbd9c6;
+  border-radius: 12px;
+  background: #fffdf8;
+  color: #244d40;
+  font: inherit;
+}
+body:has(#main > .page-top) #main > .content :is(input:not([type="checkbox"]):not([type="radio"]), select) {
+  min-height: 46px;
+  padding: 10px 13px;
+}
+body:has(#main > .page-top) #main > .content textarea {
+  min-height: 130px;
+  padding: 12px 14px;
+}
+body:has(#main > .page-top) #main > .content label {
+  color: #315c49;
+  font-weight: 700;
+}
+body:has(#main > .page-top) #main > .content .button {
+  min-height: 46px;
+  border-radius: 999px;
+  padding: 12px 21px;
+  font-weight: 800;
+}
+body:has(#main > .page-top) #main > .content .button.secondary {
+  border-color: #cbd9c6;
+  background: #fffdf8;
+  color: #244d40;
+}
+body:has(#main > .page-top) #main > .content :is(.empty, .notice, .event-overview, .source-details, .map-caption) {
+  border: 1px solid #dce7d4;
+  border-radius: 22px;
+  background: #fffdf8;
+}
+body:has(#main > .page-top) #main > .content .empty { padding: clamp(22px, 3vw, 34px); }
+body:has(#main > .page-top) #main > .content .event-overview {
+  gap: 18px;
+  padding: 22px 25px;
+  background: #edf4e6;
+}
+body:has(#main > .page-top) #main > .content .event-date-badge {
+  border-radius: 16px;
+  background: #27654d;
+  color: #fff;
+}
+body:has(#main > .page-top) #main > .content .event-details {
+  border-top: 1px solid #e2e9dc;
+}
+body:has(#main > .page-top) #main > .content :is(.about-contents, .crumbs) {
+  border: 1px solid #dce7d4;
+  border-radius: 18px;
+  background: #fffdf8;
+}
+body:has(#main > .page-top) #main > .content .about-contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 17px;
+  padding: 18px 20px;
+}
+body:has(#main > .page-top) #main > .content .about-contents strong {
+  flex-basis: 100%;
+  color: #244d40;
+}
+body:has(#main > .page-top) #main > .content .crumbs {
+  margin: 0 0 25px;
+  padding: 12px 16px;
+}
+body:has(#main > .page-top) #main > .content .crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+body:has(#main > .page-top) #main > .content .crumbs li {
+  color: #64766a;
+  font-size: 13px;
+}
+body:has(#main > .page-top) #main > .content .crumbs li + li::before {
+  content: "/";
+  margin-right: 12px;
+  color: #a1b09e;
+}
+body:has(#main > .page-top) #main > .content :is(.map-card, .vk-qr-card) {
+  overflow: hidden;
+  border: 1px solid #dce7d4;
+  border-radius: 24px;
+  background: #fffdf8;
+}
+body:has(#main > .page-top) #main > .content .map-card iframe {
+  display: block;
+  max-width: 100%;
+  border: 0;
+}
+body:has(#main > .page-top) #main > .content .map-caption { border: 0; border-top: 1px solid #e3eadc; border-radius: 0; }
+body:has(#main > .page-top) #main > .content :is(table, .history-list article) {
+  border-color: #dce7d4;
+}
+body:has(#main > .page-top) #main > .content table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-wrap: anywhere;
+}
+body:has(#main > .page-top) #main > .content :is(th, td) {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e3eadc;
+  text-align: left;
+}
+body:has(#main > .page-top) #main > .content th {
+  background: #edf4e6;
+  color: #244d40;
+}
+body:has(#main > .page-top) #main > .content details {
+  margin: 12px 0;
+  padding: 16px 19px;
+  border: 1px solid #dce7d4;
+  border-radius: 16px;
+  background: #fffdf8;
+}
+body:has(#main > .page-top) #main > .content summary {
+  color: #244d40;
+  font-weight: 800;
+  cursor: pointer;
+}
+body:has(#main > .page-top) #main > .content blockquote {
+  margin: 22px 0;
+  padding: 18px 22px;
+  border-left: 4px solid #e9a064;
+  border-radius: 0 14px 14px 0;
+  background: #f4f6ed;
+}
+@media (max-width: 760px) {
+  body:has(#main > .page-top) #main > .page-top {
+    padding: 34px 24px 39px;
+    border-radius: 0 0 28px 28px;
+  }
+  body:has(#main > .page-top) #main > .page-top::after {
+    top: -52px;
+    right: -90px;
+    width: 180px;
+  }
+  body:has(#main > .page-top) #main > .page-top h1 {
+    max-width: 16ch;
+    font-size: clamp(32px, 8.5vw, 43px);
+  }
+  body:has(#main > .page-top) #main > .content {
+    padding: 34px 22px 55px;
+  }
+  body:has(#main > .page-top) #main > .content .cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  body:has(#main > .page-top) #main > .content :is(.about-contents, .event-overview) {
+    align-items: flex-start;
+  }
+  body:has(#main > .page-top) #main > .content .map-card iframe {
+    height: 320px;
+  }
+  body:has(#main > .page-top) #main > .content :is(table, .event-details) {
+    font-size: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body:has(#main > .page-top) #main > .content .card,
+  body:has(#main > .page-top) #main > .content :is(.filters button, .category-link, .feed-filter) {
+    transition: none !important;
+  }
+  body:has(#main > .page-top) #main > .content .card:hover { transform: none; }
+}
