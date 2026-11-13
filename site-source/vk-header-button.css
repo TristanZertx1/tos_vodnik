@@ -1,38 +1,59 @@
-/* "Мы ВКонтакте" in the header: icon and text only, VK blue on white. */
-html body .site-header .identity-row .header-contact {
+/* Shared appearance for the VK links in the header and footer. */
+html body .vk-social-link {
   display: inline-flex !important;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px !important;
   min-height: 48px;
-  padding: 10px 22px !important;
-  border: 2px solid #0077ff !important;
+  padding: 9px 14px !important;
+  border: 1px solid #cbdcc0 !important;
   border-radius: 999px !important;
-  background: #ffffff !important;
-  color: #0062c4 !important;
+  background: #f1f6e9 !important;
+  color: #27654d !important;
   font-size: 16px !important;
   font-weight: 700 !important;
-  line-height: 1.2;
-  box-shadow: 0 6px 18px rgba(0, 119, 255, 0.14) !important;
+  line-height: 1.6;
+  text-decoration: none !important;
+  white-space: nowrap;
+  box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   transform: none !important;
-  transition: background-color .2s ease, color .2s ease;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
 }
-html body .site-header .identity-row .header-contact::before,
-html body .site-header .identity-row .header-contact::after { display: none !important; content: none !important; }
-html body .site-header .identity-row .header-contact:hover {
-  background: #eaf3ff !important;
-  color: #004f9f !important;
+html body .vk-social-link::before,
+html body .vk-social-link::after {
+  display: none !important;
+  content: none !important;
+}
+html body .vk-social-link .vk-icon {
+  display: block;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+}
+html body .vk-social-link .vk-social-ext {
+  font-size: 14px;
+  line-height: 1;
+  opacity: .75;
+}
+html body .vk-social-link:hover {
+  background: #e5efd9 !important;
+  border-color: #b8cdae !important;
+  color: #244d40 !important;
+  box-shadow: none !important;
   transform: none !important;
 }
-html body .site-header .identity-row .header-contact:focus-visible {
+html body .vk-social-link:focus-visible {
   outline: 3px solid #f2a668;
   outline-offset: 3px;
 }
-html body .site-header .identity-row .header-contact .vk-icon {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
-  color: #0077ff;
+html body .site-header .identity-row .header-contact {
+  margin: 0;
 }
-html body .site-header .identity-row .header-contact .header-contact-ext { display: none !important; }
+@media (max-width: 700px) {
+  html body .site-header .identity-row .header-contact {
+    display: none !important;
+  }
+}
