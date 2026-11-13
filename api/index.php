@@ -6,10 +6,12 @@ require __DIR__ . '/lib/bootstrap.php';
 require __DIR__ . '/lib/validate.php';
 require __DIR__ . '/lib/cms.php';
 require __DIR__ . '/lib/media.php';
+require __DIR__ . '/lib/community.php';
 
 ini_set('display_errors', '0');
 
 try {
+    ensureCommunitySchema();
     $route = trim((string) ($_GET['route'] ?? ''), '/');
     $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
     $parts = $route === '' ? [] : explode('/', $route);
@@ -23,6 +25,10 @@ try {
         recordPageView(jsonBody());
         http_response_code(204);
         exit;
+    }
+    if ($parts === ['public', 'ideas'] && $method === 'POST') {
+        assertSameOrigin();
+        send(submitCommunityIdea(jsonBody()), 201);
     }
     if (count($parts) === 4 && $parts[0] === 'public' && $parts[1] === 'events' && $parts[3] === 'register' && $method === 'POST') {
         if (!preg_match('/^[a-z0-9-]{12,40}$/i', $parts[2])) {
@@ -59,6 +65,24 @@ try {
         requireCsrf($session);
     }
 
+    if ($action === 'ideas' && $method === 'GET') {
+        requireAdmin($session);
+        send(listCommunityIdeas());
+    }
+    if (count($parts) === 2 && $parts[0] === 'ideas' && $method === 'PATCH') {
+        requireAdmin($session);
+        if (!preg_match('/^[a-f0-9]{32}$/', $parts[1])) {
+            fail('Предложение не найдено.', 404);
+        }
+        send(updateCommunityIdea($parts[1], jsonBody()));
+    }
+    if (count($parts) === 2 && $parts[0] === 'ideas' && $method === 'DELETE') {
+        requireAdmin($session);
+        if (!preg_match('/^[a-f0-9]{32}$/', $parts[1])) {
+            fail('Предложение не найдено.', 404);
+        }
+        send(deleteCommunityIdea($parts[1]));
+    }
     if ($action === 'media' && $method === 'POST') {
         send(saveMedia($session), 201);
     }
