@@ -16,17 +16,25 @@ function ensureNewsletterSchema(): void
         confirmed_at INT DEFAULT NULL,
         unsubscribed_at INT DEFAULT NULL
     )$engine");
+    db()->exec("CREATE TABLE IF NOT EXISTS cms_newsletter_unsubscribe_tokens (
+        id VARCHAR(32) PRIMARY KEY,
+        subscriber_id VARCHAR(32) NOT NULL,
+        token_hash VARCHAR(64) NOT NULL UNIQUE,
+        created_at INT NOT NULL
+    )$engine");
 }
 
 function newsletterUnsubscribeToken(string $email): string
 {
-    $secret = (string) (config()['newsletter_secret'] ?? '');
-    if (strlen($secret) < 32) {
-        throw new RuntimeException('Newsletter signing secret is not configured.');
+    $subscriber = one("SELECT id FROM cms_newsletter_subscribers WHERE email = ? AND status = 'active'", [strtolower(trim($email))]);
+    if ($subscriber === null) {
+        throw new RuntimeException('Active newsletter subscriber was not found.');
     }
-    $address = strtolower(trim($email));
-    $encoded = rtrim(strtr(base64_encode($address), '+/', '-_'), '=');
-    return $encoded . '.' . hash_hmac('sha256', $address, $secret);
+    $token = bin2hex(random_bytes(32));
+    query('INSERT INTO cms_newsletter_unsubscribe_tokens (id, subscriber_id, token_hash, created_at) VALUES (?, ?, ?, ?)', [
+        bin2hex(random_bytes(16), $subscriber['id'], hash('sha256', $token), now()
+    ]);
+    return $token;
 }
 
 function newsletterUnsubscribeUrl(string $email): string
@@ -39,7 +47,7 @@ function subscribeNewsletter(array $input): array
     if (trim((string) ($input['website'] ?? '')) !== '') {
         return ['ok' => true];
     }
-    if (!smtpIsConfigured() || strlen((string) (config()['newsletter_secret'] ?? '')) < 32) {
+    if (!smtpIsConfigured()) {
         fail('Подписка временно настраивается. Попробуйте позже.', 503);
     }
     if (($input['consent'] ?? false) !== true) {
@@ -113,7 +121,7 @@ function confirmNewsletterSubscription(string $token): void
 
 function newsletterUnsubscribePrompt(string $token): never
 {
-    if (!preg_match('/^[A-Za-z0-9_-]+\\.[a-f0-9]{64}$/', $token)) {
+    if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
         fail('Ссылка отписки недействительна.', 400);
     }
     $safeToken = htmlspecialchars($token, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -126,27 +134,18 @@ function newsletterUnsubscribePrompt(string $token): never
 
 function unsubscribeNewsletter(string $token): void
 {
-    $parts = explode('.', $token, 2);
-    if (count($parts) !== 2 || !preg_match('/^[a-f0-9]{64}$/', $parts[1])) {
+    if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
         fail('Ссылка отписки недействительна.', 400);
     }
-    $encoded = strtr($parts[0], '-_', '+/');
-    $padding = strlen($encoded) % 4;
-    if ($padding) {
-        $encoded .= str_repeat('=', 4 - $padding);
-    }
-    $email = base64_decode($encoded, true);
-    if (!is_string($email) || filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-        fail('Ссылка отписки недействительна.', 400);
-    }
-    $expected = hash_hmac('sha256', strtolower($email), (string) (config()['newsletter_secret'] ?? ''));
-    if (!hash_equals($expected, $parts[1])) {
-        fail('Ссылка отписки недействительна.', 400);
+    $subscriber = one('SELECT subscriber_id FROM cms_newsletter_unsubscribe_tokens WHERE token_hash = ?', [hash('sha256', $token)]);
+    if ($subscriber === null) {
+        fail('Ссылка отписки недействительна или уже использована.', 400);
     }
     query(
-        "UPDATE cms_newsletter_subscribers SET status = 'unsubscribed', unsubscribed_at = ?, confirm_token_hash = NULL, confirm_expires = NULL WHERE email = ?",
-        [now(), strtolower($email)]
+        "UPDATE cms_newsletter_subscribers SET status = 'unsubscribed', unsubscribed_at = ?, confirm_token_hash = NULL, confirm_expires = NULL WHERE id = ?",
+        [now(), $subscriber['subscriber_id']]
     );
+    query('DELETE FROM cms_newsletter_unsubscribe_tokens WHERE subscriber_id = ?', [$subscriber['subscriber_id']]);
 }
 
 function newsletterRedirect(string $status): never
@@ -158,7 +157,7 @@ function newsletterRedirect(string $status): never
 
 function notifyNewsletterSubscribers(string $kind, array $data): void
 {
-    if (!smtpIsConfigured() || strlen((string) (config()['newsletter_secret'] ?? '')) < 32) {
+    if (!smtpIsConfigured()) {
         return;
     }
     $title = trim((string) ($data['title'] ?? 'Новая публикация'));
