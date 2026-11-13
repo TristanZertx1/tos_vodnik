@@ -42,7 +42,7 @@ if ('IntersectionObserver' in window && 'animate' in Element.prototype) {
       const animation = entry.target.animate([
         { opacity: 0, transform: 'translateY(20px)' },
         { opacity: 1, transform: 'translateY(0)' },
-      ], { duration: 650, delay: entry.target.matches('.card, .quick > a') ? Math.min(Array.from(entry.target.parentElement.children).indexOf(entry.target), 4) * 95 : 0, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'both' });
+      ], { duration: 650, delay: entry.target.matches('.card, .quick > a') ? Math.min(Array.from(entry.target.parentElement.children).indexOf(entry.target), 4) * 95 : 0, easing: 'cubic-bezier(.2,.7,.2,1)' });
       animated.add(animation); animation.finished.catch(() => {}).finally(() => animated.delete(animation));
     }
   }, { threshold: .12 });
