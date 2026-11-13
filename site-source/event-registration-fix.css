@@ -134,3 +134,25 @@
     font-size: 13px;
   }
 }
+
+/* Availability and submission feedback use readable foreground colours too. */
+.publication-detail .event-signup .event-availability {
+  color: #244d40 !important;
+  background: #edf4e8 !important;
+  border: 1px solid #d7e5d1;
+}
+
+.publication-detail .event-signup .event-full {
+  color: #244d40 !important;
+}
+
+.publication-detail .event-registration-form .registration-message {
+  color: #244d40 !important;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.publication-detail .event-registration-form .registration-message:empty {
+  display: none;
+}
