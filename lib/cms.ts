@@ -1,5 +1,5 @@
 import { hashPassword, verifyPassword, randomToken, sha256 } from './password.mjs';
-import { cancelEventRegistration, ensureEventRegistrationTable, getEventRegistrations } from './event-registration.ts';
+import { cancelEventRegistration, eraseCancelledEventRegistration, ensureEventRegistrationTable, getEventRegistrations } from './event-registration.ts';
 type DB = D1Database;
 const cookieName = '__Host-vodniki-cms';
 const kinds = ['news', 'events', 'projects', 'documents', 'contacts'];
@@ -212,6 +212,14 @@ export async function handleCMS(request: Request, db: DB, adminHash?: string, al
       const eventId=new URL(request.url).searchParams.get('eventId')||'';
       if(!/^[a-z0-9-]{12,40}$/i.test(eventId))fail('Выберите мероприятие.');
       const result=await getEventRegistrations(db,eventId);if(!result)fail('Мероприятие не найдено.',404);return json(result);
+    }
+    const eraseMatch = /^registrations\/([a-z0-9-]{12,40})\/erase$/i.exec(path);
+    if (eraseMatch && request.method === 'DELETE') {
+      admin();
+      const result = await eraseCancelledEventRegistration(db, eraseMatch[1]);
+      if (result === 'active') fail('Сначала отмените запись. Удалять персональные данные можно только у отменённой заявки.', 409);
+      if (result === 'missing') fail('Заявка не найдена.', 404);
+      return json({ ok: true });
     }
     if(path.startsWith('registrations/')&&request.method==='DELETE'){
       const id=path.slice('registrations/'.length);if(!/^[a-z0-9-]{12,40}$/i.test(id))fail('Заявка не найдена.',404);

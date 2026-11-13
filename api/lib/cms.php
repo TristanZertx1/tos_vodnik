@@ -448,6 +448,22 @@ function cancelRegistration(string $id): array
     return ['ok' => true];
 }
 
+function eraseCancelledRegistration(string $id): array
+{
+    $row = one('SELECT status FROM cms_event_registrations WHERE id = ?', [$id]);
+    if ($row === null) {
+        fail('Заявка не найдена.', 404);
+    }
+    if ($row['status'] !== 'cancelled') {
+        fail('Сначала отмените запись. Удалять персональные данные можно только у отменённой заявки.', 409);
+    }
+    $statement = query("DELETE FROM cms_event_registrations WHERE id = ? AND status = 'cancelled'", [$id]);
+    if ($statement->rowCount() < 1) {
+        fail('Заявка не найдена.', 404);
+    }
+    return ['ok' => true];
+}
+
 // ---------- users ----------
 
 function listUsers(): array

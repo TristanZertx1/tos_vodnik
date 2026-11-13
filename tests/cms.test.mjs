@@ -163,7 +163,10 @@ test('Event registration respects capacity and the editor can track and cancel r
   const first=await register('Анна Смирнова','+7 900 111-22-33',1,'192.0.2.1');assert.equal(first.status,201,await first.clone().text());
   const {registeredId}=await (async()=>{const list=await handleCMS(request('registrations?eventId='+id,'GET',undefined,admin),db,hash);assert.equal(list.status,200);const {registrations}=await list.json();return {registeredId:registrations[0].id}})();
   assert.equal((await register('Иван Петров','+7 900 444-55-66',2,'192.0.2.2')).status,409);
+  const activeErase=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},admin),db,hash);assert.equal(activeErase.status,409,'active registrations must not be erased before cancellation');
   const cancelled=await handleCMS(request('registrations/'+registeredId,'DELETE',{},admin),db,hash);assert.equal(cancelled.status,200);
+  const erased=await handleCMS(request('registrations/'+registeredId+'/erase','DELETE',{},admin),db,hash);assert.equal(erased.status,200);
+  assert.equal(await db.prepare('SELECT id FROM cms_event_registrations WHERE id=?').bind(registeredId).first(),null,'erasure must remove the personal registration row');
   const second=await register('Иван Петров','+7 900 444-55-66',2,'192.0.2.2');assert.equal(second.status,201);
   const publicContent=await readPublic(db);assert.equal(publicContent.events[0].registeredCount,3);assert.equal(publicContent.events[0].availableSeats,0);
 });
