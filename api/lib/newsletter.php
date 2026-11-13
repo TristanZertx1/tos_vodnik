@@ -12,6 +12,7 @@ function ensureNewsletterSchema(): void
         confirm_token_hash VARCHAR(64) DEFAULT NULL,
         confirm_expires INT DEFAULT NULL,
         created_at INT NOT NULL,
+        consent_at INT NOT NULL,
         confirmed_at INT DEFAULT NULL,
         unsubscribed_at INT DEFAULT NULL
     )$engine");
@@ -38,8 +39,11 @@ function subscribeNewsletter(array $input): array
     if (trim((string) ($input['website'] ?? '')) !== '') {
         return ['ok' => true];
     }
-    if (!smtpIsConfigured()) {
+    if (!smtpIsConfigured() || strlen((string) (config()['newsletter_secret'] ?? '')) < 32) {
         fail('Подписка временно настраивается. Попробуйте позже.', 503);
+    }
+    if (($input['consent'] ?? false) !== true) {
+        fail('Необходимо согласие на получение рассылки и обработку адреса электронной почты.');
     }
     if (bumpAttempt(ipKey('newsletter-subscribe'), 3600) > 5) {
         fail('Слишком много попыток. Попробуйте позже.', 429);
@@ -58,13 +62,13 @@ function subscribeNewsletter(array $input): array
     $time = now();
     if ($existing === null) {
         query(
-            'INSERT INTO cms_newsletter_subscribers (id, email, status, confirm_token_hash, confirm_expires, created_at) VALUES (?, ?, ?, ?, ?, ?)',
-            [$id, $email, 'pending', hash('sha256', $token), $time + 172800, $time]
+            'INSERT INTO cms_newsletter_subscribers (id, email, status, confirm_token_hash, confirm_expires, created_at, consent_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [$id, $email, 'pending', hash('sha256', $token), $time + 172800, $time, $time]
         );
     } else {
         query(
-            "UPDATE cms_newsletter_subscribers SET status = 'pending', confirm_token_hash = ?, confirm_expires = ?, confirmed_at = NULL, unsubscribed_at = NULL WHERE id = ?",
-            [hash('sha256', $token), $time + 172800, $id]
+            "UPDATE cms_newsletter_subscribers SET status = 'pending', confirm_token_hash = ?, confirm_expires = ?, consent_at = ?, confirmed_at = NULL, unsubscribed_at = NULL WHERE id = ?",
+            [hash('sha256', $token), $time + 172800, $time, $id]
         );
     }
 
