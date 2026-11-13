@@ -8,21 +8,29 @@ const community = read('site-source/community-features.js');
 const html = read('site-source/index.html');
 const css = read('site-source/community-features.css');
 
-test('Community tools are available from the homepage gear settings panel', () => {
-  for (const href of ['/karta', '/poisk', '/ideya', '/podpiska']) {
-    assert.ok(settings.includes('href=\"' + href + '\"'), 'settings panel should link to ' + href);
+test('Idea and newsletter tools remain available from the homepage gear settings panel', () => {
+  for (const href of ['/ideya', '/podpiska']) {
+    assert.ok(settings.includes('href=\\\"' + href + '\\\"'), 'settings panel should link to ' + href);
   }
+  assert.doesNotMatch(settings, /Карта района|Поиск по сайту/);
   assert.match(settings, /Разделы и возможности/);
+});
+
+test('Map and search are not listed in the gear panel; search is in the header actions', () => {
+  assert.doesNotMatch(settings, /href=\\\"\\/karta\\\"|href=\\\"\\/poisk\\\"/);
+  assert.ok(html.includes('class="header-search-link" href="/poisk"'));
+  assert.ok(html.includes('aria-label="Поиск по сайту"'));
 });
 
 test('Community tools no longer add tabs to the primary navigation or footer', () => {
   assert.doesNotMatch(community, /function addNavigation/);
-  assert.doesNotMatch(community, /addNavigation\(\)/);
-  assert.doesNotMatch(html, /<a href=\"\/podpiska\">Подписка на новости<\/a>/);
+  assert.doesNotMatch(community, /addNavigation\\(\\)/);
+  assert.doesNotMatch(html, /<a href="\\/podpiska">Подписка на новости<\\/a>/);
 });
 
-test('Settings links have responsive, keyboard-visible styling', () => {
-  assert.match(css, /\.settings-tools/);
+test('Settings links and header search have keyboard-visible, reduced-motion-aware styling', () => {
+  assert.match(css, /\\.settings-tools/);
+  assert.match(css, /\\.header-search-link/);
   assert.match(css, /:focus-visible/);
   assert.match(css, /prefers-reduced-motion/);
 });
