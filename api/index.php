@@ -33,7 +33,11 @@ try {
         send(subscribeNewsletter(jsonBody()));
     }
     if ($parts === ['public', 'newsletter', 'confirm'] && $method === 'GET') {
-        confirmNewsletterSubscription((string) ($_GET['token'] ?? ''));
+        newsletterConfirmationPrompt((string) ($_GET['token'] ?? ''));
+    }
+    if ($parts === ['public', 'newsletter', 'confirm'] && $method === 'POST') {
+        assertSameOrigin();
+        confirmNewsletterSubscription((string) ($_POST['token'] ?? ''));
         newsletterRedirect('confirmed');
     }
     if ($parts === ['public', 'newsletter', 'unsubscribe'] && $method === 'GET') {
