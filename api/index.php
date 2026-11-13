@@ -37,7 +37,12 @@ try {
         newsletterRedirect('confirmed');
     }
     if ($parts === ['public', 'newsletter', 'unsubscribe'] && $method === 'GET') {
-        unsubscribeNewsletter((string) ($_GET['token'] ?? ''));
+        newsletterUnsubscribePrompt((string) ($_GET['token'] ?? ''));
+    }
+    if ($parts === ['public', 'newsletter', 'unsubscribe'] && $method === 'POST') {
+        assertSameOrigin();
+        $input = jsonBody();
+        unsubscribeNewsletter((string) ($input['token'] ?? ''));
         newsletterRedirect('unsubscribed');
     }
     if ($parts === ['public', 'ideas'] && $method === 'POST') {
