@@ -63,3 +63,19 @@ test('Newly published materials are sent to active subscribers only', () => {
   assert.match(newsletter, /WHERE status = 'active'/);
   assert.match(newsletter, /Отписаться от рассылки/);
 });
+
+test('SMTP diagnostics include the failed protocol stage and server response without credentials', () => {
+  assert.match(mailer, /SMTP ' \. \$stage \. ' failed with response/);
+  assert.match(mailer, /message acceptance/);
+  assert.doesNotMatch(mailer, /error_log\([^\n]*(\$password|\$username)/);
+});
+
+test('Pending subscribers can request a rate-limited confirmation resend without exposing address existence', () => {
+  assert.match(api, /public', 'newsletter', 'resend'/);
+  assert.match(newsletter, /function resendNewsletterConfirmation/);
+  assert.match(newsletter, /newsletter-resend-email:/);
+  assert.match(newsletter, /confirmation resend accepted subscriber_id=/);
+  assert.match(newsletter, /Restore the previous valid link/);
+  assert.match(ui, /Отправить письмо ещё раз/);
+  assert.match(ui, /\/api\/public\/newsletter\/resend/);
+});
