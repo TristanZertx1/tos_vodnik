@@ -78,6 +78,13 @@ try {
         }
         send(eventRegistrations($eventId));
     }
+    if (count($parts) === 3 && $parts[0] === 'registrations' && $parts[2] === 'erase' && $method === 'DELETE') {
+        requireAdmin($session);
+        if (!preg_match('/^[a-z0-9-]{12,40}$/i', $parts[1])) {
+            fail('Заявка не найдена.', 404);
+        }
+        send(eraseCancelledRegistration($parts[1]));
+    }
     if (count($parts) === 2 && $parts[0] === 'registrations' && $method === 'DELETE') {
         if (!preg_match('/^[a-z0-9-]{12,40}$/i', $parts[1])) {
             fail('Заявка не найдена.', 404);
