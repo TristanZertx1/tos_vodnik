@@ -27,6 +27,4 @@ return [
         'username' => 'info@tos-vodniki.ru',
         'password' => '',
     ],
-    // Generate a unique random value of at least 32 characters for unsubscribe links.
-    'newsletter_secret' => 'CHANGE_ME_LONG_RANDOM_NEWSLETTER_SECRET',
 ];
