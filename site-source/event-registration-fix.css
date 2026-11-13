@@ -1,0 +1,136 @@
+/* Event detail registration layout fixes.
+   Loaded after the site's visual layers so the form remains readable and contained. */
+
+/* The event form has horizontal margins inside the article. A 100% width plus
+   those margins made it wider than the article and caused the right side to clip. */
+.publication-detail .event-signup {
+  width: auto !important;
+  max-width: none;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the event detail card and every nested grid item shrinkable. */
+.publication-detail,
+.publication-detail .event-signup,
+.publication-detail .event-registration-form,
+.publication-detail .event-registration-form > * {
+  min-width: 0;
+}
+
+.publication-detail .event-registration-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  max-width: 100%;
+  gap: 14px;
+}
+
+.publication-detail .event-registration-form label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+  color: #244d40 !important;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.publication-detail .event-registration-form input:not([type="checkbox"]),
+.publication-detail .event-registration-form select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  color: #244d40 !important;
+  background: #fff !important;
+  border: 1px solid #b8cbb6;
+}
+
+.publication-detail .event-registration-form .registration-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: #244d40 !important;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.publication-detail .event-registration-form .registration-consent span {
+  display: block;
+  min-width: 0;
+  color: #244d40 !important;
+  overflow-wrap: anywhere;
+}
+
+.publication-detail .event-registration-form .registration-consent a {
+  color: #086e65 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.publication-detail .event-registration-form .registration-consent input[type="checkbox"] {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  margin: 3px 0 0;
+  accent-color: #27654d;
+}
+
+.publication-detail .event-registration-form .registration-privacy {
+  color: #53685c !important;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.publication-detail .event-registration-form .button {
+  justify-self: start;
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .publication-detail {
+    width: calc(100% - 24px);
+    padding-bottom: 28px !important;
+    border-radius: 22px;
+  }
+
+  .publication-detail .publication-actions {
+    flex-wrap: wrap;
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .publication-detail .article-body,
+  .publication-detail .meta,
+  .publication-detail .event-details,
+  .publication-detail .event-signup,
+  .publication-detail > p:not(.article-body):not(.meta),
+  .publication-detail > a {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .publication-detail .event-signup {
+    padding: 18px 16px;
+  }
+
+  .publication-detail .event-registration-form .button {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 380px) {
+  .publication-detail .event-signup {
+    padding: 15px 12px;
+  }
+
+  .publication-detail .event-registration-form .registration-consent {
+    font-size: 13px;
+  }
+}
