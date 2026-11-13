@@ -31,5 +31,5 @@ test('Public map, search and idea form are loaded without exposing private submi
   assert.match(features, /\/ideya/);
   assert.match(features, /\/api\/public\/content/);
   assert.match(features, /\/api\/public\/ideas/);
-  assert.doesNotMatch(api, /send\(listCommunityIdeas\(\)\)/);
+  assert.match(api, /if \(\$action === 'ideas' && \$method === 'GET'\) \{\s*requireAdmin\(\$session\);\s*send\(listCommunityIdeas\(\)\);/);
 });
