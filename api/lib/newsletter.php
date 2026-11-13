@@ -128,6 +128,9 @@ function newsletterRedirect(string $status): never
 
 function notifyNewsletterSubscribers(string $kind, array $data): void
 {
+    if (!smtpIsConfigured() || strlen((string) (config()['newsletter_secret'] ?? '')) < 32) {
+        return;
+    }
     $title = trim((string) ($data['title'] ?? 'Новая публикация'));
     $summary = trim(strip_tags((string) ($data['description'] ?? $data['excerpt'] ?? '')));
     $path = match ($kind) {
