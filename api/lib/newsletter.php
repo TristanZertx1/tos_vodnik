@@ -117,7 +117,7 @@ function resendNewsletterConfirmation(array $input): array
     );
 
     $confirmUrl = rtrim((string) config()['site_origin'], '/') . '/api/public/newsletter/confirm?token=' . rawurlencode($token);
-    $body = "Здравствуйте!\\n\\nЧтобы подтвердить подписку на новости ТОС «Водники», перейдите по ссылке:\\n{$confirmUrl}\\n\\nСсылка действует 48 часов. Если вы не оставляли заявку, просто проигнорируйте это письмо.\\n";
+    $body = "Здравствуйте!\n\nЧтобы подтвердить подписку на новости ТОС «Водники», перейдите по ссылке:\n{$confirmUrl}\n\nСсылка действует 48 часов. Если вы не оставляли заявку, просто проигнорируйте это письмо.\n";
     if (!sendSiteEmail($email, 'Повторное подтверждение подписки на новости ТОС «Водники»', $body)) {
         // Restore the previous valid link if the SMTP server rejects this retry.
         query(
