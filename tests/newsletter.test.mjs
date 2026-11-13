@@ -35,7 +35,7 @@ test('Newsletter requires consent, double opt-in and expiring confirmation token
   assert.match(newsletter, /method="post" action="\/api\/public\/newsletter\/confirm"/);
 });
 
-test('Unsubscribe links are signed and require an explicit confirmation action', () => {
+test('Unsubscribe links use opaque tokens and require an explicit confirmation action', () => {
   assert.match(newsletter, /hash\('sha256', \$token\)/);
   assert.match(newsletter, /cms_newsletter_unsubscribe_tokens/);
   assert.match(newsletter, /random_bytes\(32\)/);
