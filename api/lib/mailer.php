@@ -5,9 +5,11 @@ declare(strict_types=1);
 function smtpIsConfigured(): bool
 {
     $smtp = config()['smtp'] ?? [];
+    if (!is_array($smtp)) {
+        return false;
+    }
     $encryption = strtolower((string) ($smtp['encryption'] ?? 'ssl'));
-    return is_array($smtp)
-        && in_array($encryption, ['ssl', 'tls', 'starttls'], true)
+    return in_array($encryption, ['ssl', 'tls', 'starttls'], true)
         && trim((string) ($smtp['host'] ?? '')) !== ''
         && (int) ($smtp['port'] ?? 0) > 0
         && trim((string) ($smtp['username'] ?? '')) !== ''
