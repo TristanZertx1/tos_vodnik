@@ -17,7 +17,7 @@ function smtpIsConfigured(): bool
         && filter_var((string) (config()['mail_from'] ?? ''), FILTER_VALIDATE_EMAIL) !== false;
 }
 
-function smtpRead($socket, array $expected): string
+function smtpRead($socket, array $expected, string $stage = 'command'): string
 {
     $response = '';
     do {
@@ -30,17 +30,19 @@ function smtpRead($socket, array $expected): string
 
     $code = (int) substr($line, 0, 3);
     if (!in_array($code, $expected, true)) {
-        throw new RuntimeException('SMTP command failed with response ' . $code . '.');
+        $detail = trim(preg_replace('/[\\x00-\\x1F\\x7F]/', ' ', substr($line, 4)) ?? '');
+        $detail = substr($detail, 0, 240);
+        throw new RuntimeException('SMTP ' . $stage . ' failed with response ' . $code . ($detail !== '' ? ': ' . $detail : '.'));
     }
     return $response;
 }
 
-function smtpCommand($socket, string $command, array $expected): string
+function smtpCommand($socket, string $command, array $expected, string $stage = 'command'): string
 {
     if (fwrite($socket, $command . "\r\n") === false) {
         throw new RuntimeException('Unable to write to SMTP server.');
     }
-    return smtpRead($socket, $expected);
+    return smtpRead($socket, $expected, $stage);
 }
 
 function smtpSendMail(string $to, string $subject, string $body): void
@@ -73,25 +75,25 @@ function smtpSendMail(string $to, string $subject, string $body): void
 
     try {
         stream_set_timeout($socket, 20);
-        smtpRead($socket, [220]);
+        smtpRead($socket, [220], 'connection greeting');
         $domain = (string) (parse_url((string) ($cfg['site_origin'] ?? ''), PHP_URL_HOST) ?: 'localhost');
-        smtpCommand($socket, 'EHLO ' . preg_replace('/[^a-z0-9.-]/i', '', $domain), [250]);
+        smtpCommand($socket, 'EHLO ' . preg_replace('/[^a-z0-9.-]/i', '', $domain), [250], 'EHLO');
 
         if ($encryption === 'starttls' || $encryption === 'tls') {
-            smtpCommand($socket, 'STARTTLS', [220]);
+            smtpCommand($socket, 'STARTTLS', [220], 'STARTTLS');
             $crypto = stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
             if ($crypto !== true) {
                 throw new RuntimeException('Unable to establish TLS with SMTP server.');
             }
-            smtpCommand($socket, 'EHLO ' . preg_replace('/[^a-z0-9.-]/i', '', $domain), [250]);
+            smtpCommand($socket, 'EHLO ' . preg_replace('/[^a-z0-9.-]/i', '', $domain), [250], 'EHLO after STARTTLS');
         }
 
-        smtpCommand($socket, 'AUTH LOGIN', [334]);
-        smtpCommand($socket, base64_encode($username), [334]);
-        smtpCommand($socket, base64_encode($password), [235]);
-        smtpCommand($socket, 'MAIL FROM:<' . $from . '>', [250]);
-        smtpCommand($socket, 'RCPT TO:<' . $to . '>', [250, 251]);
-        smtpCommand($socket, 'DATA', [354]);
+        smtpCommand($socket, 'AUTH LOGIN', [334], 'AUTH LOGIN');
+        smtpCommand($socket, base64_encode($username), [334], 'AUTH username');
+        smtpCommand($socket, base64_encode($password), [235], 'AUTH password');
+        smtpCommand($socket, 'MAIL FROM:<' . $from . '>', [250], 'MAIL FROM');
+        smtpCommand($socket, 'RCPT TO:<' . $to . '>', [250, 251], 'RCPT TO');
+        smtpCommand($socket, 'DATA', [354], 'DATA');
 
         $encodedSubject = '=?UTF-8?B?' . base64_encode(str_replace(["\r", "\n"], '', $subject)) . '?=';
         $encodedFrom = '=?UTF-8?B?' . base64_encode('ТОС «Водники»') . '?=';
@@ -109,8 +111,8 @@ function smtpSendMail(string $to, string $subject, string $body): void
         if (fwrite($socket, $message . "\r\n.\r\n") === false) {
             throw new RuntimeException('Unable to send email body.');
         }
-        smtpRead($socket, [250]);
-        smtpCommand($socket, 'QUIT', [221, 250]);
+        smtpRead($socket, [250], 'message acceptance');
+        smtpCommand($socket, 'QUIT', [221, 250], 'QUIT');
     } finally {
         fclose($socket);
     }
