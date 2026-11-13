@@ -80,6 +80,19 @@ function subscribeNewsletter(array $input): array
     return ['ok' => true];
 }
 
+function newsletterConfirmationPrompt(string $token): never
+{
+    if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
+        fail('Ссылка подтверждения недействительна.', 400);
+    }
+    $safeToken = htmlspecialchars($token, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    http_response_code(200);
+    header('Content-Type: text/html; charset=utf-8');
+    header('Cache-Control: no-store');
+    echo '<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Подтверждение подписки — ТОС «Водники»</title><body style="font:16px/1.5 system-ui,sans-serif;max-width:560px;margin:12vh auto;padding:24px;color:#173a4a"><h1>Подтвердить подписку?</h1><p>После подтверждения вы будете получать письма о новых публикациях ТОС «Водники».</p><form method="post" action="/api/public/newsletter/confirm"><input type="hidden" name="token" value="' . $safeToken . '"><button style="padding:12px 20px;border:0;border-radius:8px;background:#27654d;color:white;font:inherit;cursor:pointer" type="submit">Подтвердить подписку</button></form><p><a href="/">Вернуться на сайт</a></p></body></html>';
+    exit;
+}
+
 function confirmNewsletterSubscription(string $token): void
 {
     if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
