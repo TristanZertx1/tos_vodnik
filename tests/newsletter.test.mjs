@@ -30,6 +30,8 @@ test('Newsletter requires consent, double opt-in and expiring confirmation token
   assert.match(newsletter, /confirm_expires > \?/);
   assert.match(newsletter, /\$time \+ 172800/);
   assert.match(newsletter, /confirm_token_hash = NULL/);
+  assert.match(newsletter, /newsletterConfirmationPrompt/);
+  assert.match(newsletter, /method="post" action="\/api\/public\/newsletter\/confirm"/);
 });
 
 test('Unsubscribe links are signed and require an explicit confirmation action', () => {
@@ -43,6 +45,7 @@ test('Unsubscribe links are signed and require an explicit confirmation action',
 test('Subscription routes and public UI are connected without exposing subscriber data', () => {
   assert.match(api, /public', 'newsletter', 'subscribe'/);
   assert.match(api, /public', 'newsletter', 'confirm'/);
+  assert.match(api, /newsletterConfirmationPrompt/);
   assert.match(api, /public', 'newsletter', 'unsubscribe'/);
   assert.match(ui, /\/podpiska/);
   assert.match(ui, /\/api\/public\/newsletter\/subscribe/);
