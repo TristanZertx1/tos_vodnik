@@ -7,7 +7,7 @@ import { handleCMS, readPublic, validateRecord, validateLayout } from '../lib/cm
 import { hashPassword } from '../lib/password.mjs';
 import { ensureResearchMaterials } from '../lib/researched-content.ts';
 import { renderPublic } from '../lib/public-render.ts';
-import { createEventRegistration } from '../lib/event-registration.ts';
+import { createEventRegistration, ensureEventRegistrationTable } from '../lib/event-registration.ts';
 import { applyFooterSettings } from '../lib/footer-render.ts';
 function database() {
   const sqlite = new DatabaseSync(':memory:');
@@ -111,10 +111,10 @@ test('Invalid materials and rate limits',async()=>{
 test('Event registration limits cannot be bypassed by spoofing X-Forwarded-For',async()=>{
   const db=database(),eventId='nonexistent-event-for-rate-limit';
   for(let i=0;i<8;i++){
-    const response=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'198.51.100.'+(i+1)},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-'+String(i+10),seats:1})}),db,eventId);
+    const response=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'198.51.100.'+(i+1)},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-'+String(i+10),seats:1,consent:'on'})}),db,eventId);
     assert.equal(response.status,409);
   }
-  const blocked=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'192.0.2.200'},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-99',seats:1})}),db,eventId);
+  const blocked=await createEventRegistration(new Request(origin+'/api/public/events/'+eventId+'/register',{method:'POST',headers:{origin,'content-type':'application/json','cf-connecting-ip':'203.0.113.20','x-forwarded-for':'192.0.2.200'},body:JSON.stringify({name:'Анна Смирнова',phone:'+7 900 111-22-99',seats:1,consent:'on'})}),db,eventId);
   assert.equal(blocked.status,429);
 });
 test('Static pages mark only the current navigation section and refresh the app script',()=>{
@@ -151,14 +151,29 @@ test('News renders every attached photo in cards and in the article',()=>{
   assert.equal((article.match(/data:image\/jpeg;base64/g)||[]).length,2);
   assert.match(article,/alt="Первое фото"/);
 });
+test('Legacy event registration tables gain a consent timestamp without losing rows',async()=>{
+  const db=database();
+  await db.exec("CREATE TABLE cms_event_registrations (id TEXT PRIMARY KEY NOT NULL,event_id TEXT NOT NULL,name TEXT NOT NULL,phone TEXT NOT NULL,seats INTEGER NOT NULL DEFAULT 1,status TEXT NOT NULL DEFAULT 'confirmed',created_at INTEGER NOT NULL,UNIQUE(event_id,phone))");
+  await db.prepare("INSERT INTO cms_event_registrations (id,event_id,name,phone,seats,status,created_at) VALUES ('legacy','event-legacy','Анна Смирнова','+79001112233',1,'confirmed',123)").run();
+  await ensureEventRegistrationTable(db);
+  const row=await db.prepare('SELECT id,consent_at FROM cms_event_registrations WHERE id=?').bind('legacy').first();
+  assert.equal(row.id,'legacy');
+  assert.equal(row.consent_at,0);
+});
 test('Event registration respects capacity and the editor can track and cancel reservations',async()=>{
   const db=database(),hash=await hashPassword('test-password'),admin=await login(db,hash,'admin','test-password');
   const event={title:'Встреча соседей',date:'2026-12-01',time:'18:00',place:'Клуб ТОС',description:'Тестовая встреча',participation:'Вход свободный',capacity:3,registrationEnabled:true};
   const saved=await handleCMS(request('records','POST',{kind:'events',data:event,published:true},admin),db,hash);assert.equal(saved.status,201,await saved.clone().text());const {id}=await saved.json();
-  const register=(name,phone,seats,ip)=>createEventRegistration(new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin,'content-type':'application/json','x-forwarded-for':ip},body:JSON.stringify({name,phone,seats})}),db,id);
-  const proxied=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://tos-vodnik.onrender.com','content-type':'application/json'},body:JSON.stringify({name:'Мария Петрова',phone:'+7 999 111-22-33',seats:1})});
+  const register=(name,phone,seats,ip)=>createEventRegistration(new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin,'content-type':'application/json','x-forwarded-for':ip},body:JSON.stringify({name,phone,seats,consent:'on'})}),db,id);
+  const missingConsent=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin,'content-type':'application/json'},body:JSON.stringify({name:'Мария Петрова',phone:'+7 999 111-22-33',seats:1})});
+  const missingConsentResponse=await createEventRegistration(missingConsent,db,id);
+  assert.equal(missingConsentResponse.status,400);
+  assert.match((await missingConsentResponse.json()).error,/согласие/i);
+  const proxied=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://tos-vodnik.onrender.com','content-type':'application/json'},body:JSON.stringify({name:'Мария Петрова',phone:'+7 999 111-22-33',seats:1,consent:'on'})});
   assert.equal((await createEventRegistration(proxied,db,id,'https://tos-vodnik.onrender.com')).status,201,'the Render origin must be accepted by the Cloudflare API proxy');
-  const rejected=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://example.invalid','content-type':'application/json'},body:JSON.stringify({name:'Пётр Смирнов',phone:'+7 999 111-22-34',seats:1})});
+  const consentRow=await db.prepare('SELECT consent_at FROM cms_event_registrations WHERE event_id=? AND phone=?').bind(id,'+79991112233').first();
+  assert.ok(Number(consentRow?.consent_at)>0,'the D1 backend must persist the time consent was given');
+  const rejected=new Request(origin+'/api/public/events/'+id+'/register',{method:'POST',headers:{origin:'https://example.invalid','content-type':'application/json'},body:JSON.stringify({name:'Пётр Смирнов',phone:'+7 999 111-22-34',seats:1,consent:'on'})});
   assert.equal((await createEventRegistration(rejected,db,id,'https://tos-vodnik.onrender.com')).status,400,'unapproved origins must be rejected');
   const first=await register('Анна Смирнова','+7 900 111-22-33',1,'192.0.2.1');assert.equal(first.status,201,await first.clone().text());
   const {registeredId}=await (async()=>{const list=await handleCMS(request('registrations?eventId='+id,'GET',undefined,admin),db,hash);assert.equal(list.status,200);const {registrations}=await list.json();return {registeredId:registrations[0].id}})();
