@@ -41,8 +41,7 @@ try {
     }
     if ($parts === ['public', 'newsletter', 'unsubscribe'] && $method === 'POST') {
         assertSameOrigin();
-        $input = jsonBody();
-        unsubscribeNewsletter((string) ($input['token'] ?? ''));
+        unsubscribeNewsletter((string) ($_POST['token'] ?? ''));
         newsletterRedirect('unsubscribed');
     }
     if ($parts === ['public', 'ideas'] && $method === 'POST') {
