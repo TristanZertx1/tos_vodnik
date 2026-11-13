@@ -1,0 +1,184 @@
+/* Event registration form: final component-level overrides.
+   Keep these rules after the global glass, vision and readability layers. */
+.publication-detail .event-signup {
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  margin-left: clamp(22px, 7vw, 82px) !important;
+  margin-right: clamp(22px, 7vw, 82px) !important;
+  padding: 22px 24px !important;
+  overflow: visible;
+  background: #fffdf8 !important;
+  border: 1px solid #d9e5d7 !important;
+  color: #244d40 !important;
+}
+
+.publication-detail .event-signup :is(p, label, span, strong, a) {
+  color: #244d40 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+.publication-detail .event-signup .event-availability {
+  display: block;
+  width: 100%;
+  margin: 0 0 18px !important;
+  padding: 13px 16px !important;
+  border-radius: 14px;
+  background: #edf4e8 !important;
+  color: #244d40 !important;
+  font-size: 15px !important;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.publication-detail .event-registration-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 15px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.publication-detail .event-registration-form > label:not(.registration-consent) {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 7px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  color: #244d40 !important;
+  font-size: 15px !important;
+  line-height: 1.45;
+}
+
+.publication-detail .event-registration-form input:not([type="checkbox"]),
+.publication-detail .event-registration-form select {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 50px;
+  margin: 0 !important;
+  padding: 0 14px !important;
+  border: 1px solid #b8cbb6 !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  color: #244d40 !important;
+  font: inherit;
+  font-size: 16px !important;
+  opacity: 1 !important;
+}
+
+.publication-detail .event-registration-form input::placeholder {
+  color: #718579 !important;
+  opacity: 1 !important;
+}
+
+.publication-detail .event-registration-form .registration-consent {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 11px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 2px 0 0 !important;
+  color: #244d40 !important;
+  font-size: 14px !important;
+  font-weight: 600;
+  line-height: 1.6 !important;
+}
+
+.publication-detail .event-registration-form .registration-consent > input[type="checkbox"] {
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  display: block !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  height: 20px !important;
+  margin: 3px 0 0 !important;
+  padding: 0 !important;
+  accent-color: #27654d;
+}
+
+.publication-detail .event-registration-form .registration-consent > span {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  color: #244d40 !important;
+  overflow-wrap: anywhere;
+}
+
+.publication-detail .event-registration-form .registration-consent a {
+  color: #087568 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.publication-detail .event-registration-form .registration-privacy {
+  margin: 0 !important;
+  color: #53685c !important;
+  font-size: 13px !important;
+  line-height: 1.55;
+}
+
+.publication-detail .event-registration-form .button {
+  justify-self: start;
+  max-width: 100%;
+}
+
+.publication-detail .event-registration-form .registration-message:not(:empty) {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #edf4e8 !important;
+  color: #244d40 !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.publication-detail .event-registration-form .registration-message[data-error="true"] {
+  background: #fff0ed !important;
+  color: #8b3028 !important;
+}
+
+.publication-detail .event-signup .event-full {
+  margin: 0 !important;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fff0ed !important;
+  color: #8b3028 !important;
+}
+
+@media (max-width: 760px) {
+  .publication-detail .event-signup {
+    margin-left: 18px !important;
+    margin-right: 18px !important;
+    padding: 18px 16px !important;
+    border-radius: 18px;
+  }
+
+  .publication-detail .event-registration-form .button {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 380px) {
+  .publication-detail .event-signup {
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    padding: 16px 12px !important;
+  }
+
+  .publication-detail .event-registration-form .registration-consent {
+    gap: 9px !important;
+    font-size: 13px !important;
+  }
+}
