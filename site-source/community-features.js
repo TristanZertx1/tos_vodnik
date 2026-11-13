@@ -235,7 +235,10 @@
     consentWrap.append(consent, consentText);
     const submit = el('button', 'Подписаться', 'button');
     submit.type = 'submit';
-    form.append(label, trap, consentWrap, submit, status);
+    const resend = el('button', 'Отправить письмо ещё раз', 'button');
+    resend.type = 'button';
+    resend.hidden = true;
+    form.append(label, trap, consentWrap, submit, resend, status);
     form.addEventListener('submit', async event => {
       event.preventDefault();
       if (!form.reportValidity()) return;
@@ -249,12 +252,35 @@
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Не удалось оформить подписку.');
-        form.reset();
         status.textContent = 'Если адрес можно подписать, на него отправлено письмо. Перейдите по ссылке в письме, чтобы подтвердить подписку.';
+        resend.hidden = false;
       } catch (error) {
         status.textContent = error.message || 'Подписка временно недоступна. Попробуйте позже.';
+        resend.hidden = false;
       } finally {
         submit.disabled = false;
+      }
+    });
+    resend.addEventListener('click', async () => {
+      if (!email.reportValidity() || !consent.checked) {
+        if (!consent.checked) status.textContent = 'Для повторной отправки подтвердите согласие.';
+        return;
+      }
+      resend.disabled = true;
+      status.textContent = 'Повторно отправляем письмо…';
+      try {
+        const response = await window.vodnikiApiFetch('/api/public/newsletter/resend', {
+          method:'POST',
+          headers:{'Content-Type':'application/json',Accept:'application/json'},
+          body:JSON.stringify({email:email.value,consent:consent.checked})
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Не удалось повторно отправить письмо.');
+        status.textContent = 'Если для этого адреса ожидается подтверждение, письмо отправлено повторно. Проверьте входящие и папку «Спам». ';
+      } catch (error) {
+        status.textContent = error.message || 'Повторная отправка временно недоступна.';
+      } finally {
+        resend.disabled = false;
       }
     });
     body.append(el('p', 'Подписка оформляется только после подтверждения по ссылке из письма. В каждом письме будет ссылка для отписки.'), form);

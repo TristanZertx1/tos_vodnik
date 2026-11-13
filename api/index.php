@@ -32,6 +32,10 @@ try {
         assertSameOrigin();
         send(subscribeNewsletter(jsonBody()));
     }
+    if ($parts === ['public', 'newsletter', 'resend'] && $method === 'POST') {
+        assertSameOrigin();
+        send(resendNewsletterConfirmation(jsonBody()));
+    }
     if ($parts === ['public', 'newsletter', 'confirm'] && $method === 'GET') {
         newsletterConfirmationPrompt((string) ($_GET['token'] ?? ''));
     }
