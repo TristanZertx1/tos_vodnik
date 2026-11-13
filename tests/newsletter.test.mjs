@@ -21,6 +21,7 @@ test('SMTP uses the configured mailbox, authenticated transport and verified TLS
   assert.match(config, /'encryption' => 'ssl'/);
   assert.match(config, /'username' => 'info@tos-vodniki\.ru'/);
   assert.match(config, /'password' => ''/);
+  assert.doesNotMatch(config, /newsletter_secret/);
 });
 
 test('Newsletter requires consent, double opt-in and expiring confirmation tokens', () => {
@@ -35,7 +36,9 @@ test('Newsletter requires consent, double opt-in and expiring confirmation token
 });
 
 test('Unsubscribe links are signed and require an explicit confirmation action', () => {
-  assert.match(newsletter, /hash_hmac\('sha256'/);
+  assert.match(newsletter, /hash\('sha256', \$token\)/);
+  assert.match(newsletter, /cms_newsletter_unsubscribe_tokens/);
+  assert.match(newsletter, /random_bytes\(32\)/);
   assert.match(newsletter, /newsletterUnsubscribePrompt/);
   assert.match(newsletter, /method="post" action="\/api\/public\/newsletter\/unsubscribe"/);
   assert.match(api, /newsletterUnsubscribePrompt/);
