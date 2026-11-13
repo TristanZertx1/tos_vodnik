@@ -98,6 +98,19 @@ function confirmNewsletterSubscription(string $token): void
     );
 }
 
+function newsletterUnsubscribePrompt(string $token): never
+{
+    if (!preg_match('/^[A-Za-z0-9_-]+\\.[a-f0-9]{64}$/', $token)) {
+        fail('Ссылка отписки недействительна.', 400);
+    }
+    $safeToken = htmlspecialchars($token, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    http_response_code(200);
+    header('Content-Type: text/html; charset=utf-8');
+    header('Cache-Control: no-store');
+    echo '<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Отписка от рассылки — ТОС «Водники»</title><body style="font:16px/1.5 system-ui,sans-serif;max-width:560px;margin:12vh auto;padding:24px;color:#173a4a"><h1>Отписаться от рассылки?</h1><p>После подтверждения письма о новых публикациях больше не будут приходить на этот адрес.</p><form method="post" action="/api/public/newsletter/unsubscribe"><input type="hidden" name="token" value="' . $safeToken . '"><button style="padding:12px 20px;border:0;border-radius:8px;background:#27654d;color:white;font:inherit;cursor:pointer" type="submit">Подтвердить отписку</button></form><p><a href="/">Вернуться на сайт</a></p></body></html>';
+    exit;
+}
+
 function unsubscribeNewsletter(string $token): void
 {
     $parts = explode('.', $token, 2);
