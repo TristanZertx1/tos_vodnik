@@ -3,8 +3,14 @@ type DB = D1Database;
 type MailEnv = { RESEND_API_KEY?: string; NOTIFY_EMAIL?: string; MAIL_FROM?: string };
 
 export async function ensureEventRegistrationTable(db: DB) {
-  await db.prepare("CREATE TABLE IF NOT EXISTS cms_event_registrations (id TEXT PRIMARY KEY NOT NULL, event_id TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, seats INTEGER NOT NULL DEFAULT 1, status TEXT NOT NULL DEFAULT 'confirmed', created_at INTEGER NOT NULL, UNIQUE(event_id, phone))").run();
+  await db.prepare("CREATE TABLE IF NOT EXISTS cms_event_registrations (id TEXT PRIMARY KEY NOT NULL, event_id TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, seats INTEGER NOT NULL DEFAULT 1, status TEXT NOT NULL DEFAULT 'confirmed', created_at INTEGER NOT NULL, consent_at INTEGER NOT NULL DEFAULT 0, UNIQUE(event_id, phone))").run();
   await db.exec('CREATE INDEX IF NOT EXISTS cms_event_registrations_event_idx ON cms_event_registrations(event_id, status)');
+  // Upgrade existing D1 tables in place; never discard stored registrations.
+  try {
+    await db.exec('ALTER TABLE cms_event_registrations ADD COLUMN consent_at INTEGER NOT NULL DEFAULT 0');
+  } catch (error) {
+    if (!String(error).toLowerCase().includes('duplicate column name: consent_at')) throw error;
+  }
 }
 
 export async function createEventRegistration(request: Request, db: DB, eventId: string, allowedOrigin?: string | string[], mailEnv?: MailEnv) {
@@ -22,7 +28,9 @@ export async function createEventRegistration(request: Request, db: DB, eventId:
   else if (digits.length === 11 && digits.startsWith('8')) digits = '7' + digits.slice(1);
   const phone = '+' + digits;
   const seats = Number(input.seats);
+  const consent = input.consent === true || input.consent === 1 || ['on', 'true', '1'].includes(input.consent);
   if (!/^[\p{L}][\p{L} .'-]{1,98}$/u.test(name) || digits.length < 10 || digits.length > 15 || !Number.isInteger(seats) || seats < 1 || seats > 5) return fail('Проверьте имя, телефон и количество мест.');
+  if (!consent) return fail('Подтвердите согласие на обработку персональных данных.');
   await ensureEventRegistrationTable(db);
   // Cloudflare sets this header at the edge. X-Forwarded-For is client-controlled
   // and must not be used for a security decision such as rate limiting.
@@ -37,13 +45,13 @@ export async function createEventRegistration(request: Request, db: DB, eventId:
   try {
     const previous = await db.prepare('SELECT status FROM cms_event_registrations WHERE event_id=? AND phone=?').bind(eventId,phone).first<any>();
     if (previous?.status === 'confirmed') return fail('На этот номер телефона уже оформлена запись.', 409);
-    const result = await db.prepare(`INSERT INTO cms_event_registrations (id,event_id,name,phone,seats,status,created_at)
-      SELECT ?, ?, ?, ?, ?, 'confirmed', ?
+    const result = await db.prepare(`INSERT INTO cms_event_registrations (id,event_id,name,phone,seats,status,created_at,consent_at)
+      SELECT ?, ?, ?, ?, ?, 'confirmed', ?, ?
       WHERE EXISTS (
         SELECT 1 FROM cms_records e WHERE e.id=? AND e.kind='events' AND e.published=1
           AND json_extract(e.data,'$.registrationEnabled')=1 AND json_extract(e.data,'$.date')>=?
           AND COALESCE((SELECT SUM(seats) FROM cms_event_registrations r WHERE r.event_id=e.id AND r.status='confirmed'),0)+? <= CAST(json_extract(e.data,'$.capacity') AS INTEGER)
-      ) ON CONFLICT(event_id,phone) DO UPDATE SET name=excluded.name,seats=excluded.seats,status='confirmed',created_at=excluded.created_at WHERE cms_event_registrations.status='cancelled'`).bind(crypto.randomUUID(),eventId,name,phone,seats,now,eventId,new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Yekaterinburg'}).format(new Date()),seats).run();
+      ) ON CONFLICT(event_id,phone) DO UPDATE SET name=excluded.name,seats=excluded.seats,status='confirmed',created_at=excluded.created_at,consent_at=excluded.consent_at WHERE cms_event_registrations.status='cancelled'`).bind(crypto.randomUUID(),eventId,name,phone,seats,now,now,eventId,new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Yekaterinburg'}).format(new Date()),seats).run();
     if (!result.meta.changes) return fail('Запись закрыта или свободных мест уже не осталось.', 409);
   } catch (error) {
     if (String(error).includes('UNIQUE')) return fail('На этот номер телефона уже оформлена запись.', 409);
