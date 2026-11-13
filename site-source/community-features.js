@@ -219,7 +219,7 @@
     addNavigation();
     const path = location.pathname.replace(/\/+$/, '') || '/';
     if (path === '/karta' || path === '/poisk' || path === '/ideya') {
-      if (main.dataset.communityPage === path) return;
+      if (main.dataset.communityPage === path && main.querySelector('.community-page')) return;
       main.dataset.communityPage = path;
       if (path === '/karta') renderMap();
       if (path === '/poisk') renderSearch();
