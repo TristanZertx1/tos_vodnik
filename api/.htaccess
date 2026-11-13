@@ -14,12 +14,13 @@ Options -Indexes
   php_value post_max_size 72M
 </IfModule>
 
-# Internal code and configuration are never served directly.
+# Internal code, configuration and the retired installer are never served directly.
 RewriteEngine On
 RewriteRule ^lib/ - [F,L]
 RewriteRule ^config(\.test)?\.php$ - [F,L]
+RewriteRule ^setup\.php$ - [F,L]
 
-# Every API request goes to the single entry point, except real files such as setup.php.
+# Every API request goes to the single entry point, except real files.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
