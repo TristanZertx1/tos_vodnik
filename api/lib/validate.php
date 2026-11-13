@@ -113,8 +113,8 @@ function validateRecord(string $kind, mixed $source): array
 
     $required = [
         'news' => ['title', 'slug', 'date', 'category', 'description'],
-        'events' => ['title', 'date', 'time', 'place', 'description', 'participation'],
-        'projects' => ['title', 'status', 'description', 'participation'],
+        'events' => ['title', 'date'],
+        'projects' => ['title', 'status', 'description'],
         'documents' => ['title', 'date', 'format', 'size', 'url'],
         'contacts' => [],
     ][$kind];
