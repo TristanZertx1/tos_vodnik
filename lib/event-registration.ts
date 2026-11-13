@@ -73,3 +73,12 @@ export async function cancelEventRegistration(db: DB, registrationId: string) {
   const result = await db.prepare("UPDATE cms_event_registrations SET status='cancelled' WHERE id=? AND status='confirmed'").bind(registrationId).run();
   return Number(result.meta.changes)>0;
 }
+
+export async function eraseCancelledEventRegistration(db: DB, registrationId: string): Promise<'erased' | 'active' | 'missing'> {
+  await ensureEventRegistrationTable(db);
+  const row = await db.prepare('SELECT status FROM cms_event_registrations WHERE id=?').bind(registrationId).first<any>();
+  if (!row) return 'missing';
+  if (row.status !== 'cancelled') return 'active';
+  const result = await db.prepare("DELETE FROM cms_event_registrations WHERE id=? AND status='cancelled'").bind(registrationId).run();
+  return Number(result.meta.changes)>0 ? 'erased' : 'missing';
+}
