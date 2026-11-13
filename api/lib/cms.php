@@ -172,8 +172,6 @@ function notifyAboutRegistration(array $event, string $name, string $phone, int 
     if ($to === '') {
         return;
     }
-    $from = (string) (config()['mail_from'] ?? 'noreply@localhost');
-    $subject = '=?UTF-8?B?' . base64_encode('Новая запись на мероприятие: ' . $event['title']) . '?=';
     $body = implode("\n", [
         'Новая запись на мероприятие',
         'Мероприятие: ' . $event['title'],
@@ -183,7 +181,7 @@ function notifyAboutRegistration(array $event, string $name, string $phone, int 
         'Всего занято: ' . $event['registered'] . ' из ' . $event['capacity'],
     ]);
     // Failure to send must not fail the registration, which is already saved.
-    @mail($to, $subject, $body, "From: {$from}\r\nContent-Type: text/plain; charset=UTF-8");
+    sendSiteEmail($to, 'Новая запись на мероприятие: ' . $event['title'], $body);
 }
 
 // ---------- admin session ----------
@@ -365,6 +363,12 @@ function saveRecord(array $session, string $method, string $id, array $input): a
         fail('Адрес новости уже занят.', 409);
     }
 
+    $wasPublished = false;
+    if ($method === 'PUT') {
+        $previous = one('SELECT published FROM cms_records WHERE id = ?', [$id]);
+        $wasPublished = $previous !== null && (int) $previous['published'] === 1;
+    }
+
     if ($method === 'POST') {
         $newId = $kind === 'contacts' ? 'contacts' : bin2hex(random_bytes(16));
         if (one('SELECT id FROM cms_records WHERE id = ?', [$newId])) {
@@ -372,6 +376,9 @@ function saveRecord(array $session, string $method, string $id, array $input): a
         }
         query('INSERT INTO cms_records (id, kind, data, published, revision, updated_at, updated_by) VALUES (?, ?, ?, ?, 1, ?, ?)',
             [$newId, $kind, json_encode($data, JSON_UNESCAPED_UNICODE), $published, now(), $session['id']]);
+        if ($published && in_array($kind, ['news', 'events', 'projects', 'documents'], true)) {
+            notifyNewsletterSubscribers((string) $kind, $data);
+        }
         return ['ok' => true, 'id' => $newId];
     }
 
@@ -400,6 +407,9 @@ function saveRecord(array $session, string $method, string $id, array $input): a
         query('UPDATE cms_records SET data = ?, published = ?, revision = revision + 1, updated_at = ?, updated_by = ? WHERE id = ?',
             [json_encode($data, JSON_UNESCAPED_UNICODE), $published, now(), $session['id'], $id]);
     });
+    if ($published && !$wasPublished && in_array($kind, ['news', 'events', 'projects', 'documents'], true)) {
+        notifyNewsletterSubscribers((string) $kind, $data);
+    }
     return ['ok' => true, 'id' => $id];
 }
 

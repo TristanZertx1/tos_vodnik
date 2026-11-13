@@ -16,7 +16,15 @@ return [
     // Одноразовый секрет для установки (api/setup.php). Удалите установщик после настройки.
     'setup_token' => 'CHANGE_ME_LONG_RANDOM_STRING',
     // Почта для уведомлений о новых записях на мероприятия. Пустая строка — не отправлять.
-    'notify_email' => '',
+    'notify_email' => 'info@tos-vodniki.ru',
     // Адрес отправителя уведомлений (должен принадлежать домену сайта).
-    'mail_from' => 'noreply@tos-vodniki.ru',
+    'mail_from' => 'info@tos-vodniki.ru',
+    // SMTP credentials are stored only in api/config.php on the hosting server.
+    'smtp' => [
+        'host' => 'mail.hosting.reg.ru',
+        'port' => 465,
+        'encryption' => 'ssl',
+        'username' => 'info@tos-vodniki.ru',
+        'password' => '',
+    ],
 ];

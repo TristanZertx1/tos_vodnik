@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 function ensureCommunitySchema(): void
 {
+    ensureNewsletterSchema();
     $engine = driver() === 'sqlite' ? '' : ' ENGINE=InnoDB DEFAULT CHARSET=utf8mb4';
     db()->exec("CREATE TABLE IF NOT EXISTS cms_ideas (
         id VARCHAR(32) PRIMARY KEY,
@@ -61,6 +62,12 @@ function submitCommunityIdea(array $input): array
         'INSERT INTO cms_ideas (id, name, email, category, location, description, status, consent_at, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [$id, $name, $email, $category, $location, $description, 'new', $time, $time]
     );
+
+    $notify = (string) (config()['notify_email'] ?? '');
+    if ($notify !== '' && filter_var($notify, FILTER_VALIDATE_EMAIL) !== false) {
+        $body = "Поступило новое предложение.\n\nИмя: {$name}\nКатегория: {$category}\nМесто: {$location}\n\nОписание:\n{$description}\n";
+        sendSiteEmail($notify, 'Новое предложение на сайте ТОС «Водники»', $body);
+    }
 
     return ['ok' => true, 'id' => $id];
 }

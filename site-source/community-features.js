@@ -23,7 +23,7 @@
   function addNavigation() {
     const nav = document.querySelector('#nav');
     if (!nav) return;
-    const links = [['Карта','/karta'],['Поиск','/poisk'],['Предложить идею','/ideya']];
+    const links = [['Карта','/karta'],['Поиск','/poisk'],['Предложить идею','/ideya'],['Подписка','/podpiska']];
     links.forEach(([label, href]) => {
       if (nav.querySelector('a[href="' + href + '"]')) return;
       const anchor = el('a', label);
@@ -46,7 +46,9 @@
     block.append(
       el('h2', 'Обращения и предложения жителей'),
       el('p', 'Если вы отправляете предложение через форму сайта, ТОС обрабатывает указанные вами имя, категорию, описание, место и, если вы его оставили, адрес электронной почты. Цель обработки — рассмотреть инициативу и связаться с вами по указанному адресу. Основание — ваше отдельное согласие, которое отмечается в форме.'),
-      el('p', 'Доступ к предложениям имеют уполномоченные администраторы сайта. Предложение можно удалить или отозвать, обратившись по электронной почте, указанной в разделе контактов. Не указывайте в форме сведения о здоровье, политических взглядах и другие чувствительные персональные данные.')
+      el('p', 'Доступ к предложениям имеют уполномоченные администраторы сайта. Предложение можно удалить или отозвать, обратившись по электронной почте, указанной в разделе контактов. Не указывайте в форме сведения о здоровье, политических взглядах и другие чувствительные персональные данные.'),
+      el('h2', 'Email-рассылка'),
+      el('p', 'Для подписки на новости ТОС обрабатывается адрес электронной почты на основании отдельного согласия. Подписка активируется только после перехода по ссылке подтверждения из письма. В каждом письме предусмотрена ссылка для отписки. Адрес используется только для отправки новых публикаций и не передаётся третьим лицам для рекламы.')
     );
     main.append(block);
   }
@@ -215,15 +217,78 @@
     body.append(el('p', 'Пожалуйста, не указывайте в сообщении пароли, данные банковских карт и чувствительные сведения.'), form);
     main.append(body);
   }
+
+  function renderNewsletter() {
+    main.replaceChildren(sectionHeading('Подписка на новости', 'Получайте письма о новых публикациях, мероприятиях и проектах ТОС «Водники».'));
+    const body = content();
+    const form = el('form', null, 'community-newsletter-form');
+    const queryStatus = new URLSearchParams(location.search).get('status');
+    const status = el('p', '', 'community-form-status');
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    if (queryStatus === 'confirmed') status.textContent = 'Подписка подтверждена. Теперь вы будете получать письма о новых публикациях.';
+    if (queryStatus === 'unsubscribed') status.textContent = 'Вы отписались от рассылки. Письма о новых публикациях больше приходить не будут.';
+    const label = el('label', 'Ваш адрес электронной почты');
+    const email = el('input');
+    email.type = 'email';
+    email.name = 'email';
+    email.required = true;
+    email.maxLength = 254;
+    email.autocomplete = 'email';
+    email.placeholder = 'name@example.ru';
+    label.append(email);
+    const trap = el('label', 'Оставьте это поле пустым', 'community-honeypot');
+    const website = el('input');
+    website.name = 'website';
+    website.tabIndex = -1;
+    website.autocomplete = 'off';
+    trap.append(website);
+    const consentWrap = el('label', null, 'community-consent');
+    const consent = el('input');
+    consent.type = 'checkbox';
+    consent.required = true;
+    const consentText = el('span', 'Согласен(на) получать информационные письма и на обработку адреса электронной почты для рассылки. ');
+    const policy = el('a', 'Политика обработки персональных данных');
+    policy.href = '/politika';
+    consentText.append(policy);
+    consentWrap.append(consent, consentText);
+    const submit = el('button', 'Подписаться', 'button');
+    submit.type = 'submit';
+    form.append(label, trap, consentWrap, submit, status);
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      submit.disabled = true;
+      status.textContent = 'Отправляем письмо для подтверждения…';
+      try {
+        const response = await window.vodnikiApiFetch('/api/public/newsletter/subscribe', {
+          method:'POST',
+          headers:{'Content-Type':'application/json',Accept:'application/json'},
+          body:JSON.stringify({email:email.value,website:website.value,consent:consent.checked})
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Не удалось оформить подписку.');
+        form.reset();
+        status.textContent = 'Если адрес можно подписать, на него отправлено письмо. Перейдите по ссылке в письме, чтобы подтвердить подписку.';
+      } catch (error) {
+        status.textContent = error.message || 'Подписка временно недоступна. Попробуйте позже.';
+      } finally {
+        submit.disabled = false;
+      }
+    });
+    body.append(el('p', 'Подписка оформляется только после подтверждения по ссылке из письма. В каждом письме будет ссылка для отписки.'), form);
+    main.append(body);
+  }
   function renderFeaturePage() {
     addNavigation();
     const path = location.pathname.replace(/\/+$/, '') || '/';
-    if (path === '/karta' || path === '/poisk' || path === '/ideya') {
+    if (path === '/karta' || path === '/poisk' || path === '/ideya' || path === '/podpiska') {
       if (main.dataset.communityPage === path && main.querySelector('.community-page')) return;
       main.dataset.communityPage = path;
       if (path === '/karta') renderMap();
       if (path === '/poisk') renderSearch();
       if (path === '/ideya') renderIdeaForm();
+      if (path === '/podpiska') renderNewsletter();
     } else {
       delete main.dataset.communityPage;
       addPolicyDetails();
