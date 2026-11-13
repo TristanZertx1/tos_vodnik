@@ -26,17 +26,17 @@ jobs:
           cp public/robots.txt deploy/robots.txt
           cp public/sitemap.xml deploy/sitemap.xml
           cp public/404.html deploy/404.html
-          # PHP API for the database (MySQL). config.php is created on the server and never committed.
+          # PHP API for MySQL. Server-only config and the one-time installer must never be deployed.
           cp -R api deploy/api
-          rm -f deploy/api/config.test.php
+          rm -f deploy/api/config.php deploy/api/config.test.php deploy/api/setup.php
 
-      - name: Upload site to REG.ru
+      - name: Upload site to REG.ru over explicit FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.REG_FTP_SERVER }}
           username: ${{ secrets.REG_FTP_USERNAME }}
           password: ${{ secrets.REGRU_FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
           port: 21
           local-dir: ./deploy/
           server-dir: /www/tos-vodniki.ru/
