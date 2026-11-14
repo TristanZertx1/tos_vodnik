@@ -64,9 +64,13 @@ test('Newly published materials are sent to active subscribers only', () => {
   assert.match(newsletter, /Отписаться от рассылки/);
 });
 
-test('SMTP diagnostics include the failed protocol stage and server response without credentials', () => {
-  assert.match(mailer, /SMTP ' \. \$stage \. ' failed with response/);
+test('SMTP diagnostics identify the failed stage without logging server reply text or credentials', () => {
+  assert.match(mailer, /SMTP ' \. \$stage \. ' failed with response ' \. \$code/);
+  assert.match(mailer, /stream_get_meta_data\(\$socket\)/);
+  assert.match(mailer, /timed out while waiting for server response/);
+  assert.match(mailer, /function smtpWriteAll/);
   assert.match(mailer, /message acceptance/);
+  assert.doesNotMatch(mailer, /substr\(\$line, 4\)/);
   assert.doesNotMatch(mailer, /error_log\([^\n]*(\$password|\$username)/);
 });
 
